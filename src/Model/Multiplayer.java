@@ -1,16 +1,20 @@
 package Model;
 
+import javafx.scene.input.KeyEvent;
+
 import java.util.ArrayList;
 
-public class PlayerList {
+public class Multiplayer {
 
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
     private int playerNum;
+    private Board board;
 
-    public PlayerList(){
-        this.players = new ArrayList<>();
+    public Multiplayer(Board board){
+        players = new ArrayList<>();
+        this.board = board;
     }
 
     /**
@@ -18,12 +22,12 @@ public class PlayerList {
      * @param player A player object to be added into the game
      */
     public void addPlayer(Player player){
-        if (this.currentPlayer == null) {
-            this.currentPlayerNum = 0;
-            this.currentPlayer = player;
+        if (currentPlayer == null) {
+            currentPlayerNum = 0;
+            currentPlayer = player;
         }
-        this.players.add(player);
-        this.playerNum++;
+        players.add(player);
+        playerNum++;
     }
 
     /**
@@ -39,7 +43,7 @@ public class PlayerList {
      * @return current player's position
      */
     public int getPosition(){
-        return this.currentPlayer.getPosition();
+        return currentPlayer.getPosition();
     }
 
     /**
@@ -47,22 +51,22 @@ public class PlayerList {
      * @param position player's current position
      */
     public void updatePosition(int position){
-        this.currentPlayer.setPosition(position);
+        currentPlayer.setPosition(position);
     }
 
     /**
-     * Get current player's move
-     * @return current player's move
+     * Invoked when dice button is clicked
      */
-    public PlayerMoves move(){
-        return this.currentPlayer.getMove();
+    public void rollDice(){
+        int result = board.rollDice(currentPlayer);
+        currentPlayer.setPosition(result);
     }
 
     /**
      * Iterate over the next player
      */
     public void nextPlayer(){
-        this.currentPlayerNum = (this.currentPlayerNum + 1) % this.playerNum;
-        this.currentPlayer = players.get(this.currentPlayerNum);
+        currentPlayerNum = (currentPlayerNum + 1) % playerNum;
+        currentPlayer = players.get(currentPlayerNum);
     }
 }
