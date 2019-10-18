@@ -34,6 +34,7 @@ public class Controller {
 
     @FXML
     private void rollButtonClicked(){
+        rollButton.setDisable(true);
         Image image;
         int result = dice.roll();
         switch (result){
@@ -60,5 +61,6 @@ public class Controller {
         }
         diceImage.setImage(image);
         text.setText(String.valueOf(result));
+        rollButton.setDisable(false);
     }
 }
