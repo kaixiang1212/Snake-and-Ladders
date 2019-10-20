@@ -9,7 +9,7 @@ public class Player {
     private String playerName;
     private int position;
 
-    Player(String playerName) {
+    public Player(String playerName) {
         this.playerName = playerName;
     }
 
