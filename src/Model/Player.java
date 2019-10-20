@@ -1,8 +1,10 @@
 package Model;
 
+import javafx.scene.input.KeyEvent;
+
 import java.util.ArrayList;
 
-public abstract class Player<E> {
+public class Player {
 
     private String playerName;
     private int position;
@@ -12,8 +14,6 @@ public abstract class Player<E> {
         this.playerName = playerName;
         this.powerUps = new ArrayList<>();
     }
-
-    public abstract PlayerMoves getMove();
 
     /**
      * Get player's name
@@ -34,6 +34,14 @@ public abstract class Player<E> {
      */
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    /**
+     * Get Player's power up
+     * @return Player's power up
+     */
+    public ArrayList<String> getPowerUps(){
+        return this.powerUps;
     }
 
     /**
