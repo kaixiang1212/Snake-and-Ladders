@@ -17,14 +17,10 @@ public class Controller {
     private Text text;
 
     private Stage stage;
-    private Dice dice;
+    private Multiplayer players;
 
-    public Controller(){
-
-    }
-
-    public Controller(Stage stage, Dice dice){
-        this.dice = dice;
+    public Controller(Stage stage, Multiplayer players){
+        this.players = players;
         this.stage = stage;
     }
 
@@ -36,7 +32,7 @@ public class Controller {
     private void rollButtonClicked(){
         rollButton.setDisable(true);
         Image image;
-        int result = dice.roll();
+        int result = players.rollDice();
         switch (result){
             case 1:
                 image = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
@@ -57,10 +53,11 @@ public class Controller {
                 image = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + dice.roll());
+                throw new IllegalStateException("Unexpected value: " + result);
         }
         diceImage.setImage(image);
         text.setText(String.valueOf(result));
         rollButton.setDisable(false);
+        players.nextPlayer();
     }
 }

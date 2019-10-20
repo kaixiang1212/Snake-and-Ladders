@@ -1,7 +1,11 @@
 package Model;
 
-import javafx.scene.input.KeyEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Multiplayer {
@@ -11,10 +15,13 @@ public class Multiplayer {
     private int currentPlayerNum;
     private int playerNum;
     private Board board;
+    private Stage stage;
 
-    public Multiplayer(Board board){
+    public Multiplayer(Stage stage, Board board){
         players = new ArrayList<>();
+        this.stage = stage;
         this.board = board;
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("Model/dice.fxml"));
     }
 
     /**
@@ -57,9 +64,16 @@ public class Multiplayer {
     /**
      * Invoked when dice button is clicked
      */
-    public void rollDice(){
-        int result = board.rollDice(currentPlayer);
-        currentPlayer.setPosition(result);
+    public int rollDice(){
+        return board.rollDice(currentPlayer);
+    }
+
+    /**
+     * Get current player
+     * @return current player
+     */
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     /**
@@ -68,5 +82,29 @@ public class Multiplayer {
     public void nextPlayer(){
         currentPlayerNum = (currentPlayerNum + 1) % playerNum;
         currentPlayer = players.get(currentPlayerNum);
+    }
+
+    /**
+     * JavaFx stuff
+     */
+    private FXMLLoader fxmlLoader;
+
+    public void start(){
+        stage.setTitle("Dice");
+        System.out.println(getClass().getClassLoader().getResource("Model/dice.fxml"));
+        fxmlLoader.setController(new Controller(stage, this));
+        Controller con = fxmlLoader.getController();
+        System.out.println(con);
+        con.setStage(stage);
+        try {
+            Parent root;
+            root = fxmlLoader.load();
+            Scene sc = new Scene(root);
+            stage.setScene(sc);
+            stage.show();
+            sc.getRoot().requestFocus();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

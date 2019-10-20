@@ -14,7 +14,9 @@ public class DiceFX extends Application {
         primaryStage.setHeight(300);
         primaryStage.setWidth(300);
 
-        Dice dice = new Dice(primaryStage);
-        dice.start();
+        Multiplayer multiplayer= new Multiplayer(primaryStage, new Board());
+        multiplayer.addPlayer(new Player("Player 1"));
+        multiplayer.addPlayer(new Player("Player 2"));
+        multiplayer.start();
     }
 }
