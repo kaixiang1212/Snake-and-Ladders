@@ -13,7 +13,6 @@ public class Multiplayer {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
-    private int playerNum;
     private Board board;
     private Stage stage;
 
@@ -34,7 +33,6 @@ public class Multiplayer {
             currentPlayer = player;
         }
         players.add(player);
-        playerNum++;
     }
 
     /**
@@ -42,7 +40,7 @@ public class Multiplayer {
      * @return number of players
      */
     public int getPlayerNum(){
-        return playerNum;
+        return players.size();
     }
 
     /**
@@ -86,7 +84,7 @@ public class Multiplayer {
      * Iterate over the next player
      */
     public void nextPlayer(){
-        currentPlayerNum = (currentPlayerNum + 1) % playerNum;
+        currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
         currentPlayer = players.get(currentPlayerNum);
     }
 
