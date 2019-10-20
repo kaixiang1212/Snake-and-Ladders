@@ -65,7 +65,13 @@ public class Multiplayer {
      * Invoked when dice button is clicked
      */
     public int rollDice(){
-        return board.rollDice(currentPlayer);
+        int result = board.rollDice(currentPlayer);
+        if (result == 6){
+            System.out.println(currentPlayer.getPlayerName() + " roll again");
+            return result;
+        }
+        nextPlayer();
+        return result;
     }
 
     /**

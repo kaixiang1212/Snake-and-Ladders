@@ -58,6 +58,5 @@ public class Controller {
         diceImage.setImage(image);
         text.setText(String.valueOf(result));
         rollButton.setDisable(false);
-        players.nextPlayer();
     }
 }
