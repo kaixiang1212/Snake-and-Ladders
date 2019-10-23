@@ -1,24 +1,28 @@
 package Test;
 
-import Model.Board;
-import Model.Multiplayer;
-import Model.Player;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import Model.GameEngine;
+import Model.Player;
+import javafx.util.Pair;
+
 
 class TestDice {
 
     @Test
     void diceRolled6(){
-        Multiplayer players = new Multiplayer(null, new Board());
-        players.addPlayer(new Player("Player 1"));
-        players.addPlayer(new Player("Player 2"));
-        Player currentPlayer = players.getCurrentPlayer();
-        while (players.rollDice() != 6) {
-            assertNotSame(currentPlayer, players.getCurrentPlayer());
-            currentPlayer = players.getCurrentPlayer();
+        GameEngine engine = new GameEngine();
+        engine.addPlayer(new Player("Player 1"));
+        engine.addPlayer(new Player("Player 2"));
+        Pair<Player, Integer> result = engine.rollDice();
+        Player currentPlayer = result.getKey();
+
+        while (result.getValue() != 6) {
+            assert(currentPlayer != engine.getCurrentPlayer());
+            currentPlayer = engine.getCurrentPlayer();
+            result = engine.rollDice();
+            currentPlayer = result.getKey();
         }
-        assertSame(currentPlayer, players.getCurrentPlayer());
+        assert(currentPlayer == engine.getCurrentPlayer());
     }
 }
