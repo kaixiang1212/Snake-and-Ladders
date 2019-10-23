@@ -1,12 +1,15 @@
-package Model;
+package View;
 
+import java.io.IOException;
+
+import Controller.DiceController;
+import Model.GameEngine;
+import Model.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class DiceFX extends Application {
 
@@ -25,7 +28,7 @@ public class DiceFX extends Application {
 
         primaryStage.setTitle("Dice");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("Model/dice.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("View/dice.fxml"));
         fxmlLoader.setController(new DiceController(primaryStage, engine));
         try {
             Parent root;

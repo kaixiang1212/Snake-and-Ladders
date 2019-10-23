@@ -1,4 +1,4 @@
-package Sneks_and_Ladders;
+package View;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import Model.Board;
+import Model.Game;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Entity;
 import unsw.dungeon.Player;

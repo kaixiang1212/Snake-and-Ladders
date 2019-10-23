@@ -1,4 +1,4 @@
-package Sneks_and_Ladders;
+package View;
 
 import java.util.List;
 

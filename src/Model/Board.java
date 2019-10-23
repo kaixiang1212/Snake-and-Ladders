@@ -1,4 +1,4 @@
-package Sneks_and_Ladders;
+package Model;
 
 public class Board {
 

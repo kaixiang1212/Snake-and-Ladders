@@ -1,8 +1,9 @@
-package Sneks_and_Ladders;
+package View;
 
 
 import java.io.IOException;
 
+import Controller.StartGameScreenController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

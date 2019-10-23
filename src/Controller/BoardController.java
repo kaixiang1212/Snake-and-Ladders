@@ -1,9 +1,11 @@
-package Sneks_and_Ladders;
+package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.Board;
+import View.GameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
