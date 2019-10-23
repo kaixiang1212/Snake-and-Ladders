@@ -6,8 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
-public class Controller {
+public class DiceController {
 
     @FXML
     public Button rollButton;
@@ -17,9 +18,9 @@ public class Controller {
     private Text text;
 
     private Stage stage;
-    private Multiplayer players;
+    private GameEngine players;
 
-    public Controller(Stage stage, Multiplayer players){
+    public DiceController(Stage stage, GameEngine players){
         this.players = players;
         this.stage = stage;
     }
@@ -32,8 +33,10 @@ public class Controller {
     private void rollButtonClicked(){
         rollButton.setDisable(true);
         Image image;
-        int result = players.rollDice();
-        switch (result){
+        Pair<Player, Integer> result = players.rollDice();
+        Player currentPlayer = result.getKey();
+        int dice = result.getValue();
+        switch (dice){
             case 1:
                 image = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
                 break;
@@ -56,7 +59,7 @@ public class Controller {
                 throw new IllegalStateException("Unexpected value: " + result);
         }
         diceImage.setImage(image);
-        text.setText(String.valueOf(result));
+        text.setText(currentPlayer.getPlayerName() + " rolled " + dice);
         rollButton.setDisable(false);
     }
 }

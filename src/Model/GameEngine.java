@@ -1,26 +1,18 @@
 package Model;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.util.Pair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class Multiplayer {
+public class GameEngine {
 
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
-    private Board board;
-    private Stage stage;
+    private Dice dice = new Dice();
 
-    public Multiplayer(Stage stage, Board board){
+    public GameEngine(){
         players = new ArrayList<>();
-        this.stage = stage;
-        this.board = board;
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("Model/dice.fxml"));
     }
 
     /**
@@ -61,15 +53,16 @@ public class Multiplayer {
 
     /**
      * Invoked when dice button is clicked
+     * @return current player and dice number
      */
-    public int rollDice(){
-        int result = board.rollDice(currentPlayer);
+    public Pair<Player, Integer> rollDice(){
+        int result = dice.roll();
+        Player curr = this.currentPlayer;
         if (result == 6){
-            System.out.println(currentPlayer.getPlayerName() + " roll again");
-            return result;
+            return new Pair<>(curr, result);
         }
         nextPlayer();
-        return result;
+        return new Pair<>(curr, result);
     }
 
     /**
@@ -83,32 +76,9 @@ public class Multiplayer {
     /**
      * Iterate over the next player
      */
-    public void nextPlayer(){
+    private void nextPlayer(){
         currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
         currentPlayer = players.get(currentPlayerNum);
     }
 
-    /**
-     * JavaFx stuff
-     */
-    private FXMLLoader fxmlLoader;
-
-    public void start(){
-        stage.setTitle("Dice");
-        System.out.println(getClass().getClassLoader().getResource("Model/dice.fxml"));
-        fxmlLoader.setController(new Controller(stage, this));
-        Controller con = fxmlLoader.getController();
-        System.out.println(con);
-        con.setStage(stage);
-        try {
-            Parent root;
-            root = fxmlLoader.load();
-            Scene sc = new Scene(root);
-            stage.setScene(sc);
-            stage.show();
-            sc.getRoot().requestFocus();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 }
