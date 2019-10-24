@@ -9,10 +9,20 @@ public class GameEngine {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
-    private Dice dice = new Dice();
+    private Dice dice;
+    private Board gameboard;
+    private boolean finished;
 
     public GameEngine(){
         players = new ArrayList<>();
+        gameboard = new Board(10, 10);
+        dice = new Dice();
+    }
+    
+    public GameEngine(Board gameboard){
+        players = new ArrayList<>();
+        this.gameboard = gameboard;
+        dice = new Dice();
     }
 
     /**
@@ -25,8 +35,10 @@ public class GameEngine {
             currentPlayer = player;
         }
         players.add(player);
+        updatePosition(player, gameboard.getMinPos());
+        updateState();
     }
-
+    
     /**
      * Get the number of players in the game
      * @return number of players
@@ -34,37 +46,43 @@ public class GameEngine {
     public int getPlayerNum(){
         return players.size();
     }
-
+    
     /**
      * Get current player's position
      * @return current player's position
      */
-    public int getPosition(){
-        return currentPlayer.getPosition();
+    public int getPosition(Player player){
+        return player.getPosition();
     }
-
+    
     /**
      * Update current player's position
-     * @param position player's current position
+     * @param pos: player's current position
      */
-    public void updatePosition(int position){
-        currentPlayer.setPosition(position);
-    }
-
-    /**
+	public int updatePosition(Player player, int pos) {
+		if(pos > 0) {
+			pos = Math.min(pos, gameboard.getMaxPos());
+			player.setPosition(pos);
+		} else {
+			pos = Math.max(pos, gameboard.getMinPos());
+			player.setPosition(pos);
+		}
+		return pos;
+	}
+	
+	/**
      * Invoked when dice button is clicked
      * @return current player and dice number
      */
-    public Pair<Player, Integer> rollDice(){
+	public Pair<Player, Integer> rollDice(){
         int result = dice.roll();
         Player curr = this.currentPlayer;
-        if (result == 6){
-            return new Pair<>(curr, result);
-        }
-        nextPlayer();
+        System.out.println(currentPlayer.getPlayerName() + " rolled " + result);
+        System.out.println(currentPlayer.getPlayerName() + " moves from " + currentPlayer.getPosition() + " to " + updatePosition(currentPlayer, currentPlayer.getPosition()+result));
+
         return new Pair<>(curr, result);
     }
-
+	
     /**
      * Get current player
      * @return current player
@@ -72,13 +90,54 @@ public class GameEngine {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
+	
     /**
      * Iterate over the next player
      */
-    private void nextPlayer(){
+    public void nextPlayer(){
         currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
         currentPlayer = players.get(currentPlayerNum);
+        System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
     }
+	
+	/**
+	 * Checks whether the game is finished
+	 * @return true if finished, false otherwise
+	 */
+	public boolean isFinished() {
+		updateState();
+		return finished;
+	}
+	
+	/**
+	 * Updates the state of the game. This does:
+	 * - Checks if player lands on snake, and changes their position
+	 * - Checks if player lands on ladder, and changes their position
+	 * - Checks if player lands on end position, and updates finished flag
+	 */
+	public void updateState() {
+		for(Player currPlayer : players) {
+			int currPos = currPlayer.getPosition();
+			if(currPos == gameboard.getMaxPos()) {
+				finished = true;
+				return;
+			} else if (gameboard.isSnake(currPos) != null) {
+				System.out.print(currentPlayer.getPlayerName() + " gets eaten by a snake and moves from " + currentPlayer.getPosition() + " to ");
+				currPlayer.setPosition(gameboard.isSnake(currPos).getTail());
+				System.out.println(currentPlayer.getPlayerName());
+				updateState();
+			} else if (gameboard.isLadder(currPos) != null) {
+				System.out.print(currentPlayer.getPlayerName() + " climbs up a ladder and moves from " + currentPlayer.getPosition() + " to ");
+				currPlayer.setPosition(gameboard.isLadder(currPos).getTop());
+				System.out.println(currentPlayer.getPlayerName());
+				updateState();
+			}
+		}
+		finished = false;
+	}
+	
+	public int getCurrentPlayerNum() {
+		return currentPlayerNum; 
+	}
 
 }

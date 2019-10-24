@@ -33,7 +33,7 @@ public class DiceController {
 
     @FXML
     private void rollButtonClicked(){
-        rollButton.setDisable(true);
+    	rollButton.setDisable(true);
         Image image;
         Pair<Player, Integer> result = players.rollDice();
         Player currentPlayer = result.getKey();
@@ -62,6 +62,18 @@ public class DiceController {
         }
         diceImage.setImage(image);
         text.setText(currentPlayer.getPlayerName() + " rolled " + dice);
+        if(players.isFinished()) {
+        	System.out.println(currentPlayer.getPlayerName() + " has won the game! Congratulations!");
+        	return;
+        }
+        if (dice == 6){
+        	System.out.println(currentPlayer.getPlayerName() + " roll again");
+        	System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
+        } else {
+        	players.nextPlayer();
+        }
+        
         rollButton.setDisable(false);
     }
+    
 }

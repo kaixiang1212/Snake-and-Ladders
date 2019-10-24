@@ -23,8 +23,8 @@ public class DiceFX extends Application {
         primaryStage.setWidth(300);
 
         GameEngine engine = new GameEngine();
-        engine.addPlayer(new Player("Player 1"));
-        engine.addPlayer(new Player("Player 2"));
+        engine.addPlayer(new Player("Player 1", '@'));
+        engine.addPlayer(new Player("Player 2", '$'));
 
         primaryStage.setTitle("Dice");
 
@@ -42,3 +42,4 @@ public class DiceFX extends Application {
         }
     }
 }
+	
