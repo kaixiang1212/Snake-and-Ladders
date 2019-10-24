@@ -8,7 +8,7 @@ public class Board {
 	private final int MINPOS;
 	private final int MAXPOS;
 	
-	private int[][] board;		
+	private int[][] grid;		
 	private ArrayList<Snake> snakes;
 	private ArrayList<Ladder> ladders;
 	
@@ -36,10 +36,10 @@ public class Board {
 	 * @param width
 	 * @param height
 	 */
-	public Board(int[][] board) {
-		WIDTH = board.length;
-		HEIGHT = board[0].length;
-		this.board = board;
+	public Board(int[][] grid) {
+		WIDTH = grid.length;
+		HEIGHT = grid[0].length;
+		this.grid = grid;
 		MINPOS = _getMinPos();
 		MAXPOS = _getMaxPos();
 		snakes = new ArrayList<Snake>();
@@ -50,17 +50,17 @@ public class Board {
 	 * Initialises a board with WIDTH*HEIGHT dimensions, and positions increasing in a snake-like pattern
 	 */
 	public void initBoard() {
-		this.board = new int[WIDTH][HEIGHT];
+		this.grid = new int[WIDTH][HEIGHT];
 		int pos = 1;
 		for (int y = 0; y < HEIGHT; y++) {
 			if(y % 2 == 0) {
 				for(int x = 0; x < WIDTH; x++) {
-					board[x][y] = pos;
+					grid[x][y] = pos;
 					pos++;
 				}
 			} else {
 				for(int x = WIDTH-1; x >= 0; x--) {
-					board[x][y] = pos;
+					grid[x][y] = pos;
 					pos++;
 				}
 			}
@@ -76,7 +76,7 @@ public class Board {
 		for (int i = 0 ; i < WIDTH; i++) {
 		    for(int j = 0 ; j < HEIGHT ; j++)
 		    {
-		         if ( board[i][j] == pos)
+		         if ( grid[i][j] == pos)
 		         {
 		        	 return new Coords(i,j); 
 		         }
@@ -94,9 +94,9 @@ public class Board {
 		for (int x = 0 ; x < WIDTH; x++) {
 		    for(int y = 0 ; y < HEIGHT ; y++)
 		    {
-		         if ( board[x][y] > 0 && board[x][y] < min)
+		         if ( grid[x][y] > 0 && grid[x][y] < min)
 		         {
-		        	min = board[x][y];
+		        	min = grid[x][y];
 		         }
 		    }
 		}
@@ -113,9 +113,9 @@ public class Board {
 		for (int x = 0 ; x < WIDTH; x++) {
 		    for(int y = 0 ; y < HEIGHT ; y++)
 		    {
-		         if ( board[x][y] > 0 && board[x][y] > max)
+		         if ( grid[x][y] > 0 && grid[x][y] > max)
 		         {
-		        	max = board[x][y];
+		        	max = grid[x][y];
 		         }
 		    }
 		}
@@ -134,24 +134,20 @@ public class Board {
 		return HEIGHT;
 	}
 
-//	public void setHeight(int height) {
-//		HEIGHT = height;
-//	}
-
 	public int getWidth() {
 		return WIDTH;
 	}
 	
 	public int getPosition(int x, int y) {
-		if(x < board.length && y < board[0].length)
-			return board[x][y];
+		if(x < grid.length && y < grid[0].length)
+			return grid[x][y];
 		else
 			return -1;
 	}
-
-//	public void setWidth(int width) {
-//		this.width = width;
-//	}
+	
+	public int[][] getGrid() {
+		return grid;
+	}
 	
 	public void addSnake(Snake snake) {
 		snakes.add(snake);

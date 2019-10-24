@@ -109,6 +109,7 @@ public class GameEngine {
         int newPos = updatePosition(currentPlayer, currPos+result);
         System.out.println(currentPlayer.getPlayerName() + " moves from " + currPos + " to " + newPos);
         updateState();
+        printBoard();
         return new Pair<>(currentPlayer, result);
     }
 	
@@ -169,6 +170,43 @@ public class GameEngine {
 			}
 		}
 		finished = false;
+	}
+	
+	public void printBoard() {
+		int[][] grid = gameboard.getGrid();
+		int width = gameboard.getWidth();
+		int height = gameboard.getHeight();
+		for(int y = height-1; y >= 0; y--) {
+			for(int x = 0; x < width; x++) {
+				boolean empty = true;
+				int pos = grid[x][y];
+				System.out.print("[");
+				if(gameboard.isSnake(pos) != null) {
+					System.out.print("x");
+					empty = false;
+				} else if(gameboard.isLadder(pos) != null) {
+					System.out.print("H");
+					empty = false;
+				}
+				for(Player currPlayer : players) {
+					if(currPlayer.getPosition() == pos) {
+						System.out.print(currPlayer.getPlayerToken());
+						empty = false;
+					}
+				}
+				if(empty) {
+					System.out.print(" ");
+				}
+				System.out.print("]");
+			}
+			System.out.println("");
+		}
+		for(Player player : players) {
+			System.out.println(player.getPlayerToken() + " = " + player.getPlayerName());
+		}
+		System.out.println("x = snake");
+		System.out.println("H = ladder");
+
 	}
 
 }
