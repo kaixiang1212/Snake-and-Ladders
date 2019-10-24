@@ -1,7 +1,10 @@
+/**
+ * @author Kai, Abdullah
+ */
+
 package Model;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -12,13 +15,34 @@ public class GameEngine {
     private Dice dice;
     private Board gameboard;
     private boolean finished;
-
+    
+    /**
+     * Default constructor generates a 10x10 board with some snakes and ladders
+     */
     public GameEngine(){
         players = new ArrayList<>();
         gameboard = new Board(10, 10);
+        gameboard.addSnake(new Snake(27, 5));
+        gameboard.addSnake(new Snake(40, 3));
+        gameboard.addSnake(new Snake(43, 18));
+        gameboard.addSnake(new Snake(54, 31));
+        gameboard.addSnake(new Snake(66, 45));
+        gameboard.addSnake(new Snake(76, 58));
+        gameboard.addSnake(new Snake(89, 53));
+        gameboard.addSnake(new Snake(99, 41));
+        gameboard.addLadder(new Ladder(4, 25));
+        gameboard.addLadder(new Ladder(33, 49));
+        gameboard.addLadder(new Ladder(42, 63));
+        gameboard.addLadder(new Ladder(50, 69));
+        gameboard.addLadder(new Ladder(62, 81));
+        gameboard.addLadder(new Ladder(74, 92));
         dice = new Dice();
     }
     
+    /**
+     * This constructor is used to pass in a pre-made gameboard
+     * @param gameboard: pre-made gameboard
+     */
     public GameEngine(Board gameboard){
         players = new ArrayList<>();
         this.gameboard = gameboard;
@@ -27,7 +51,7 @@ public class GameEngine {
 
     /**
      * Add a player into the game
-     * @param player A player object to be added into the game
+     * @param player: A player object to be added into the game
      */
     public void addPlayer(Player player){
         if (currentPlayer == null) {
@@ -48,18 +72,21 @@ public class GameEngine {
     }
     
     /**
-     * Get current player's position
-     * @return current player's position
+     * Get the current position of player
+     * @param player: Specify player object to find their position
+     * @return player's position
      */
     public int getPosition(Player player){
         return player.getPosition();
     }
     
     /**
-     * Update current player's position
-     * @param pos: player's current position
+     * Update player's position to pos
+     * @param player: Player object to update their position
+     * @param pos: player's new position
+     * @return updated player position
      */
-	public int updatePosition(Player player, int pos) {
+	private int updatePosition(Player player, int pos) {
 		if(pos > 0) {
 			pos = Math.min(pos, gameboard.getMaxPos());
 			player.setPosition(pos);
@@ -72,15 +99,17 @@ public class GameEngine {
 	
 	/**
      * Invoked when dice button is clicked
+     * Rolls a dice and updates player position accordingly
      * @return current player and dice number
      */
 	public Pair<Player, Integer> rollDice(){
         int result = dice.roll();
-        Player curr = this.currentPlayer;
         System.out.println(currentPlayer.getPlayerName() + " rolled " + result);
-        System.out.println(currentPlayer.getPlayerName() + " moves from " + currentPlayer.getPosition() + " to " + updatePosition(currentPlayer, currentPlayer.getPosition()+result));
-
-        return new Pair<>(curr, result);
+        int currPos = currentPlayer.getPosition();
+        int newPos = updatePosition(currentPlayer, currPos+result);
+        System.out.println(currentPlayer.getPlayerName() + " moves from " + currPos + " to " + newPos);
+        updateState();
+        return new Pair<>(currentPlayer, result);
     }
 	
     /**
@@ -90,9 +119,17 @@ public class GameEngine {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+    
+    /**
+     * Get index of current player
+     * @return current player index
+     */
+	public int getCurrentPlayerNum() {
+		return currentPlayerNum; 
+	}
 	
     /**
-     * Iterate over the next player
+     * Set the next player in turn as current player, looping over the list of all players
      */
     public void nextPlayer(){
         currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
@@ -122,22 +159,16 @@ public class GameEngine {
 				finished = true;
 				return;
 			} else if (gameboard.isSnake(currPos) != null) {
-				System.out.print(currentPlayer.getPlayerName() + " gets eaten by a snake and moves from " + currentPlayer.getPosition() + " to ");
-				currPlayer.setPosition(gameboard.isSnake(currPos).getTail());
-				System.out.println(currentPlayer.getPlayerName());
+				int newPos = updatePosition(currPlayer, gameboard.isSnake(currPos).getTail());
+		        System.out.println(currPlayer.getPlayerName() + " gets eaten by a snake and moves back from " + currPos + " to " + newPos);
 				updateState();
 			} else if (gameboard.isLadder(currPos) != null) {
-				System.out.print(currentPlayer.getPlayerName() + " climbs up a ladder and moves from " + currentPlayer.getPosition() + " to ");
-				currPlayer.setPosition(gameboard.isLadder(currPos).getTop());
-				System.out.println(currentPlayer.getPlayerName());
+				int newPos = updatePosition(currPlayer, gameboard.isLadder(currPos).getTop());
+		        System.out.println(currPlayer.getPlayerName() + " climbs a ladder moves up from " + currPos + " to " + newPos);
 				updateState();
 			}
 		}
 		finished = false;
-	}
-	
-	public int getCurrentPlayerNum() {
-		return currentPlayerNum; 
 	}
 
 }
