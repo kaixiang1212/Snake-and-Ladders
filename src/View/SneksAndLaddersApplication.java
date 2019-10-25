@@ -11,7 +11,7 @@ public class SneksAndLaddersApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
     		
     	StartGameScreen startScreen = new StartGameScreen(primaryStage);
-    	
+
         startScreen.start();
     }
 
@@ -19,5 +19,3 @@ public class SneksAndLaddersApplication extends Application {
         launch(args);
     }
 }
-
-    

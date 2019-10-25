@@ -78,5 +78,8 @@ public class PlayerSelectionController {
                 }
             }
         }
+        GameScreen game = new GameScreen(stage);
+        game.setEngine(engine);
+        game.start(stage);
     }
 }

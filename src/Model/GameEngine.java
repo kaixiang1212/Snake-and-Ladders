@@ -4,7 +4,6 @@
 
 package Model;
 
-import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -15,6 +14,7 @@ public class GameEngine {
     private Dice dice;
     private Board gameboard;
     private boolean finished;
+    private StringBuilder console;
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -37,6 +37,8 @@ public class GameEngine {
         gameboard.addLadder(new Ladder(62, 81));
         gameboard.addLadder(new Ladder(74, 92));
         dice = new Dice();
+        console = new StringBuilder();
+        console.setLength(0);
     }
     
     /**
@@ -104,12 +106,16 @@ public class GameEngine {
      */
 	public int rollDice(){
         int result = dice.roll();
-        System.out.println(currentPlayer.getPlayerName() + " rolled " + result);
+        console.append(currentPlayer.getPlayerName())
+				.append(" rolled ").append(result)
+				.append("\n");
         int currPos = currentPlayer.getPosition();
         int newPos = updatePosition(currentPlayer, currPos+result);
-        System.out.println(currentPlayer.getPlayerName() + " moves from " + currPos + " to " + newPos);
+        console.append(currentPlayer.getPlayerName())
+				.append(" moves from ")
+				.append(currPos).append(" to ")
+				.append(newPos).append("\n");
         updateState();
-        printBoard();
         return result;
     }
 	
@@ -132,10 +138,10 @@ public class GameEngine {
     /**
      * Set the next player in turn as current player, looping over the list of all players
      */
-    public void nextPlayer(){
+    public Player nextPlayer(){
         currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
         currentPlayer = players.get(currentPlayerNum);
-        System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
+        return currentPlayer;
     }
 	
 	/**
@@ -161,18 +167,33 @@ public class GameEngine {
 				return;
 			} else if (gameboard.isSnake(currPos) != null) {
 				int newPos = updatePosition(currPlayer, gameboard.isSnake(currPos).getTail());
-		        System.out.println(currPlayer.getPlayerName() + " gets eaten by a snake and moves back from " + currPos + " to " + newPos);
+				console.append(currPlayer.getPlayerName())
+						.append(" gets eaten by a snake and moves back from ")
+						.append(currPos).append(" to ")
+						.append(newPos).append("\n");
 				updateState();
 			} else if (gameboard.isLadder(currPos) != null) {
 				int newPos = updatePosition(currPlayer, gameboard.isLadder(currPos).getTop());
-		        System.out.println(currPlayer.getPlayerName() + " climbs a ladder moves up from " + currPos + " to " + newPos);
+				console.append(currPlayer.getPlayerName())
+						.append(" climbs a ladder moves up from ")
+						.append(currPos).append(" to ")
+						.append(newPos).append("\n");
 				updateState();
 			}
 		}
 		finished = false;
 	}
+
+	public String getConsole(){
+		return console.toString();
+	}
+
+	public void clearConsole(){
+		console.setLength(0);
+	}
 	
-	public void printBoard() {
+	public String printBoard() {
+		StringBuilder sb = new StringBuilder();
 		int[][] grid = gameboard.getGrid();
 		int width = gameboard.getWidth();
 		int height = gameboard.getHeight();
@@ -180,33 +201,36 @@ public class GameEngine {
 			for(int x = 0; x < width; x++) {
 				boolean empty = true;
 				int pos = grid[x][y];
-				System.out.print("[");
+				sb.append("[");
 				if(gameboard.isSnake(pos) != null) {
-					System.out.print("x");
+					sb.append("x");
 					empty = false;
 				} else if(gameboard.isLadder(pos) != null) {
-					System.out.print("H");
+					sb.append("H");
 					empty = false;
 				}
 				for(Player currPlayer : players) {
 					if(currPlayer.getPosition() == pos) {
-						System.out.print(currPlayer.getPlayerToken());
+						sb.append(currPlayer.getPlayerToken());
 						empty = false;
 					}
 				}
 				if(empty) {
-					System.out.print(" ");
+					sb.append(" ");
 				}
-				System.out.print("]");
+				sb.append("]");
 			}
-			System.out.println("");
+			sb.append("\n");
 		}
 		for(Player player : players) {
-			System.out.println(player.getPlayerToken() + " = " + player.getPlayerName());
+			sb.append(player.getPlayerToken());
+			sb.append(" = ");
+			sb.append(player.getPlayerName());
+			sb.append("\n");
 		}
-		System.out.println("x = snake");
-		System.out.println("H = ladder");
-
+		sb.append("x = snake\n");
+		sb.append("H = ladder\n");
+		return sb.toString();
 	}
 
 }

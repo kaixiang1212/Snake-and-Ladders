@@ -28,7 +28,7 @@ public class StartGameScreen {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartGameScreen.fxml"));
 		loader.setController(controller);
 		Parent root = loader.load();
-		scene = new Scene(root, 750, 800);
+		scene = new Scene(root, 600, 400);
 	}
 	
 	public void start() {

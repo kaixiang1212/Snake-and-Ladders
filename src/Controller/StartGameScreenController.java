@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 
 import View.GameScreen;
+import View.PlayerSelectionScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -34,8 +35,8 @@ public class StartGameScreenController {
 		//Game game = new Game(0, null);
 		//LevelIntroScreen introScreen = new LevelIntroScreen(s, game);
 		//introScreen.start();
-		GameScreen gameScreen = new GameScreen(s);
-		gameScreen.start();
+		PlayerSelectionScreen selectionScreen = new PlayerSelectionScreen(s);
+		selectionScreen.start();
 	}
 	
 	
