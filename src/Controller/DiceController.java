@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class DiceController {
 
     @FXML
-    public Button rollButton;
+    public Button button;
     @FXML
     private ImageView diceImage;
     @FXML
@@ -22,8 +22,6 @@ public class DiceController {
     private Stage stage;
     private GameEngine players;
     private final Image[] diceFace;
-    private int diceResult;
-    private Player currentPlayer;
 
     public DiceController(Stage stage, GameEngine players){
         this.players = players;
@@ -43,21 +41,34 @@ public class DiceController {
 
     @FXML
     private void rollButtonClicked(){
-    	rollButton.setDisable(true);
-    	currentPlayer = players.getCurrentPlayer();
-        diceResult = players.rollDice();
+        text.setText("");
         animation.start();
+        button.setText("Stop");
+        button.setOnAction(event -> stopButtonClicked());
+    }
+
+    @FXML
+    private void stopButtonClicked(){
+        animation.stop();
+        button.setText("Start Rolling");
+
+        Player currentPlayer = players.getCurrentPlayer();
+        int diceResult = players.rollDice();
+        text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
+        draw(diceResult);
 
         if (players.isFinished()) {
-        	System.out.println(currentPlayer.getPlayerName() + " has won the game! Congratulations!");
-        	return;
-        }
-        if (diceResult == 6){
-        	System.out.println(currentPlayer.getPlayerName() + " roll again");
-        	System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
+            System.out.println(currentPlayer.getPlayerName() + " has won the game! Congratulations!");
+            // TODO: Handle endgame
+            return;
+        } else if (diceResult == 6){
+            System.out.println(currentPlayer.getPlayerName() + " roll again");
+            System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
         } else {
-        	players.nextPlayer();
+            players.nextPlayer();
         }
+
+        button.setOnAction(event -> rollButtonClicked());
     }
 
     private void draw(int dieFace){
@@ -65,21 +76,19 @@ public class DiceController {
         diceImage.setImage(image);
     }
 
-    private int frame = 0;
 
+    private final int maxFrame = 1000;
+    private int frame = 0;
     /**
-    Randomise Dice face for 30 frames
+     * Randomise Dice face for infinite frames
      */
     private AnimationTimer animation = new AnimationTimer() {
         public void handle( long time ) {
             int diceFrame = (int)(Math.random()*6) + 1;
             draw(diceFrame);
             frame++;
-            if (frame == 30) {
-                animation.stop();
-                draw(diceResult);
-                text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
-                rollButton.setDisable(false);
+            if (frame == maxFrame){
+                stopButtonClicked();
                 frame = 0;
             }
         }
