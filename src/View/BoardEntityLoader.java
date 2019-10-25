@@ -16,14 +16,14 @@ public class BoardEntityLoader {
 	
 	public class DungeonControllerLoader extends BoardLoader {
 
-	    private List<ImageView> entities;
+		private List<ImageView> entities;
 
-	    //Images
-	    private Image piece1Image;
-	    private Image boardTileImage;
-	    
-	    
-	    //private Stage stage;
-	    //private GameScreen gamescreen;
+		//Images
+		private Image piece1Image;
+		private Image boardTileImage;
 
+
+		//private Stage stage;
+		//private GameScreen gamescreen;
+	}
 }

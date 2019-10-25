@@ -51,7 +51,8 @@ public class DiceController {
     @FXML
     private void stopButtonClicked(){
         animation.stop();
-        button.setText("Start Rolling");
+        button.setDisable(true);
+        diceImage.setDisable(true);
 
         Player currentPlayer = players.getCurrentPlayer();
         int diceResult = players.rollDice();
@@ -60,7 +61,6 @@ public class DiceController {
 
         if (players.isFinished()) {
             System.out.println(currentPlayer.getPlayerName() + " has won the game! Congratulations!");
-            // TODO: Handle endgame
             return;
         }
         if (diceResult == 6){
@@ -70,6 +70,9 @@ public class DiceController {
             players.nextPlayer();
         }
 
+        button.setDisable(false);
+        diceImage.setDisable(false);
+        button.setText("Start Rolling");
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
         button.setOnAction(event -> rollButtonClicked());
     }
