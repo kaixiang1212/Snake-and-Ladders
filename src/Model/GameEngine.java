@@ -102,7 +102,7 @@ public class GameEngine {
      * Rolls a dice and updates player position accordingly
      * @return current player and dice number
      */
-	public Pair<Player, Integer> rollDice(){
+	public int rollDice(){
         int result = dice.roll();
         System.out.println(currentPlayer.getPlayerName() + " rolled " + result);
         int currPos = currentPlayer.getPosition();
@@ -110,7 +110,7 @@ public class GameEngine {
         System.out.println(currentPlayer.getPlayerName() + " moves from " + currPos + " to " + newPos);
         updateState();
         printBoard();
-        return new Pair<>(currentPlayer, result);
+        return result;
     }
 	
     /**
