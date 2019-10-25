@@ -45,6 +45,7 @@ public class DiceController {
         animation.start();
         button.setText("Stop");
         button.setOnAction(event -> stopButtonClicked());
+        diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
     }
 
     @FXML
@@ -61,13 +62,15 @@ public class DiceController {
             System.out.println(currentPlayer.getPlayerName() + " has won the game! Congratulations!");
             // TODO: Handle endgame
             return;
-        } else if (diceResult == 6){
+        }
+        if (diceResult == 6){
             System.out.println(currentPlayer.getPlayerName() + " roll again");
             System.out.println("\n" + currentPlayer.getPlayerName() + "'s turn:");
         } else {
             players.nextPlayer();
         }
 
+        diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
         button.setOnAction(event -> rollButtonClicked());
     }
 

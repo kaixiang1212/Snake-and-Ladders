@@ -29,7 +29,8 @@ public class DiceFX extends Application {
         primaryStage.setTitle("Dice");
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("View/dice.fxml"));
-        fxmlLoader.setController(new DiceController(primaryStage, engine));
+        DiceController controller = new DiceController(primaryStage, engine);
+        fxmlLoader.setController(controller);
         try {
             Parent root;
             root = fxmlLoader.load();
