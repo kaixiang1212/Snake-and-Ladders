@@ -33,17 +33,21 @@ public abstract class BoardLoader {
      * @return
      * @throws JSONException 
      */
-	public GameEngine load () throws JSONException {
+	public GameEngine load (GameEngine engine) throws JSONException {
 		int width = json.getInt("width");
 		int height = json.getInt("height");
 	        
 		Board gameboard = new Board(width, height);
-		GameEngine engine = new GameEngine(gameboard);
+		engine.setBoard(gameboard);
 		
 		JSONArray jsonEntities = json.getJSONArray("entities");
 		
 		for (int i = 0; i < jsonEntities.length(); i++) {
 			loadEntity(engine, jsonEntities.getJSONObject(i));
+		}
+		
+		for(Player player : engine.getPlayers()) {
+			onLoad(player);
 		}
 		
 		
@@ -59,28 +63,30 @@ public abstract class BoardLoader {
         String type = json.getString("type");
         int x = json.getInt("x");
         int y = json.getInt("y");
-
+        int x2 = json.getInt("x2");
+        int y2 = json.getInt("y2");
+        
         switch (type) {
         case "player":
             Player player = new Player("player", 'c', x, y);
             //Player player = new Player(gameboard, x, y, "player");
             //gameboard.setPlayer(player);
-            onLoad(player, engine);
+            onLoad(player);
             if (player != null) {
             	engine.addPlayer(player);
             }
             break;
         case "snake":
-            Snake snake = new Snake(x, y, 1, 1);
-            onLoad(snake, engine);
+            Snake snake = new Snake(x, y, x2, y2);
+            onLoad(snake);
             if (snake != null) {
             	engine.getBoard().addEntity(snake);
             }
             break;
         // TODO Handle other possible entities
         case "ladder":
-        	Ladder ladder = new Ladder(x, y, 4, 4);
-        	onLoad(ladder, engine);
+        	Ladder ladder = new Ladder(x, y, x2, y2);
+        	onLoad(ladder);
             if (ladder != null) {
             	engine.getBoard().addEntity(ladder);
             }
@@ -88,9 +94,9 @@ public abstract class BoardLoader {
         }
     }
 
-    public abstract void onLoad(Player player, GameEngine engine);
-    public abstract void onLoad(Snake snake, GameEngine engine);
-    public abstract void onLoad(Ladder ladder, GameEngine engine);
+    public abstract void onLoad(Player player);
+    public abstract void onLoad(Snake snake);
+    public abstract void onLoad(Ladder ladder);
     public abstract void changeImage(Entity entity, String string);
     // TODO Create additional abstract methods for the other entities
   

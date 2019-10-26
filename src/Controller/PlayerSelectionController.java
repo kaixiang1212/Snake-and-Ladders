@@ -76,7 +76,7 @@ public class PlayerSelectionController {
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof TextField) {
                         String playerName = ((TextField) node1).getText();
-                        engine.addPlayer(new Player(playerName, token[tokenIndex], 1, 1));
+                        engine.addPlayer(new Player(playerName, token[tokenIndex], 0, 0));
                         tokenIndex++;
                     }
                 }

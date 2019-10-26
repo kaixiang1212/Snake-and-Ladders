@@ -36,7 +36,7 @@ public class GameEngine {
 //        gameboard.addLadder(new Ladder(50, 69));
 //        gameboard.addLadder(new Ladder(62, 81));
 //        gameboard.addLadder(new Ladder(74, 92));
-	    gameboard.addEntity(new Snake(6, 2, 0, 4));
+	    gameboard.addEntity(new Snake(6, 2, 4, 0));
 	    gameboard.addEntity(new Snake(0, 3, 2, 0));
 	    gameboard.addEntity(new Snake(2, 4, 2, 1));
 	    gameboard.addEntity(new Snake(6, 7, 9, 3));
@@ -108,7 +108,7 @@ public class GameEngine {
      * @param pos: player's new position
      * @return updated player position
      */
-	private int updatePosition(Player player, int pos) {
+	public int updatePosition(Player player, int pos) {
 		if(pos > 0) {
 			pos = Math.min(pos, gameboard.getMaxPos());
 			int x,y;
@@ -133,6 +133,8 @@ public class GameEngine {
      * @return current player and dice number
      */
 	public int rollDice(){
+		if(isFinished())
+			return 0;
         int result = dice.roll();
         console.append(currentPlayer.getPlayerName())
 				.append(" rolled ").append(result)
@@ -161,6 +163,14 @@ public class GameEngine {
      */
 	public int getCurrentPlayerNum() {
 		return currentPlayerNum; 
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	
+	public void setBoard(Board gameboard) {
+		this.gameboard = gameboard;
 	}
 	
 	public Board getBoard() {

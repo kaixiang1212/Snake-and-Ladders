@@ -69,7 +69,7 @@ public class GameScreen implements EventHandler<KeyEvent> {
 		*/
 		
 		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader("simpleBoard.json", stage, this);
+		BoardEntityLoader loadedBoard = new BoardEntityLoader("simpleBoard.json", stage, this, engine);
 		return loadedBoard;
 		
 	}

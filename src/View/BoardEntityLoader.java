@@ -29,9 +29,9 @@ public class BoardEntityLoader extends BoardLoader{
 	private Image playerWhiteImage;
 	private Stage stage;
  	private GameScreen gamescreen;
+	private GameEngine engine;
 	    
-	    
-	public BoardEntityLoader(String filename, Stage s, GameScreen game) throws FileNotFoundException, JSONException {
+	public BoardEntityLoader(String filename, Stage s, GameScreen game, GameEngine engine) throws FileNotFoundException, JSONException {
 		super(filename);
 		
 		entities = new ArrayList<>();
@@ -42,39 +42,40 @@ public class BoardEntityLoader extends BoardLoader{
 		playerWhiteImage = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/playerpiece.png"))); 
 		stage = s;
 		gamescreen = game;
+		this.engine = engine;
 	}
 
 	      
 	
-	private void addEntity(Entity entity, GameEngine engine, ImageView view) {
-		trackPosition(entity, engine, view);
+	private void addEntity(Entity entity, ImageView view) {
+		trackPosition(entity, view);
 		entities.add(view);
 	}
 
 	@Override
-	public void onLoad(Player player, GameEngine engine) {
+	public void onLoad(Player player) {
 		ImageView view = new ImageView(playerWhiteImage);
 		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
 		view.setPreserveRatio(true);
-		addEntity(player, engine, view);
+		addEntity(player, view);
 //		Player p = (Player) player;
 //		p.giveStage(this.stage);
 	}
 
 	@Override
-	public void onLoad(Snake snake, GameEngine engine) {
+	public void onLoad(Snake snake) {
 		ImageView view = new ImageView(playerWhiteImage);
 		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
 		view.setPreserveRatio(true);
-		addEntity(snake, engine, view);
+		addEntity(snake, view);
 	}
 	
 	@Override
-	public void onLoad(Ladder ladder, GameEngine engine) {
+	public void onLoad(Ladder ladder) {
 		ImageView view = new ImageView(playerWhiteImage);
 		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
 		view.setPreserveRatio(true);
-		addEntity(ladder, engine, view);
+		addEntity(ladder, view);
 	}
 	
 
@@ -89,7 +90,7 @@ public class BoardEntityLoader extends BoardLoader{
 	* @param entity
 	* @param node
 	*/
-	private void trackPosition(Entity entity, GameEngine engine, ImageView node) {
+	private void trackPosition(Entity entity, ImageView node) {
 		GridPane.setColumnIndex(node, entity.getX());
 		GridPane.setRowIndex(node, engine.getBoard().getHeight()-1-entity.getY());
 		entity.x().addListener(new ChangeListener<Number>() {
@@ -106,7 +107,7 @@ public class BoardEntityLoader extends BoardLoader{
 			@Override
 			public void changed(ObservableValue<? extends Number> observable,
 	        	Number oldValue, Number newValue) {
-	        	GridPane.setRowIndex(node, newValue.intValue());
+	        	GridPane.setRowIndex(node, engine.getBoard().getHeight()-1-newValue.intValue());
 			}
 		});
 		
@@ -141,7 +142,7 @@ public class BoardEntityLoader extends BoardLoader{
 	 * @throws JSONException 
 	*/
 	public BoardController loadController() throws FileNotFoundException, JSONException {
-		return new BoardController(load(), this.entities, this.stage, this.gamescreen);
+		return new BoardController(load(engine), this.entities, this.stage, this.gamescreen);
 	}
 
 
