@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class GameScreenController {
@@ -84,6 +84,7 @@ public class GameScreenController {
         button.setOnAction(event -> rollButtonClicked());
         System.out.println(players.getConsole() + sb.toString() + players.printBoard());
         asciiMap.setText(players.getConsole() + players.printBoard());
+        asciiMap.setFont(Font.font("Consolas", 18));
         message.setText(sb.toString());
         players.clearConsole();
     }
