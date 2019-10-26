@@ -22,20 +22,34 @@ public class GameEngine {
     public GameEngine(){
         players = new ArrayList<>();
         gameboard = new Board(10, 10);
-        gameboard.addSnake(new Snake(27, 5));
-        gameboard.addSnake(new Snake(40, 3));
-        gameboard.addSnake(new Snake(43, 18));
-        gameboard.addSnake(new Snake(54, 31));
-        gameboard.addSnake(new Snake(66, 45));
-        gameboard.addSnake(new Snake(76, 58));
-        gameboard.addSnake(new Snake(89, 53));
-        gameboard.addSnake(new Snake(99, 41));
-        gameboard.addLadder(new Ladder(4, 25));
-        gameboard.addLadder(new Ladder(33, 49));
-        gameboard.addLadder(new Ladder(42, 63));
-        gameboard.addLadder(new Ladder(50, 69));
-        gameboard.addLadder(new Ladder(62, 81));
-        gameboard.addLadder(new Ladder(74, 92));
+//        gameboard.addEntity(new Snake(27, 5));
+//        gameboard.addSnake(new Snake(40, 3));
+//        gameboard.addSnake(new Snake(43, 18));
+//        gameboard.addSnake(new Snake(54, 31));
+//        gameboard.addSnake(new Snake(66, 45));
+//        gameboard.addSnake(new Snake(76, 58));
+//        gameboard.addSnake(new Snake(89, 53));
+//        gameboard.addSnake(new Snake(99, 41));
+//        gameboard.addLadder(new Ladder(4, 25));
+//        gameboard.addLadder(new Ladder(33, 49));
+//        gameboard.addLadder(new Ladder(42, 63));
+//        gameboard.addLadder(new Ladder(50, 69));
+//        gameboard.addLadder(new Ladder(62, 81));
+//        gameboard.addLadder(new Ladder(74, 92));
+	    gameboard.addEntity(new Snake(6, 2, 0, 4));
+	    gameboard.addEntity(new Snake(0, 3, 2, 0));
+	    gameboard.addEntity(new Snake(2, 4, 2, 1));
+	    gameboard.addEntity(new Snake(6, 7, 9, 3));
+	    gameboard.addEntity(new Snake(5, 6, 4, 4));
+	    gameboard.addEntity(new Snake(4, 7, 2, 5));
+	    gameboard.addEntity(new Snake(8, 8, 7, 5));
+	    gameboard.addEntity(new Snake(1, 9, 0, 4));
+	    gameboard.addEntity(new Ladder(3, 0, 4, 2));
+	    gameboard.addEntity(new Ladder(7, 1, 5, 4));
+	    gameboard.addEntity(new Ladder(1, 4, 2, 6));
+	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
+	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
+	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
         dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
@@ -49,6 +63,8 @@ public class GameEngine {
         players = new ArrayList<>();
         this.gameboard = gameboard;
         dice = new Dice();
+        console = new StringBuilder();
+        console.setLength(0);
     }
 
     /**
@@ -61,7 +77,7 @@ public class GameEngine {
             currentPlayer = player;
         }
         players.add(player);
-        updatePosition(player, gameboard.getMinPos());
+        //updatePosition(player, gameboard.getMinPos());
         updateState();
     }
     
@@ -79,7 +95,11 @@ public class GameEngine {
      * @return player's position
      */
     public int getPosition(Player player){
-        return player.getPosition();
+    	int x,y;
+    	x = player.getX();
+    	y = player.getY();
+    	int position = gameboard.getPosition(x, y);
+        return position;
     }
     
     /**
@@ -91,10 +111,18 @@ public class GameEngine {
 	private int updatePosition(Player player, int pos) {
 		if(pos > 0) {
 			pos = Math.min(pos, gameboard.getMaxPos());
-			player.setPosition(pos);
+			int x,y;
+			x = gameboard.getCoords(pos).getX();
+			y = gameboard.getCoords(pos).getY();
+			player.setX(x);
+			player.setY(y);
 		} else {
 			pos = Math.max(pos, gameboard.getMinPos());
-			player.setPosition(pos);
+			int x,y;
+			x = gameboard.getCoords(pos).getX();
+			y = gameboard.getCoords(pos).getY();
+			player.setX(x);
+			player.setY(y);
 		}
 		return pos;
 	}
@@ -109,7 +137,7 @@ public class GameEngine {
         console.append(currentPlayer.getPlayerName())
 				.append(" rolled ").append(result)
 				.append("\n");
-        int currPos = currentPlayer.getPosition();
+        int currPos = gameboard.getPosition(currentPlayer.getX(), currentPlayer.getY());
         int newPos = updatePosition(currentPlayer, currPos+result);
         console.append(currentPlayer.getPlayerName())
 				.append(" moves from ")
@@ -133,6 +161,10 @@ public class GameEngine {
      */
 	public int getCurrentPlayerNum() {
 		return currentPlayerNum; 
+	}
+	
+	public Board getBoard() {
+		return gameboard;
 	}
 	
     /**
@@ -161,19 +193,30 @@ public class GameEngine {
 	 */
 	public void updateState() {
 		for(Player currPlayer : players) {
-			int currPos = currPlayer.getPosition();
+			int currX, currY;
+			currX = currPlayer.getX();
+			currY = currPlayer.getY();
+			int currPos = gameboard.getPosition(currX, currY);
+			if(currPos == -1)
+				break;
 			if(currPos == gameboard.getMaxPos()) {
 				finished = true;
 				return;
-			} else if (gameboard.isSnake(currPos) != null) {
-				int newPos = updatePosition(currPlayer, gameboard.isSnake(currPos).getTail());
+			} else if (gameboard.isSnake(currX, currY) != null) {
+				int newX, newY;
+				newX = gameboard.isSnake(currX, currY).getTail().getKey();
+				newY = gameboard.isSnake(currX, currY).getTail().getValue();
+				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
 				updateState();
-			} else if (gameboard.isLadder(currPos) != null) {
-				int newPos = updatePosition(currPlayer, gameboard.isLadder(currPos).getTop());
+			} else if (gameboard.isLadder(currX, currY) != null) {
+				int newX, newY;
+				newX = gameboard.isLadder(currX, currY).getTop().getKey();
+				newY = gameboard.isLadder(currX, currY).getTop().getValue();
+				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
@@ -202,15 +245,15 @@ public class GameEngine {
 				boolean empty = true;
 				int pos = grid[x][y];
 				sb.append("[");
-				if(gameboard.isSnake(pos) != null) {
+				if(gameboard.isSnake(x, y) != null) {
 					sb.append("x");
 					empty = false;
-				} else if(gameboard.isLadder(pos) != null) {
+				} else if(gameboard.isLadder(x, y) != null) {
 					sb.append("H");
 					empty = false;
 				}
 				for(Player currPlayer : players) {
-					if(currPlayer.getPosition() == pos) {
+					if(currPlayer.getX() == x && currPlayer.getY() == y) {
 						sb.append(currPlayer.getPlayerToken());
 						empty = false;
 					}

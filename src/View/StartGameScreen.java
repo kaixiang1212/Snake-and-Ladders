@@ -1,9 +1,9 @@
 package View;
 
+import Controller.*;
 
 import java.io.IOException;
 
-import Controller.StartGameScreenController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

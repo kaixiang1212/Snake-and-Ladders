@@ -1,4 +1,4 @@
-package Sneks_and_Ladders;
+package Model;
 
 
 import javafx.beans.property.BooleanProperty;
@@ -11,23 +11,30 @@ import javafx.beans.property.StringProperty;
 
 public class Entity {
 	
+	enum Type {
+		  PLAYER,
+		  LADDER,
+		  SNAKE,
+		  ITEM
+	}
 	
 	// IntegerProperty is used so that changes to the entities position can be
     // externally observed.
-    private IntegerProperty x, y;
-    private String entityName;   // entity identifier
-	private BooleanProperty isVisible;
-	private StringProperty image;
+    protected IntegerProperty x, y;
+    //protected String entityName;   // entity identifier
+    protected Type type;
+    protected BooleanProperty isVisible;
+    protected StringProperty image;
 	
     /**
      * Create an entity positioned in square (x,y)
      * @param x
      * @param y
      */
-    public Entity(int x, int y, String name) {
+    public Entity(int x, int y, Type type) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.entityName = name;
+        this.type = type;
         this.isVisible =  new SimpleBooleanProperty(true);
         this.image =  new SimpleStringProperty("N/A");
     }
@@ -58,7 +65,7 @@ public class Entity {
 
 	//TO MAKE GRAPHIC DISAPPEAR
 	public void Invisible() {
-		System.out.println("REMOVED : " + getEntityName());
+		System.out.println("REMOVED : " + getEntityType());
 		this.isVisible.setValue(false);
 	}
 	public BooleanProperty getIsVisible() {
@@ -72,12 +79,17 @@ public class Entity {
 		return this.image;
 	}
     
+    public Type getEntityType() {
+		return type;
+	}
+    
     public String getEntityName() {
-		return entityName;
+		return type.toString();
 	}
 
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
+
+	public void setEntityType(Type type) {
+		this.type = type;
 	}
 
 	@Override
@@ -86,7 +98,7 @@ public class Entity {
 		if(obj == null) return false;
 		if(this.getClass() != obj.getClass()) return false;
 		Entity e = (Entity) obj;
-		if(this.getX() == e.getX() && this.getY() == e.getY() && this.getEntityName() == e.getEntityName()) {
+		if(this.getX() == e.getX() && this.getY() == e.getY() && this.getEntityType() == e.getEntityType()) {
 			return true;
 		}
 		else return false;

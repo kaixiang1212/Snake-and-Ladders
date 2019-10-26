@@ -1,0 +1,26 @@
+{
+  "width": 20,
+  "height": 18,
+  "entities": [
+    {
+      "x": 0,
+      "y": 0,
+      "type": "snake"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "type": "player"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "type": "snake"
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "type": "ladder"
+    }
+  ]
+}

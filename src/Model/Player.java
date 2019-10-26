@@ -1,18 +1,17 @@
-package Sneks_and_Ladders;
+package Model;
 
 import javafx.stage.Stage;
 
 public class Player extends Entity {
 
     private String playerName;
-    private int position;
+    // private int position;
     private char token;
     private Stage stage;
-    
-
 
     public Player(String playerName, char token, int x, int y) {
-    	super(x, y, playerName);
+    	super(x, y, Type.PLAYER);
+    	this.playerName = playerName;
         this.token = token;
         this.stage = null;
     }
@@ -29,9 +28,9 @@ public class Player extends Entity {
      * Get player's position
      * @return player's current position
      */
-    public int getPosition(){
-        return position;
-    }
+//    public int getPosition(){
+//        return position;
+//    }
     
     /**
      * Get the player's token (symbol)
@@ -53,9 +52,9 @@ public class Player extends Entity {
      * Set player's absolute position
      * @param position player's absolute position
      */
-    public void setPosition(int position) {
-        this.position = position;
-    }
+//    public void setPosition(int position) {
+//        this.position = position;
+//    }
     
     /**
      * Set the player's token

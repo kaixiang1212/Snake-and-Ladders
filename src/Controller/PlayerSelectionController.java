@@ -1,5 +1,9 @@
 package Controller;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import Model.GameEngine;
 import Model.Player;
 import View.GameScreen;
@@ -63,16 +67,16 @@ public class PlayerSelectionController {
     }
 
     @FXML
-    public void createGameButtonClicked(){
+    public void createGameButtonClicked() throws IOException, JSONException{
         GameEngine engine = new GameEngine();
-        System.out.println(flowPane.getChildren());
+        //System.out.println(flowPane.getChildren());
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof TextField) {
                         String playerName = ((TextField) node1).getText();
-                        engine.addPlayer(new Player(playerName, token[tokenIndex]));
+                        engine.addPlayer(new Player(playerName, token[tokenIndex], 1, 1));
                         tokenIndex++;
                     }
                 }
@@ -80,6 +84,6 @@ public class PlayerSelectionController {
         }
         GameScreen game = new GameScreen(stage);
         game.setEngine(engine);
-        game.start(stage);
+        game.start();
     }
 }

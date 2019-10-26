@@ -37,6 +37,13 @@ public class StartGameScreenController {
 		//introScreen.start();
 		PlayerSelectionScreen selectionScreen = new PlayerSelectionScreen(s);
 		selectionScreen.start();
+//		GameScreen gameScreen = new GameScreen(s);
+//		try {
+//			gameScreen.start();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	
