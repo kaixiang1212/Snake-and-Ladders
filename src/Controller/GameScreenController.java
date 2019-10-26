@@ -58,19 +58,23 @@ public class GameScreenController {
         animation.stop();
         button.setDisable(true);
         diceImage.setDisable(true);
-
+        
         Player currentPlayer = players.getCurrentPlayer();
         int diceResult = players.rollDice();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
         draw(diceResult);
 
         StringBuilder sb = new StringBuilder();
-
+        
         if (players.isFinished()) {
-            sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
+        	sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText(sb.toString());
+            System.out.println(players.getConsole() + sb.toString() + players.printBoard());
+            asciiMap.setText(players.getConsole() + players.printBoard());
+            asciiMap.setFont(Font.font("Consolas", 18));
             return;
         }
+        
         if (diceResult == 6){
             sb.append(currentPlayer.getPlayerName()).append(" roll again\n");
         } else {
@@ -86,6 +90,7 @@ public class GameScreenController {
         System.out.println(players.getConsole() + sb.toString() + players.printBoard());
         asciiMap.setText(players.getConsole() + players.printBoard());
         asciiMap.setFont(Font.font("Consolas", 18));
+        
         message.setText(sb.toString());
         players.clearConsole();
     }
