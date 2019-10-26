@@ -1,189 +1,52 @@
-package Model;
-import java.util.*;
+package Sneks_and_Ladders;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 
 public class Board {
+	private int width, height;
+	private List<Entity> entities;
+	private Player player;
+	private Game game;
 	
-	private final int WIDTH;
-	private final int HEIGHT;
-	private final int MINPOS;
-	private final int MAXPOS;
-	
-	private int[][] grid;		
-	private ArrayList<Snake> snakes;
-	private ArrayList<Ladder> ladders;
-	
-	
-	/**
-	 * Initialises a standard board with width*height dimensions
-	 * where board[x][y] = number on the board (ex. 1 to 100 for a standard 10x10 board)
-	 * @param width
-	 * @param height
-	 */
-	public Board(int width, int height) {
-		HEIGHT = height;
-		WIDTH = width;
-		initBoard();
-		MINPOS = _getMinPos();
-		MAXPOS = _getMaxPos();
-		snakes = new ArrayList<Snake>();
-		ladders = new ArrayList<Ladder>();
+	public Board(int width, int height, Game game) {
+		this.width = width;
+		this.height = height;
+		this.entities = new ArrayList<>();
+		this.player = null;
+		this.game = game;
 	}
 	
-	/**
-	 * Initialises a board with width*height dimensions and a custom layout (i.e., different shaped boards)
-	 * where board[x][y] = number on the board (ex. 1 to 100 for a standard 10x10 board)
-	 * and board[x][y] = -1 are blocked off squares
-	 * @param width
-	 * @param height
-	 */
-	public Board(int[][] grid) {
-		WIDTH = grid.length;
-		HEIGHT = grid[0].length;
-		this.grid = grid;
-		MINPOS = _getMinPos();
-		MAXPOS = _getMaxPos();
-		snakes = new ArrayList<Snake>();
-		ladders = new ArrayList<Ladder>();
-	}
-	
-	/**
-	 * Initialises a board with WIDTH*HEIGHT dimensions, and positions increasing in a snake-like pattern
-	 */
-	public void initBoard() {
-		this.grid = new int[WIDTH][HEIGHT];
-		int pos = 1;
-		for (int y = 0; y < HEIGHT; y++) {
-			if(y % 2 == 0) {
-				for(int x = 0; x < WIDTH; x++) {
-					grid[x][y] = pos;
-					pos++;
-				}
-			} else {
-				for(int x = WIDTH-1; x >= 0; x--) {
-					grid[x][y] = pos;
-					pos++;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Given a position number, get the x,y coordinates of it
-	 * @param position on board
-	 * @return x-y coordinates
-	 */
-	public Coords getCoords(int pos) {
-		for (int i = 0 ; i < WIDTH; i++) {
-		    for(int j = 0 ; j < HEIGHT ; j++)
-		    {
-		         if ( grid[i][j] == pos)
-		         {
-		        	 return new Coords(i,j); 
-		         }
-		    }
-		}
-		return null;
-	}
-	
-	/**
-	 * Get lowest position in the board (i.e., starting position)
-	 * @return minimum position number
-	 */
-	private int _getMinPos() {
-		int min = Integer.MAX_VALUE;
-		for (int x = 0 ; x < WIDTH; x++) {
-		    for(int y = 0 ; y < HEIGHT ; y++)
-		    {
-		         if ( grid[x][y] > 0 && grid[x][y] < min)
-		         {
-		        	min = grid[x][y];
-		         }
-		    }
-		}
-		return min;
-	}
-	
-	
-	/**
-	 * Get highest position in the board (i.e., end position)
-	 * @return maximum position number
-	 */
-	private int _getMaxPos() {
-		int max = -1;
-		for (int x = 0 ; x < WIDTH; x++) {
-		    for(int y = 0 ; y < HEIGHT ; y++)
-		    {
-		         if ( grid[x][y] > 0 && grid[x][y] > max)
-		         {
-		        	max = grid[x][y];
-		         }
-		    }
-		}
-		return max;
-	}
-	
-	public int getMaxPos() {
-		return MAXPOS;
-	}
-	
-	public int getMinPos() {
-		return MINPOS;
-	}
-	
-	public int getHeight() {
-		return HEIGHT;
+	public List<Entity> getEntities() {
+    	return entities;
+    }
+    
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+    
+    public Game getGame() {
+		return game;
 	}
 
-	public int getWidth() {
-		return WIDTH;
-	}
-	
-	public int getPosition(int x, int y) {
-		if(x < grid.length && y < grid[0].length)
-			return grid[x][y];
-		else
-			return -1;
-	}
-	
-	public int[][] getGrid() {
-		return grid;
-	}
-	
-	public void addSnake(Snake snake) {
-		snakes.add(snake);
-	}
-	
-	public void addLadder(Ladder ladder) {
-		ladders.add(ladder);
-	}
-	
-	
-	/**
-	 * Checks whether position is on the head of a snake
-	 * @param position
-	 * @return Snake object if true, else null
-	 */
-	public Snake isSnake(int position) {
-		for(Snake snake : snakes) {
-			if(position == snake.getHead()) {
-				return snake;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Checks whether position is on the base of a ladder
-	 * @param position
-	 * @return Ladder object if true, else null
-	 */
-	public Ladder isLadder(int position) {
-		for(Ladder ladder : ladders) {
-			if(position == ladder.getBase()) {
-				return ladder;
-			}
-		}
-		return null;
-	}
-	
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
+    public void addEntity(Entity entity) {
+    	if(entity != null) {
+		    entities.add(entity);
+    	}
+    }
 }

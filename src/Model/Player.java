@@ -1,15 +1,20 @@
-package Model;
+package Sneks_and_Ladders;
 
+import javafx.stage.Stage;
 
-public class Player {
+public class Player extends Entity {
 
     private String playerName;
     private int position;
     private char token;
+    private Stage stage;
+    
 
-    public Player(String playerName, char token) {
-        this.playerName = playerName;
+
+    public Player(String playerName, char token, int x, int y) {
+    	super(x, y, playerName);
         this.token = token;
+        this.stage = null;
     }
 
     /**
@@ -59,5 +64,11 @@ public class Player {
     public void setToken(char token) {
     	this.token = token;
     }
+    
+    public void giveStage(Stage s) {
+    	this.stage = s;
+    }
+    
+    
     
 }

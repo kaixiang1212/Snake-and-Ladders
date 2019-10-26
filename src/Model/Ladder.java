@@ -1,9 +1,15 @@
-package Model;
+package Sneks_and_Ladders;
 
-public class Ladder {
+
+public class Ladder extends Entity {
 	
 	private int base, top;
 	
+	public Ladder(int x, int y, String name) {
+        super(x, y, name);
+    }
+	
+	/**
 	public Ladder(int base, int top) {
 		this.base = base;
 		this.top = top;
@@ -24,6 +30,6 @@ public class Ladder {
 	public void setTop(int top) {
 		this.top = top;
 	}
-	
+	*/
 	
 }
