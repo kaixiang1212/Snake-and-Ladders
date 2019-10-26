@@ -65,24 +65,22 @@ public class BoardController {
 	
 	@FXML
     public void handleKeyPress(KeyEvent event) {
-        /**
-         * switch (event.getCode()) {
+        
+         switch (event.getCode()) {
 
         case UP:
-            player.moveUp();
+            engine.rollDice();
+            engine.nextPlayer();
             break;
         case DOWN:
-            player.moveDown();
             break;
         case LEFT:
-            player.moveLeft();
             break;
         case RIGHT:
-            player.moveRight();
             break;
         default:
             break;
         }
-                 */
+                 
 	}
 }
