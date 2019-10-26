@@ -68,6 +68,7 @@ public class GameScreenController {
 
         if (players.isFinished()) {
             sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
+            message.setText(sb.toString());
             return;
         }
         if (diceResult == 6){
