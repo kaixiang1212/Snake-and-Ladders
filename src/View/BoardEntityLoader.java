@@ -19,11 +19,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 
 public class BoardEntityLoader extends BoardLoader{
 
-	private List<ImageView> entities;
+	private List<Pair<Entity,ImageView>> entities;
 
 	//Images
 	private Image playerWhiteImage;
@@ -49,12 +50,12 @@ public class BoardEntityLoader extends BoardLoader{
 	
 	private void addEntity(Entity entity, ImageView view) {
 		trackPosition(entity, view);
-		entities.add(view);
+		entities.add(new Pair<>(entity, view));
 	}
 
 	@Override
 	public void onLoad(Player player) {
-		ImageView view = new ImageView(playerWhiteImage);
+		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + player.getPlayerToken() + ".png"))));
 		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
 		view.setPreserveRatio(true);
 		addEntity(player, view);
@@ -64,16 +65,16 @@ public class BoardEntityLoader extends BoardLoader{
 
 	@Override
 	public void onLoad(Snake snake) {
-		ImageView view = new ImageView(playerWhiteImage);
-		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
+		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/pipe_top.png"))));
+		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*1.0f);
 		view.setPreserveRatio(true);
 		addEntity(snake, view);
 	}
 	
 	@Override
 	public void onLoad(Ladder ladder) {
-		ImageView view = new ImageView(playerWhiteImage);
-		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
+		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/vine_start.png"))));
+		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*1.0f);
 		view.setPreserveRatio(true);
 		addEntity(ladder, view);
 	}
