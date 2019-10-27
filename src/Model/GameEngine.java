@@ -109,21 +109,13 @@ public class GameEngine {
      * @return updated player position
      */
 	public int updatePosition(Player player, int pos) {
-		if(pos > 0) {
-			pos = Math.min(pos, gameboard.getMaxPos());
-			int x,y;
-			x = gameboard.getCoords(pos).getX();
-			y = gameboard.getCoords(pos).getY();
-			player.setX(x);
-			player.setY(y);
-		} else {
-			pos = Math.max(pos, gameboard.getMinPos());
-			int x,y;
-			x = gameboard.getCoords(pos).getX();
-			y = gameboard.getCoords(pos).getY();
-			player.setX(x);
-			player.setY(y);
-		}
+		pos = Math.min(pos, gameboard.getMaxPos());
+		pos = Math.max(pos, gameboard.getMinPos());
+		int x,y;
+		x = gameboard.getCoords(pos).getX();
+		y = gameboard.getCoords(pos).getY();
+		player.setX(x);
+		player.setY(y);
 		return pos;
 	}
 	

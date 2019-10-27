@@ -11,11 +11,11 @@ import javafx.beans.property.StringProperty;
 
 public class Entity {
 	
-	enum Type {
+	public enum Type {
 		  PLAYER,
+		  ITEM,
 		  LADDER,
 		  SNAKE,
-		  ITEM
 	}
 	
 	// IntegerProperty is used so that changes to the entities position can be
