@@ -68,7 +68,8 @@ public abstract class BoardLoader {
         
         switch (type) {
         case "player":
-            Player player = new Player("player", 'c', x, y);
+        	int nextTokenNum = engine.getPlayerNum();
+            Player player = new Player("Player " + nextTokenNum+1, nextTokenNum, x, y);
             //Player player = new Player(gameboard, x, y, "player");
             //gameboard.setPlayer(player);
             onLoad(player);

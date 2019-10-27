@@ -6,10 +6,10 @@ public class Player extends Entity {
 
     private String playerName;
     // private int position;
-    private char token;
+    private int token;
     private Stage stage;
 
-    public Player(String playerName, char token, int x, int y) {
+    public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
@@ -33,10 +33,10 @@ public class Player extends Entity {
 //    }
     
     /**
-     * Get the player's token (symbol)
+     * Get the player's token
      * @return player's token
      */
-    public char getPlayerToken() {
+    public int getPlayerToken() {
     	return token;
     }
     
