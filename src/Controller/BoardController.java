@@ -48,8 +48,8 @@ public class BoardController {
 	public void initialize() {
 		
         int lastrand = 0, rand = 0;
-        for (int x = 0; x < engine.getBoard().getWidth(); x++) {
-            for (int y = 0; y < engine.getBoard().getHeight(); y++) {
+        for (int y = 0; y < engine.getBoard().getHeight(); y++) {
+            for (int x = 0; x < engine.getBoard().getWidth(); x++) {
             	while (rand == lastrand)
             		rand = (int) (Math.random()*6);
             	Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + rand + ".png")));
