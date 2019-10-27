@@ -58,7 +58,7 @@ public class BoardController {
                 floorView.setFitWidth(gamescreen.getHeight()/(float)engine.getBoard().getWidth());
                 squares.add(floorView, x, y);
                 Text tilenum = new Text(Integer.toString(engine.getBoard().getPosition(x, engine.getBoard().getHeight()-y-1)));
-                tilenum.setFont(Font.font("Harlow Solid Italic", 52));
+                tilenum.setFont(Font.font("Harlow Solid Italic", 60));
                 tilenum.setFill(Color.WHITE);
                 tilenum.setStroke(Color.BLACK);
                 tilenum.setStrokeWidth(3);
