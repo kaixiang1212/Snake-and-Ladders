@@ -14,7 +14,7 @@
             <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="CENTER" wrappingWidth="200.0" />
             <ImageView fx:id="diceImage" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#rollButtonClicked" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../asset/dice1.png" />
+                  <Image url="@../../asset/dice1.png" />
                </image>
             </ImageView>
             <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" onAction="#rollButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Start Rolling" />
