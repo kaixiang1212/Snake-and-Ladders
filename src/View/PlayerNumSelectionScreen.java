@@ -1,6 +1,6 @@
 package View;
 
-import Controller.PlayerSelectionController;
+import Controller.PlayerNumSelectionController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,23 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class PlayerSelectionScreen {
+public class PlayerNumSelectionScreen {
 
     private Stage stage;
     private String screenTitle;
     private FXMLLoader fxmlLoader;
 
-    public PlayerSelectionScreen(Stage stage) {
+    public PlayerNumSelectionScreen(Stage stage) {
         this.stage = stage;
         this.screenTitle = "Player Selection";
-        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerSelection.fxml"));
+        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/playerNumberSelection.fxml"));
     }
 
     public void start() {
         stage.setTitle(screenTitle);
-        fxmlLoader.setController(new PlayerSelectionController(stage));
         try {
             Parent root = fxmlLoader.load();
+            ((PlayerNumSelectionController )fxmlLoader.getController()).setStage(stage);
             Scene sc = new Scene(root);
             stage.setScene(sc);
             stage.show();

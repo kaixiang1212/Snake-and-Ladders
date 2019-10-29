@@ -1,9 +1,6 @@
 package Controller;
 
-import java.io.IOException;
-
-import View.GameScreen;
-import View.PlayerSelectionScreen;
+import View.PlayerNumSelectionScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -19,10 +16,7 @@ public class StartGameScreenController {
 	
 	@FXML
 	private Button ExitGameButton;
-	
 
-	
-	//private GameScreen game;
 	private Stage s;
 	
 	public StartGameScreenController(Stage s) {
@@ -35,7 +29,7 @@ public class StartGameScreenController {
 		//Game game = new Game(0, null);
 		//LevelIntroScreen introScreen = new LevelIntroScreen(s, game);
 		//introScreen.start();
-		PlayerSelectionScreen selectionScreen = new PlayerSelectionScreen(s);
+		PlayerNumSelectionScreen selectionScreen = new PlayerNumSelectionScreen(s);
 		selectionScreen.start();
 //		GameScreen gameScreen = new GameScreen(s);
 //		try {
