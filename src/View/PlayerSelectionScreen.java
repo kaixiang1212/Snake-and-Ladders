@@ -17,7 +17,7 @@ public class PlayerSelectionScreen {
     public PlayerSelectionScreen(Stage stage) {
         this.stage = stage;
         this.screenTitle = "Player Selection";
-        this.fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("View/PlayerSelection.fxml"));
+        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerSelection.fxml"));
     }
 
     public void start() {

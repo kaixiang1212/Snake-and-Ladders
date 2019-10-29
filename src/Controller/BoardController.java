@@ -34,13 +34,20 @@ public class BoardController {
 	private DiceController diceController;
 
 	private List<Pair<Entity, ImageView>> initialEntities;
-	//private Player player;
     private GameEngine engine;
 	private Stage stage;
 	private GameScreen gamescreen;
 
 	public BoardController() {}
 
+    /**
+     * Configuration for Board Controller
+     * and configure Dice Controller
+     * @param engine Game Engine
+     * @param initialEntities
+     * @param s Stage
+     * @param game Game Screen
+     */
 	public void config(GameEngine engine, List<Pair<Entity, ImageView>> initialEntities, Stage s, GameScreen game) {
 		this.engine = engine;
 		this.initialEntities = new ArrayList<>(initialEntities);
@@ -96,7 +103,6 @@ public class BoardController {
 		int x, y, x_end, y_end, y_init, x_init;
 		String name;
 		if (entity instanceof Snake) {
-			entity = (Snake) entity;
 			x = entity.getX();
 			y = entity.getY();
 			x_end = ((Snake) entity).getTail().getKey();
@@ -165,12 +171,6 @@ public class BoardController {
 		}
 
 
-	}
-
-	public void printElements() {
-		for (Node node : hbox.getChildren()) {
-			System.out.println(node.getClass());
-		}
 	}
 
 	public void addLadder(Ladder ladder) {

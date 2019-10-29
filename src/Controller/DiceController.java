@@ -5,17 +5,16 @@ import Model.Player;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.*;
-import javafx.stage.Stage;
 
 public class DiceController {
 
     @FXML
     public Button button;
+    @FXML
     public AnchorPane diceInterface;
     @FXML
     private ImageView diceImage;
@@ -37,9 +36,12 @@ public class DiceController {
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
     }
 
-    void config(GameEngine engine){
-        this.players = engine;
-    }
+    /**
+     * Configuration for Dice Controller
+     * called by Board Controller to communicate with board
+     * @param engine Game Engine
+     */
+    void config(GameEngine engine){ this.players = engine; }
 
     @FXML
     private void rollButtonClicked(){
@@ -86,6 +88,10 @@ public class DiceController {
         players.clearConsole();
     }
 
+    /**
+     * Draw the given number on Dice
+     * @param dieFace Number to be drawn
+     */
     private void draw(int dieFace){
         Image image = this.diceFace[dieFace-1];
         diceImage.setImage(image);
@@ -93,8 +99,10 @@ public class DiceController {
 
     private final int maxFrame = 1000;
     private int frame = 0;
+
     /**
-     * Randomise Dice face for infinite frames
+     * Randomise Dice face for 1000 frames
+     * after 1000 frames it automatically stops
      */
     private AnimationTimer animation = new AnimationTimer() {
         public void handle( long time ) {

@@ -5,14 +5,11 @@ import Model.*;
 
 import java.io.IOException;
 
-import javafx.scene.Node;
 import org.json.JSONException;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 
@@ -31,7 +28,6 @@ public class GameScreen {
 	public GameScreen(Stage s) {
 		this.stage = s;
 		this.title = "Sneks & Ladders";
-		//this.engine = engine;
 	}
 
 	public void start() throws IOException, JSONException {
@@ -46,9 +42,6 @@ public class GameScreen {
 	public void setEngine(GameEngine engine) {
 		this.engine = engine;
 	}
-	
-	
-	
 
 	// NOTE--> Probably the part where you choose the Board
 	public BoardEntityLoader loadJsonBoard(Stage stage, GameEngine game) throws IOException, JSONException {
@@ -77,14 +70,10 @@ public class GameScreen {
 
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("View/BoardView.fxml"));
-//		boardcontroller = boardLoader.loadController();
-		//boardcontroller.initialize();
-		// Game is now up-to date
-//		boardcontroller.printElements();
-//		loader.setController(boardcontroller);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BoardView.fxml"));
 		
 		Parent root = loader.load();
+		// Configure Board Controller
 		BoardController boardController = loader.getController();
 		boardLoader.configBoardController(boardController);
 		boardController.init();
