@@ -9,12 +9,9 @@ import org.json.JSONException;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -135,15 +132,8 @@ public class BoardEntityLoader extends BoardLoader{
 	
 	// private void trackPosition(Entity entity, Image) {
 
-	/**
-	* Create a controller that can be attached to the DungeonView with all the
-	* loaded entities.
-	* @return
-	* @throws FileNotFoundException
-	 * @throws JSONException 
-	*/
-	public BoardController loadController() throws FileNotFoundException, JSONException {
-		return new BoardController(load(engine), this.entities, this.stage, this.gamescreen);
+	public void configBoardController(BoardController boardController) throws JSONException {
+		boardController.config(load(engine), this.entities, this.stage, this.gamescreen);
 	}
 
 

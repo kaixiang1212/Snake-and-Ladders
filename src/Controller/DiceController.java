@@ -8,29 +8,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-public class GameScreenController {
+public class DiceController {
 
     @FXML
     public Button button;
+    public AnchorPane diceInterface;
     @FXML
     private ImageView diceImage;
     @FXML
     private Text text;
     @FXML
-    private TextArea asciiMap;
-    @FXML
     private Text message;
 
-    private Stage stage;
     private GameEngine players;
     private final Image[] diceFace;
 
-    public GameScreenController(Stage stage, GameEngine players){
-        this.players = players;
-        this.stage = stage;
+    public DiceController(){
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
         diceFace[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2.png")));
@@ -40,8 +37,8 @@ public class GameScreenController {
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
     }
 
-    public void setStage(Stage stage){
-        this.stage = stage;
+    void config(GameEngine engine){
+        this.players = engine;
     }
 
     @FXML
@@ -69,9 +66,6 @@ public class GameScreenController {
         if (players.isFinished()) {
         	sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText(sb.toString());
-            System.out.println(players.getConsole() + sb.toString() + players.printBoard());
-            asciiMap.setText(players.getConsole() + players.printBoard());
-            asciiMap.setFont(Font.font("Consolas", 18));
             return;
         }
         
@@ -87,9 +81,6 @@ public class GameScreenController {
         button.setText("Start Rolling");
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
         button.setOnAction(event -> rollButtonClicked());
-        System.out.println(players.getConsole() + sb.toString() + players.printBoard());
-        asciiMap.setText(players.getConsole() + players.printBoard());
-        asciiMap.setFont(Font.font("Consolas", 18));
         
         message.setText(sb.toString());
         players.clearConsole();

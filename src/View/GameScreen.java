@@ -5,6 +5,7 @@ import Model.*;
 
 import java.io.IOException;
 
+import javafx.scene.Node;
 import org.json.JSONException;
 
 import javafx.event.EventHandler;
@@ -15,9 +16,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 
-public class GameScreen implements EventHandler<KeyEvent> {
+public class GameScreen {
 	private final int HEIGHT = 1000;
 	private final int WIDTH = 1000;
+
+	private final int diceWidth = 200;
 	
 	private Stage stage;
 	private String title;
@@ -35,12 +38,7 @@ public class GameScreen implements EventHandler<KeyEvent> {
 		//this.stage = s;
 		loadGameScreen(this.stage, this.engine);
 	}
-	
-	@Override
-	public void handle(KeyEvent event) {
-		boardcontroller.handleKeyPress(event);
-	}
-	
+
 	public GameEngine getEngine() {
 		return engine;
 	}
@@ -73,27 +71,29 @@ public class GameScreen implements EventHandler<KeyEvent> {
 		return loadedBoard;
 		
 	}
-
 		
 	// Loads the Game screen for the given level by 'DungeonControllerLoader'
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
-			
+
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("View/BoardView.fxml"));
-		boardcontroller = boardLoader.loadController();
+//		boardcontroller = boardLoader.loadController();
 		//boardcontroller.initialize();
 		// Game is now up-to date
-		loader.setController(boardcontroller);
+//		boardcontroller.printElements();
+//		loader.setController(boardcontroller);
 		
 		Parent root = loader.load();
-		scene = new Scene(root, WIDTH, HEIGHT);
+		BoardController boardController = loader.getController();
+		boardLoader.configBoardController(boardController);
+		boardController.init();
+
+		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
-		scene.setOnKeyPressed(this);
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
-		
 	}
 	
 	public int getWidth() {
@@ -101,7 +101,7 @@ public class GameScreen implements EventHandler<KeyEvent> {
 	}
 	
 	public int getHeight() {
-		return WIDTH;
+		return HEIGHT;
 	}
 
 
