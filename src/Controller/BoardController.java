@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -29,7 +30,7 @@ public class BoardController {
 	@FXML
 	private GridPane squares;
 	@FXML
-	private AnchorPane dice;
+	private VBox dice;
 	@FXML
 	private DiceController diceController;
 
