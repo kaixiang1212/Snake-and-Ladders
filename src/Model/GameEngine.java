@@ -278,4 +278,8 @@ public class GameEngine {
 		return sb.toString();
 	}
 
+	public int getCurrentPlayerToken(){
+		return getCurrentPlayer().getPlayerToken();
+	}
+
 }

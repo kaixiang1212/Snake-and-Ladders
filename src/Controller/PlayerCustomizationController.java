@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import View.PlayerNumSelectionScreen;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
@@ -65,22 +66,22 @@ public class PlayerCustomizationController {
     private void addPlayer(){
         int playerNum = nextToken();
         VBox vBox = new VBox();
-        Label label = new Label();
+        TextField textField = new TextField();
         ImageView imageView = new ImageView();
         vBox.getChildren().add(imageView);
         imageView.setImage(getImage(playerNum));
         imageView.setOnMouseClicked(mouseEvent -> imageClicked(imageView));
-        label.setText("Player " + (playerCount+1));
-        vBox.getChildren().add(label);
+        textField.setText("Player " + (playerCount+1));
+        vBox.getChildren().add(textField);
         this.flowPane.getChildren().add(vBox);
 
-        label.setAlignment(Pos.CENTER);
-        label.setFont(new Font(20));
+        textField.setAlignment(Pos.CENTER);
+        textField.setFont(new Font(16));
         vBox.setAlignment(Pos.CENTER);
         imageView.setFitHeight(120);
         imageView.setFitWidth(120);
         vBox.setPrefSize(100, 10);
-        VBox.setMargin(label, new Insets(10,0,0,0));
+        VBox.setMargin(textField, new Insets(10,0,0,0));
         FlowPane.setMargin(vBox, new Insets(0,10,0,10));
         setPlayerToken(playerCount, playerNum);
     }
@@ -179,8 +180,8 @@ public class PlayerCustomizationController {
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
-                    if (node1 instanceof Label) {
-                        String playerName = ((Label) node1).getText();
+                    if (node1 instanceof TextField) {
+                        String playerName = ((TextField) node1).getText();
                         engine.addPlayer(new Player(playerName, token.get(tokenIndex), 0, 0));
                         tokenIndex++;
                     }

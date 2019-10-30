@@ -22,6 +22,8 @@ public class DiceController {
     private Text text;
     @FXML
     private Text message;
+    @FXML
+    private ImageView playerToken;
 
     private GameEngine players;
     private final Image[] diceFace;
@@ -41,7 +43,13 @@ public class DiceController {
      * called by Board Controller to communicate with board
      * @param engine Game Engine
      */
-    void config(GameEngine engine){ this.players = engine; }
+    void config(GameEngine engine){
+        this.players = engine;
+        setCurrentPlayerToken();
+        Player player = players.getCurrentPlayer();
+        StringBuilder sb = new StringBuilder();
+        message.setText(sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString());
+    }
 
     @FXML
     private void rollButtonClicked(){
@@ -74,6 +82,7 @@ public class DiceController {
         if (diceResult == 6){
             sb.append(currentPlayer.getPlayerName()).append(" roll again\n");
         } else {
+            sb.append("\n");
             currentPlayer = players.nextPlayer();
         }
         sb.append(currentPlayer.getPlayerName()).append("'s turn:\n");
@@ -86,6 +95,7 @@ public class DiceController {
         
         message.setText(sb.toString());
         players.clearConsole();
+        setCurrentPlayerToken();
     }
 
     /**
@@ -115,5 +125,10 @@ public class DiceController {
             }
         }
     };
+
+    private void setCurrentPlayerToken(){
+        int token = players.getCurrentPlayerToken();
+        playerToken.setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+    }
 
 }
