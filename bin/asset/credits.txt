@@ -1,0 +1,17 @@
+* Mario face:
+	- Source: Icon made by Those Icons from https://www.flaticon.com/authors/those-icons
+
+* Mario Token:
+	- Source: Icon made by Freepik from https://www.flaticon.com/authors/freepik
+
+* Donkey Kong:
+	- Source: Icon made by Smashicons from https://www.flaticon.com/authors/smashicons
+
+* Goomba:
+	- Source: Icon made by Smashicons from https://www.flaticon.com/authors/smashicons
+
+* Blue Ghost:
+	- Source: Icon made by Smashicons from https://www.flaticon.com/authors/smashicons
+
+* Vines and Pipes were recreated using http://pixelartmaker.com based on how they appear in Super Mario Bros.
+
