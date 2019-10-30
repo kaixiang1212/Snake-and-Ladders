@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BoardController">
    <children>
       <HBox fx:id="hbox" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <GridPane fx:id="squares" alignment="CENTER" prefHeight="400.0" prefWidth="576.0" style="-fx-background-color: #6a2e20;">
+            <GridPane fx:id="squares" alignment="CENTER" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #6a2e20;">
                <columnConstraints>
                   <ColumnConstraints />
                   <ColumnConstraints />

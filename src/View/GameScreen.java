@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 
 
 public class GameScreen {
-	private final int HEIGHT = 1000;
-	private final int WIDTH = 1000;
+	private final int HEIGHT = 750;
+	private final int WIDTH = 750;
 
 	private final int diceWidth = 200;
 	
