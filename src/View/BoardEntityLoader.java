@@ -24,7 +24,6 @@ public class BoardEntityLoader extends BoardLoader{
 	private List<Pair<Entity,ImageView>> entities;
 
 	//Images
-	private Image playerWhiteImage;
 	private Stage stage;
  	private GameScreen gamescreen;
 	private GameEngine engine;
@@ -37,7 +36,6 @@ public class BoardEntityLoader extends BoardLoader{
 		//ladderImage = new Image("");
 		
 		// All player images added here
-		playerWhiteImage = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/playerpiece.png"))); 
 		stage = s;
 		gamescreen = game;
 		this.engine = engine;
@@ -53,8 +51,9 @@ public class BoardEntityLoader extends BoardLoader{
 	@Override
 	public void onLoad(Player player) {
 		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + player.getPlayerToken() + ".png"))));
-		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*0.7f);
 		view.setPreserveRatio(true);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*0.7f);
+		view.setId("player");
 		addEntity(player, view);
 //		Player p = (Player) player;
 //		p.giveStage(this.stage);
@@ -63,16 +62,18 @@ public class BoardEntityLoader extends BoardLoader{
 	@Override
 	public void onLoad(Snake snake) {
 		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/pipe_top.png"))));
-		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*1.0f);
 		view.setPreserveRatio(true);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*1.0f);
+		view.setId("snake");
 		addEntity(snake, view);
 	}
 	
 	@Override
 	public void onLoad(Ladder ladder) {
 		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/vine_start.png"))));
-		view.setFitHeight(gamescreen.getHeight()/(float)engine.getBoard().getHeight()*1.0f);
 		view.setPreserveRatio(true);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*1.0f);
+		view.setId("ladder");
 		addEntity(ladder, view);
 	}
 	
