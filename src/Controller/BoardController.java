@@ -59,11 +59,18 @@ public class BoardController {
 	@FXML
 	public void init() {
 		int lastrand = 0, rand = 0;
+		int[] lastrandv = new int[engine.getBoard().getWidth()];
 		for (int y = 0; y < engine.getBoard().getHeight(); y++) {
 			for (int x = 0; x < engine.getBoard().getWidth(); x++) {
-				while (rand == lastrand)
+				while (rand == lastrand || rand == lastrandv[x])
 					rand = (int) (Math.random() * 6);
-				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + rand + ".png")));
+				int tileid = (x%2 + y%2)%2*4;
+				if(engine.getBoard().isSnake(x, engine.getBoard().getHeight() - y - 1) != null) {
+					tileid = 6;
+				} else if(engine.getBoard().isLadder(x, engine.getBoard().getHeight() - y - 1) != null) {
+					tileid = 2;
+				}
+				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + tileid + ".png")));
 				ImageView floorView = new ImageView(boardFloor);
 				floorView.setPreserveRatio(true);
 				floorView.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
@@ -77,6 +84,7 @@ public class BoardController {
 				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
 				lastrand = rand;
+				lastrandv[x] = rand;
 			}
 		}
 
