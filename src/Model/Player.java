@@ -1,19 +1,15 @@
 package Model;
 
-import javafx.stage.Stage;
-
 public class Player extends Entity {
 
     private String playerName;
     // private int position;
     private int token;
-    private Stage stage;
 
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
-        this.stage = null;
     }
 
     /**
@@ -62,10 +58,6 @@ public class Player extends Entity {
      */
     public void setToken(char token) {
     	this.token = token;
-    }
-    
-    public void giveStage(Stage s) {
-    	this.stage = s;
     }
     
     

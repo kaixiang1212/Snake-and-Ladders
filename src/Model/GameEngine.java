@@ -239,13 +239,11 @@ public class GameEngine {
 	
 	public String printBoard() {
 		StringBuilder sb = new StringBuilder();
-		int[][] grid = gameboard.getGrid();
 		int width = gameboard.getWidth();
 		int height = gameboard.getHeight();
 		for(int y = height-1; y >= 0; y--) {
 			for(int x = 0; x < width; x++) {
 				boolean empty = true;
-				int pos = grid[x][y];
 				sb.append("[");
 				if(gameboard.isSnake(x, y) != null) {
 					sb.append("x");
