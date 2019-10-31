@@ -14,24 +14,26 @@ import javafx.stage.Stage;
 
 
 public class GameScreen {
-	private final int HEIGHT = 750;
-	private final int WIDTH = 750;
+	private final int HEIGHT = 800;
+	private final int WIDTH = 800;
 
 	private final int diceWidth = 200;
 	
 	private Stage stage;
 	private String title;
 	private Scene scene;
-	private BoardController boardcontroller;
+	private BoardController boardController;
 	private GameEngine engine;
 
 	public GameScreen(Stage s) {
 		this.stage = s;
+
 		this.title = "Sneks & Ladders";
 	}
 
 	public void start() throws IOException, JSONException {
 		//this.stage = s;
+
 		loadGameScreen(this.stage, this.engine);
 	}
 
@@ -73,16 +75,22 @@ public class GameScreen {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BoardView.fxml"));
 		
 		Parent root = loader.load();
+		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
 		// Configure Board Controller
-		BoardController boardController = loader.getController();
+		boardController = loader.getController();
 		boardLoader.configBoardController(boardController);
 		boardController.init();
 
-		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
+		
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
+		
+		
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
+		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
+		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
+		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
 	}
 	
 	public int getWidth() {
@@ -92,6 +100,15 @@ public class GameScreen {
 	public int getHeight() {
 		return HEIGHT;
 	}
+	
+	public double getSceneWidth() {
+		return scene.getWidth();
+	}
+	
+	public double getSceneHeight() {
+		return scene.getHeight();
+	}
+
 
 
 

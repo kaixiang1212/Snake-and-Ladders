@@ -7,19 +7,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
+import javafx.geometry.*;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -55,6 +50,10 @@ public class BoardController {
 		this.stage = s;
 		this.gamescreen = game;
 		diceController.config(engine);
+		ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+	    onWindowResize();
+		stage.widthProperty().addListener(stageSizeListener);
+		stage.heightProperty().addListener(stageSizeListener); 
 	}
 
 	@FXML
@@ -66,17 +65,17 @@ public class BoardController {
 					rand = (int) (Math.random() * 6);
 				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + rand + ".png")));
 				ImageView floorView = new ImageView(boardFloor);
-				floorView.setFitHeight(gamescreen.getHeight() / (float) engine.getBoard().getHeight());
-				floorView.setFitWidth(gamescreen.getHeight() / (float) engine.getBoard().getWidth());
-				squares.add(floorView, x, y);
+				floorView.setPreserveRatio(true);
+				floorView.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
+				floorView.setId("tile");
+				squares.add(floorView, x, y);				
 				Text tilenum = new Text(Integer.toString(engine.getBoard().getPosition(x, engine.getBoard().getHeight() - y - 1)));
-				tilenum.setFont(Font.font("Harlow Solid Italic", 48));
+				tilenum.setFont(Font.font("Harlow Solid Italic", 42));
 				tilenum.setFill(Color.WHITE);
 				tilenum.setStroke(Color.BLACK);
-				tilenum.setStrokeWidth(3);
-				squares.add(tilenum, x, y);
+				tilenum.setStrokeWidth(2);
+				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
-				//GridPane.setValignment(tilenum, VPos.TOP);
 				lastrand = rand;
 			}
 		}
@@ -98,6 +97,7 @@ public class BoardController {
 				addSegments(entity);
 			}
 		}
+		
 	}
 
 	public void addSegments(Entity entity) {
@@ -171,11 +171,24 @@ public class BoardController {
 			squares.add(image, x, engine.getBoard().getHeight() - 1 - y);
 		}
 
-
 	}
-
-	public void addLadder(Ladder ladder) {
-
+	
+	
+	public void onWindowResize() {
+		for(Node node : squares.getChildren()) {
+			if(node instanceof ImageView) {
+				ImageView image = (ImageView) node;
+				if(image.getId() != null && image.getId().equals("player")) {
+					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight()*0.7f);
+				} else {
+					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
+				}		
+			} else {
+				double scale = gamescreen.getSceneHeight() / (double) gamescreen.getHeight();
+				node.setScaleX(scale);
+				node.setScaleY(scale);
+			}
+		}
 	}
 
 }
