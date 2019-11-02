@@ -14,12 +14,12 @@
             <Font name="Papyrus" size="51.0" />
          </font>
       </Text>
-      <Button fx:id="StartGameButton" layoutX="138.0" layoutY="633.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
+      <Button fx:id="StartGameButton" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="ExitGameButton" layoutX="502.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="62.0" prefWidth="172.0" text=" Exit">
+      <Button fx:id="ExitGameButton" layoutX="128.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="62.0" prefWidth="172.0" text=" Exit">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
