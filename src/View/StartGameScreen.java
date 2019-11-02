@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 // java class for startscreen
@@ -23,7 +24,9 @@ public class StartGameScreen {
 	public StartGameScreen (Stage stage) throws IOException {
 		this.stage = stage;
 		this.title = "Start Screen";
-		
+		stage.setResizable(false);
+		if(!stage.isShowing())
+			stage.initStyle(StageStyle.UTILITY);
 		controller = new StartGameScreenController(stage);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/StartGameScreen.fxml"));
 		loader.setController(controller);

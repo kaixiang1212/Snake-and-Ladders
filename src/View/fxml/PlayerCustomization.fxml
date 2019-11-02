@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
+<VBox alignment="CENTER" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
    <children>
       <FlowPane fx:id="flowPane" alignment="CENTER" prefHeight="315.0" prefWidth="600.0">
          <children>
@@ -45,10 +45,18 @@
             <Insets />
          </opaqueInsets>
       </FlowPane>
-      <Pane prefHeight="85.0" prefWidth="600.0">
+      <Pane prefHeight="107.0" prefWidth="800.0">
          <children>
-            <Button fx:id="backButton" layoutX="21.0" layoutY="27.0" mnemonicParsing="false" onAction="#backButtonClicked" text="&lt; Back" />
-            <Button fx:id="createGameButton" layoutX="467.0" layoutY="27.0" mnemonicParsing="false" onAction="#createGameButtonClicked" text="Create Game &gt;" />
+            <Button fx:id="backButton" layoutX="147.0" layoutY="22.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="createGameButton" layoutX="512.0" layoutY="22.0" mnemonicParsing="false" onAction="#createGameButtonClicked" prefHeight="70.0" prefWidth="172.0" text="Create Game &gt;">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class GameScreen {
@@ -27,13 +28,10 @@ public class GameScreen {
 
 	public GameScreen(Stage s) {
 		this.stage = s;
-
 		this.title = "Sneks & Ladders";
 	}
 
 	public void start() throws IOException, JSONException {
-		//this.stage = s;
-
 		loadGameScreen(this.stage, this.engine);
 	}
 
@@ -69,7 +67,6 @@ public class GameScreen {
 		
 	// Loads the Game screen for the given level by 'DungeonControllerLoader'
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
-
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BoardView.fxml"));
@@ -81,10 +78,8 @@ public class GameScreen {
 		boardLoader.configBoardController(boardController);
 		boardController.init();
 
-		
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
-		
-		
+		stage.setResizable(true);
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
