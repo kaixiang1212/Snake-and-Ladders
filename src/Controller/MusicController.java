@@ -25,6 +25,9 @@ public class MusicController {
     private MediaPlayer snakePlayer2;
     private MediaPlayer victoryPlayer;
 
+    private boolean initBoard = false;
+    private MediaPlayer bgMusicPlayer;
+
 
     public MusicController(){ }
 
@@ -82,6 +85,20 @@ public class MusicController {
         snakePlayer1 = new MediaPlayer(snakeSound1);
         snakePlayer2 = new MediaPlayer(snakeSound2);
         victoryPlayer = new MediaPlayer(victorySound);
+    }
+
+    public void initBoard(){
+        initBoard = true;
+        Media bgMusic = new Media(new File("src/asset/Sound/bgMusic.mp3").toURI().toString());
+        bgMusicPlayer = new MediaPlayer(bgMusic);
+
+        bgMusicPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                bgMusicPlayer.seek(Duration.ZERO);
+                bgMusicPlayer.play();
+            }
+        });
     }
 
     /**
@@ -171,5 +188,10 @@ public class MusicController {
         if (!initGame) return;
         clear();
         victoryPlayer.play();
+    }
+
+    public void playBGM(){
+        if (!initBoard) return;
+        bgMusicPlayer.play();
     }
 }
