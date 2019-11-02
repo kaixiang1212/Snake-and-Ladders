@@ -192,6 +192,7 @@ public class MusicController {
 
     public void playBGM(){
         if (!initBoard) return;
+        bgMusicPlayer.setVolume(0.1);
         bgMusicPlayer.play();
     }
 }
