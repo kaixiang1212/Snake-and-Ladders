@@ -44,11 +44,13 @@ public class PlayerNumSelectionController {
     }
 
     public void numberClicked(){
-        musicController.playSwitch();
+        musicController.clear();
         nextButton.setDisable(false);
         if (playerNumber.getSelectedToggle() == null){
             nextButtonClicked();
+            return;
         }
+        musicController.playSwitch();
         playerSelected = playerNumber.getSelectedToggle();
     }
 
