@@ -6,58 +6,64 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerNumSelectionController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerNumSelectionController">
    <children>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="804.0" stroke="BLACK" strokeType="INSIDE" width="805.0" />
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0">
          <children>
-            <Label fx:id="title" alignment="CENTER" prefHeight="80.0" prefWidth="279.0" text="Players">
+            <Label fx:id="title" alignment="CENTER" prefHeight="80.0" prefWidth="279.0" text="Players" textFill="#8d6b23">
                <font>
-                  <Font name="UD Digi Kyokasho NP-B" size="50.0" />
+                  <Font name="Papyrus" size="50.0" />
                </font>
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <ToggleButton fx:id="player1" mnemonicParsing="false" onAction="#numberClicked" prefWidth="100.0" text="1">
-               <font>
-                  <Font name="UD Digi Kyokasho NP-B" size="20.0" />
-               </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="playerNumber" />
-               </toggleGroup>
-            </ToggleButton>
-            <ToggleButton fx:id="player2" mnemonicParsing="false" onAction="#numberClicked" prefWidth="100.0" text="2" toggleGroup="$playerNumber">
-               <font>
-                  <Font name="UD Digi Kyokasho NP-B" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </ToggleButton>
-            <ToggleButton fx:id="player3" mnemonicParsing="false" onAction="#numberClicked" prefWidth="100.0" text="3" toggleGroup="$playerNumber">
-               <font>
-                  <Font name="UD Digi Kyokasho NP-B" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </ToggleButton>
-            <ToggleButton fx:id="player4" mnemonicParsing="false" onAction="#numberClicked" prefWidth="100.0" text="4" toggleGroup="$playerNumber">
-               <font>
-                  <Font name="UD Digi Kyokasho NP-B" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </ToggleButton>
-            <Pane maxHeight="85.0" minHeight="0.0" prefHeight="85.0" prefWidth="402.0">
+            <HBox alignment="CENTER" prefHeight="255.0" prefWidth="800.0">
                <children>
-                  <Button fx:id="backButton" layoutX="21.0" layoutY="27.0" mnemonicParsing="false" onAction="#backButtonClicked" text="&lt; Back" />
-                  <Button fx:id="nextButton" disable="true" layoutX="497.0" layoutY="27.0" mnemonicParsing="false" onAction="#nextButtonClicked" text="Next &gt;" />
+                  <ToggleButton fx:id="player1" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="1">
+                     <font>
+                        <Font name="Papyrus" size="52.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="playerNumber" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="player2" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="2" toggleGroup="$playerNumber">
+                     <font>
+                        <Font name="Papyrus" size="52.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="player3" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="3" toggleGroup="$playerNumber">
+                     <font>
+                        <Font name="Papyrus" size="52.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="player4" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="4" toggleGroup="$playerNumber">
+                     <font>
+                        <Font name="Papyrus" size="52.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <Pane maxHeight="268.0" minHeight="0.0" prefHeight="167.0" prefWidth="800.0">
+               <children>
+                  <Button fx:id="backButton" layoutX="162.0" layoutY="139.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
+                     <font>
+                        <Font name="Papyrus" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="nextButton" disable="true" layoutX="520.0" layoutY="135.0" mnemonicParsing="false" onAction="#nextButtonClicked" prefHeight="77.0" prefWidth="145.0" text="Next &gt;">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </children>
