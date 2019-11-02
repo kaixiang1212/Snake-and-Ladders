@@ -35,10 +35,16 @@ public class PlayerNumSelectionController {
 
     private Toggle playerSelected;
 
+    private MusicController musicController;
 
-    public PlayerNumSelectionController(){}
+
+    public PlayerNumSelectionController(){
+        musicController = new MusicController();
+        musicController.initUI();
+    }
 
     public void numberClicked(){
+        musicController.playSwitch();
         nextButton.setDisable(false);
         if (playerNumber.getSelectedToggle() == null){
             nextButtonClicked();
@@ -52,6 +58,7 @@ public class PlayerNumSelectionController {
 
     @FXML
     private void nextButtonClicked(){
+        musicController.playNext();
         int player = -1;
         if (player1 == playerSelected){
             player = 1;
@@ -70,7 +77,9 @@ public class PlayerNumSelectionController {
 
     @FXML
     private void backButtonClicked() throws IOException {
+        musicController.playBack();
         StartGameScreen startGameScreen = new StartGameScreen(stage);
         startGameScreen.start();
     }
+
 }

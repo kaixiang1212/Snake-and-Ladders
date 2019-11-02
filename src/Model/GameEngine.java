@@ -4,6 +4,8 @@
 
 package Model;
 
+import Controller.MusicController;
+
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -15,6 +17,8 @@ public class GameEngine {
     private Board gameboard;
     private boolean finished;
     private StringBuilder console;
+
+	private MusicController musicController;
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -22,20 +26,6 @@ public class GameEngine {
     public GameEngine(){
         players = new ArrayList<>();
         gameboard = new Board(10, 10);
-//        gameboard.addEntity(new Snake(27, 5));
-//        gameboard.addSnake(new Snake(40, 3));
-//        gameboard.addSnake(new Snake(43, 18));
-//        gameboard.addSnake(new Snake(54, 31));
-//        gameboard.addSnake(new Snake(66, 45));
-//        gameboard.addSnake(new Snake(76, 58));
-//        gameboard.addSnake(new Snake(89, 53));
-//        gameboard.addSnake(new Snake(99, 41));
-//        gameboard.addLadder(new Ladder(4, 25));
-//        gameboard.addLadder(new Ladder(33, 49));
-//        gameboard.addLadder(new Ladder(42, 63));
-//        gameboard.addLadder(new Ladder(50, 69));
-//        gameboard.addLadder(new Ladder(62, 81));
-//        gameboard.addLadder(new Ladder(74, 92));
 	    gameboard.addEntity(new Snake(6, 2, 4, 0));
 	    gameboard.addEntity(new Snake(0, 3, 2, 0));
 	    gameboard.addEntity(new Snake(2, 4, 2, 1));
@@ -53,6 +43,8 @@ public class GameEngine {
         dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
+        musicController = new MusicController();
+        musicController.initGame();
     }
     
     /**
@@ -184,6 +176,7 @@ public class GameEngine {
 	 */
 	public boolean isFinished() {
 		updateState();
+		if (finished) musicController.playVictory();
 		return finished;
 	}
 	
@@ -205,6 +198,7 @@ public class GameEngine {
 				finished = true;
 				return;
 			} else if (gameboard.isSnake(currX, currY) != null) {
+				musicController.playSnake();
 				int newX, newY;
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
@@ -215,6 +209,7 @@ public class GameEngine {
 						.append(newPos).append("\n");
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
+				musicController.playLadder();
 				int newX, newY;
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();

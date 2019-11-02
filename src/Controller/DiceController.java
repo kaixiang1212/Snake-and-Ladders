@@ -28,7 +28,9 @@ public class DiceController {
     private GameEngine players;
     private final Image[] diceFace;
 
-    public DiceController(){
+    private MusicController musicController;
+
+    public DiceController() {
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
         diceFace[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2.png")));
@@ -36,14 +38,17 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
+        musicController = new MusicController();
+        musicController.initDice();
     }
 
     /**
      * Configuration for Dice Controller
      * called by Board Controller to communicate with board
+     *
      * @param engine Game Engine
      */
-    void config(GameEngine engine){
+    void config(GameEngine engine) {
         this.players = engine;
         setCurrentPlayerToken();
         Player player = players.getCurrentPlayer();
@@ -52,7 +57,8 @@ public class DiceController {
     }
 
     @FXML
-    private void rollButtonClicked(){
+    private void rollButtonClicked() {
+        musicController.playRollDice();
         text.setText("");
         animation.start();
         button.setText("Stop");
@@ -61,30 +67,33 @@ public class DiceController {
     }
 
     @FXML
-    private void stopButtonClicked(){
+    private void stopButtonClicked() {
+        musicController.clear();
         animation.stop();
         button.setDisable(true);
         diceImage.setDisable(true);
-        
+
         Player currentPlayer = players.getCurrentPlayer();
         int diceResult = players.rollDice();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
         draw(diceResult);
 
         StringBuilder sb = new StringBuilder();
-        
+
         if (players.isFinished()) {
-        	sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
+            sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText(sb.toString());
             return;
         }
-        
-        if (diceResult == 6){
+
+        if (diceResult == 6) {
+            musicController.playRolled6();
             sb.append(currentPlayer.getPlayerName()).append(" roll again\n");
         } else {
             sb.append("\n");
             currentPlayer = players.nextPlayer();
         }
+        musicController.playThrowDice();
         sb.append(currentPlayer.getPlayerName()).append("'s turn:\n");
 
         button.setDisable(false);
@@ -92,7 +101,7 @@ public class DiceController {
         button.setText("Start Rolling");
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
         button.setOnAction(event -> rollButtonClicked());
-        
+
         message.setText(sb.toString());
         players.clearConsole();
         setCurrentPlayerToken();
@@ -100,10 +109,11 @@ public class DiceController {
 
     /**
      * Draw the given number on Dice
+     *
      * @param dieFace Number to be drawn
      */
-    private void draw(int dieFace){
-        Image image = this.diceFace[dieFace-1];
+    private void draw(int dieFace) {
+        Image image = this.diceFace[dieFace - 1];
         diceImage.setImage(image);
     }
 
@@ -115,18 +125,18 @@ public class DiceController {
      * after 1000 frames it automatically stops
      */
     private AnimationTimer animation = new AnimationTimer() {
-        public void handle( long time ) {
-            int diceFrame = (int)(Math.random()*6) + 1;
+        public void handle(long time) {
+            int diceFrame = (int) (Math.random() * 6) + 1;
             draw(diceFrame);
             frame++;
-            if (frame == maxFrame){
+            if (frame == maxFrame) {
                 stopButtonClicked();
                 frame = 0;
             }
         }
     };
 
-    private void setCurrentPlayerToken(){
+    private void setCurrentPlayerToken() {
         int token = players.getCurrentPlayerToken();
         playerToken.setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
     }

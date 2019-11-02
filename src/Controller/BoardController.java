@@ -53,7 +53,7 @@ public class BoardController {
 		ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
 	    onWindowResize();
 		stage.widthProperty().addListener(stageSizeListener);
-		stage.heightProperty().addListener(stageSizeListener); 
+		stage.heightProperty().addListener(stageSizeListener);
 	}
 
 	@FXML

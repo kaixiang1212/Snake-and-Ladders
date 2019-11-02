@@ -36,6 +36,9 @@ public class PlayerCustomizationController {
 
     private int lastPlayerImageClicked = 0;
 
+    private MusicController musicController;
+
+
     public PlayerCustomizationController(){
         token = new ArrayList<>();
         token.add(0,0);
@@ -43,6 +46,8 @@ public class PlayerCustomizationController {
         token.add(2,-1);
         token.add(3,-1);
         availableToken = new ArrayList<>();
+        musicController = new MusicController();
+        musicController.initUI();
     }
 
     public void setStage(Stage stage) { this.stage = stage; }
@@ -126,6 +131,7 @@ public class PlayerCustomizationController {
 
     @FXML
     public void imageClicked1(){
+        musicController.clear();
         int next = nextToken();
         int index = 0;
         for (Node node : flowPane.getChildren()){
@@ -137,6 +143,7 @@ public class PlayerCustomizationController {
                         ((ImageView) node1).setImage(getImage(next));
                         lastPlayerImageClicked = index;
                         setPlayerToken(0, next);
+                        musicController.playSwitch();
                     }
                 }
             }
@@ -146,6 +153,7 @@ public class PlayerCustomizationController {
 
     @FXML
     private void imageClicked(ImageView imageView){
+        musicController.clear();
         int next = nextToken();
         int index = 0;
         for (Node node : flowPane.getChildren()){
@@ -157,7 +165,7 @@ public class PlayerCustomizationController {
                             if (lastPlayerImageClicked != index){ clearAvailableToken(); }
                             ((ImageView) node1).setImage(getImage(next));
                             setPlayerToken(index, next);
-                            return;
+                            musicController.playSwitch();
                         }
                     }
                 }
@@ -168,12 +176,14 @@ public class PlayerCustomizationController {
 
     @FXML
     public void backButtonClicked(){
+        musicController.playBack();
         PlayerNumSelectionScreen playerNumSelectionScreen = new PlayerNumSelectionScreen(stage);
         playerNumSelectionScreen.start();
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
+        musicController.playNext();
         GameEngine engine = new GameEngine();
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
@@ -191,4 +201,5 @@ public class PlayerCustomizationController {
         game.setEngine(engine);
         game.start();
     }
+
 }
