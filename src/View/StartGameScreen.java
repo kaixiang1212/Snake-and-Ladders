@@ -25,13 +25,14 @@ public class StartGameScreen {
 		this.stage = stage;
 		this.title = "Start Screen";
 		stage.setResizable(false);
-		if(!stage.isShowing())
-			stage.initStyle(StageStyle.UTILITY);
+		//if(!stage.isShowing())
+			//stage.initStyle(StageStyle.DECORATED);
 		controller = new StartGameScreenController(stage);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/StartGameScreen.fxml"));
 		loader.setController(controller);
 		Parent root = loader.load();
 		scene = new Scene(root, 800, 800);
+		stage.sizeToScene();
 	}
 	
 	public void start() {
