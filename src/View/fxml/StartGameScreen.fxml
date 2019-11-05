@@ -1,28 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Text fill="#9a7a39" layoutX="190.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sneks and Ladders">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <Button fx:id="StartGameButton" layoutX="314.0" layoutY="566.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
+         <font>
+            <Font name="Papyrus" size="22.0" />
+         </font>
+      </Button>
+      <Button fx:id="ExitGameButton" layoutX="314.0" layoutY="645.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="51.0" prefWidth="172.0" text=" Exit">
+         <font>
+            <Font name="Papyrus" size="22.0" />
+         </font>
+      </Button>
+      <Text fill="#9a7a39" layoutX="336.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="neks">
          <font>
             <Font name="Papyrus" size="51.0" />
          </font>
       </Text>
-      <Button fx:id="StartGameButton" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
+      <ImageView fitHeight="706.0" fitWidth="441.0" layoutX="-119.0" layoutY="-224.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../asset/ladder2.png" />
+         </image>
+      </ImageView>
+      <Text fill="#9a7a39" layoutX="276.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
          <font>
-            <Font name="Papyrus" size="22.0" />
+            <Font name="Papyrus" size="96.0" />
          </font>
-      </Button>
-      <Button fx:id="ExitGameButton" layoutX="128.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="62.0" prefWidth="172.0" text=" Exit">
+      </Text>
+      <Text fill="#9a7a39" layoutX="364.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="adders">
          <font>
-            <Font name="Papyrus" size="22.0" />
+            <Font name="Papyrus" size="51.0" />
          </font>
-      </Button>
+      </Text>
+      <Text fill="#9a7a39" layoutX="323.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L" wrappingWidth="89.265625">
+         <font>
+            <Font name="Papyrus" size="96.0" />
+         </font>
+      </Text>
+      <Text fill="#9a7a39" layoutX="368.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&amp;">
+         <font>
+            <Font name="Papyrus" size="55.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="579.0" fitWidth="441.0" layoutX="431.0" layoutY="-148.0" pickOnBounds="true" preserveRatio="true" x="60.0" y="500.0">
+         <image>
+            <Image url="@../../asset/coralsnake.png" />
+         </image>
+      </ImageView>
    </children>
-</AnchorPane>
+</Pane>
