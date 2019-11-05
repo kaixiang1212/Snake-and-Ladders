@@ -139,6 +139,7 @@ public class DiceController {
         button.setOnAction(event -> rollButtonClicked());
         players.clearConsole();
         setCurrentPlayerToken();
+        text.setText("");
     }
     
     /**

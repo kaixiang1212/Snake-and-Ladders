@@ -22,7 +22,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PlayerCustomizationController {
-
+	
+	private final int maxTokens = 8;
+	
     @FXML
     private FlowPane flowPane;
 
@@ -86,8 +88,9 @@ public class PlayerCustomizationController {
         imageView.setFitWidth(120);
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
-        FlowPane.setMargin(vBox, new Insets(0,10,0,10));
+        FlowPane.setMargin(vBox, new Insets(-50,10,0,10));
         setPlayerToken(playerCount, playerNum);
+        
     }
 
     /**
@@ -97,8 +100,9 @@ public class PlayerCustomizationController {
      */
     private int nextToken(){
         if (!availableToken.isEmpty()) return availableToken.remove(0);
-        for (int i=0;i<5;i++){
-            if (!token.contains(i)) availableToken.add(i);
+        for (int i=0; i < maxTokens; i++){
+            if (!token.contains(i))
+            	availableToken.add(i);
         }
         return availableToken.remove(0);
     }
@@ -132,40 +136,38 @@ public class PlayerCustomizationController {
     @FXML
     public void imageClicked1(){
         musicController.clear();
-        int next = nextToken();
-        int index = 0;
-        for (Node node : flowPane.getChildren()){
-            if (index != 0) continue;
-            if (node instanceof VBox){
-                for (Node node1 : ((VBox) node).getChildren()){
-                    if (node1 instanceof ImageView) {
-                        if (lastPlayerImageClicked != index){ clearAvailableToken(); }
-                        ((ImageView) node1).setImage(getImage(next));
-                        lastPlayerImageClicked = index;
-                        setPlayerToken(0, next);
-                        musicController.playSwitch();
-                    }
-                }
-            }
-            index++;
+        for(Node node : flowPane.getChildren()) {
+	        if (node instanceof VBox){
+	        	for (Node node1 : ((VBox) node).getChildren()){
+	        		if (node1 instanceof ImageView) {
+	        			setPlayerToken(0, -1);
+	        	        int next = nextToken();
+	        			((ImageView) node1).setImage(getImage(next));
+	                    setPlayerToken(0, next);
+	                    musicController.playSwitch();
+	                    return;
+	        		}
+	        	}
+	        }
         }
     }
 
     @FXML
     private void imageClicked(ImageView imageView){
-        musicController.clear();
-        int next = nextToken();
+    	musicController.clear();
         int index = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof ImageView) {
-                        ImageView image = (ImageView ) node1;
+                        ImageView image = (ImageView) node1;
                         if (image == imageView) {
-                            if (lastPlayerImageClicked != index){ clearAvailableToken(); }
+                        	setPlayerToken(index, -1);
+                            int next = nextToken();
                             ((ImageView) node1).setImage(getImage(next));
                             setPlayerToken(index, next);
                             musicController.playSwitch();
+                            return;
                         }
                     }
                 }

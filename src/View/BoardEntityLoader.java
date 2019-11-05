@@ -54,7 +54,7 @@ public class BoardEntityLoader extends BoardLoader{
 	public void onLoad(Player player) {
 		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + player.getPlayerToken() + ".png"))));
 		view.setPreserveRatio(true);
-		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*0.7f);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*0.75f);
 		view.setId("player");
 		addEntity(player, view);
 	}
@@ -157,7 +157,19 @@ public class BoardEntityLoader extends BoardLoader{
 			public void changed(ObservableValue<? extends Number> observable,
 	        	Number oldValue, Number newValue) {
 	        	GridPane.setRowIndex(node, engine.getBoard().getHeight()-1-newValue.intValue());
-			}
+	        	if(entity instanceof Player) {
+	        		Player playerEntity = (Player) entity;
+	        		switch(playerEntity.getPlayerToken()) {
+	        			default:
+	        				if(newValue.intValue()%2 == 1) {
+		        				node.setScaleX(-1);
+		        			} else {
+		        				node.setScaleX(1);
+		        			}
+	        				break;
+	        		}
+	        	}
+	        }
 		});
 		
 		
