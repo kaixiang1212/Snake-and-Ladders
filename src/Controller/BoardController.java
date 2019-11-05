@@ -55,10 +55,9 @@ public class BoardController {
 		this.stage = s;
 		this.gamescreen = game;
 		diceController.config(engine);
-		ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
-	    onWindowResize();
-		stage.widthProperty().addListener(stageSizeListener);
-		stage.heightProperty().addListener(stageSizeListener);
+		//ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> onWindowResize();
+		//stage.widthProperty().addListener(stageSizeListener);
+		//stage.heightProperty().addListener(stageSizeListener);
 		musicController.playBGM();
 	}
 
@@ -101,8 +100,9 @@ public class BoardController {
 				return p2.getKey().getEntityType().ordinal() - p1.getKey().getEntityType().ordinal();
 			}
 		});
-
-		for (Pair<Entity, ImageView> entityPair : initialEntities) {
+		
+		for (int i = initialEntities.size()-1; i >= 0; i--) {
+			Pair<Entity, ImageView> entityPair = initialEntities.get(i);
 			Entity entity = entityPair.getKey();
 			ImageView entityImage = entityPair.getValue();
 			squares.getChildren().add(entityImage);
@@ -110,6 +110,7 @@ public class BoardController {
 			if (entity instanceof Snake || entity instanceof Ladder) {
 				addSegments(entity);
 			}
+			
 		}
 		
 	}
@@ -193,7 +194,7 @@ public class BoardController {
 			if(node instanceof ImageView) {
 				ImageView image = (ImageView) node;
 				if(image.getId() != null && image.getId().equals("player")) {
-					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight()*0.7f);
+					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight()*0.75f);
 				} else {
 					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
 				}		
