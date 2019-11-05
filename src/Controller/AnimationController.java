@@ -4,7 +4,7 @@ import Model.GameEngine;
 import javafx.animation.AnimationTimer;
 
 public class AnimationController {
-	private final int maxFrames = 600;
+	private final int maxFrames = 1000;
 	private final int animationFrames = 10;
 	
     private int frame;
