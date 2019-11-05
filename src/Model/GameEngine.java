@@ -13,7 +13,6 @@ public class GameEngine {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
-    private Dice dice;
     private Board gameboard;
     private boolean finished;
     private StringBuilder console;
@@ -40,7 +39,6 @@ public class GameEngine {
 	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
 	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
 	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
-        dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
         musicController = new MusicController();
@@ -54,7 +52,6 @@ public class GameEngine {
     public GameEngine(Board gameboard){
         players = new ArrayList<>();
         this.gameboard = gameboard;
-        dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
     }
@@ -112,28 +109,6 @@ public class GameEngine {
 	}
 	
 	/**
-     * Invoked when dice button is clicked
-     * Rolls a dice and updates player position accordingly
-     * @return current player and dice number
-     */
-	public int rollDice(){
-		if(isFinished())
-			return 0;
-        int result = dice.roll();
-        console.append(currentPlayer.getPlayerName())
-				.append(" rolled ").append(result)
-				.append("\n");
-        int currPos = gameboard.getPosition(currentPlayer.getX(), currentPlayer.getY());
-        int newPos = updatePosition(currentPlayer, currPos+result);
-        console.append(currentPlayer.getPlayerName())
-				.append(" moves from ")
-				.append(currPos).append(" to ")
-				.append(newPos).append("\n");
-        updateState();
-        return result;
-    }
-	
-    /**
      * Get current player
      * @return current player
      */

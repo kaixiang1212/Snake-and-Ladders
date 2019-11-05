@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Dice;
 import Model.GameEngine;
 import Model.Player;
 import javafx.animation.AnimationTimer;
@@ -26,7 +27,10 @@ public class DiceController {
     private ImageView playerToken;
 
     private GameEngine players;
+    private Dice dice;
     private final Image[] diceFace;
+    private boolean isSpinning;
+    private boolean playerIsMoving;
 
     private MusicController musicController;
 
@@ -40,6 +44,10 @@ public class DiceController {
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
         musicController = new MusicController();
         musicController.initDice();
+        dice = new Dice();
+        animation.start();
+        isSpinning = false;
+        playerIsMoving = false;
     }
 
     /**
@@ -60,7 +68,8 @@ public class DiceController {
     private void rollButtonClicked() {
         musicController.playRollDice();
         text.setText("");
-        animation.start();
+        //animation.start();
+        isSpinning = true;
         button.setText("Stop");
         button.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
@@ -69,42 +78,29 @@ public class DiceController {
     @FXML
     private void stopButtonClicked() {
         musicController.clear();
-        animation.stop();
+        //animation.stop();
+        isSpinning = false;
         button.setDisable(true);
         diceImage.setDisable(true);
+        
 
         Player currentPlayer = players.getCurrentPlayer();
-        int diceResult = players.rollDice();
+        int diceResult = dice.roll();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
+        musicController.playThrowDice();
         draw(diceResult);
 
-        StringBuilder sb = new StringBuilder();
+    	if(!players.isFinished()) {
+    		
+            currentPos = players.getBoard().getPosition(currentPlayer.getX(), currentPlayer.getY());
+            destination = currentPos+diceResult;
+            playerToMove = currentPlayer; 
+            dieRolled = diceResult;
+            playerIsMoving = true;
+            
+    	}
 
-        if (players.isFinished()) {
-            sb.append(currentPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
-            message.setText(sb.toString());
-            return;
-        }
-
-        if (diceResult == 6) {
-            musicController.playRolled6();
-            sb.append(currentPlayer.getPlayerName()).append(" roll again\n");
-        } else {
-            sb.append("\n");
-            currentPlayer = players.nextPlayer();
-        }
-        musicController.playThrowDice();
-        sb.append(currentPlayer.getPlayerName()).append("'s turn:\n");
-
-        button.setDisable(false);
-        diceImage.setDisable(false);
-        button.setText("Start Rolling");
-        diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
-        button.setOnAction(event -> rollButtonClicked());
-
-        message.setText(sb.toString());
-        players.clearConsole();
-        setCurrentPlayerToken();
+        
     }
 
     /**
@@ -117,8 +113,12 @@ public class DiceController {
         diceImage.setImage(image);
     }
 
-    private final int maxFrame = 1000;
+    //private final int maxFrame = 1000;
     private int frame = 0;
+    private int currentPos;
+    private int destination;
+    private Player playerToMove;
+    private int dieRolled;
 
     /**
      * Randomise Dice face for 1000 frames
@@ -126,13 +126,56 @@ public class DiceController {
      */
     private AnimationTimer animation = new AnimationTimer() {
         public void handle(long time) {
-            int diceFrame = (int) (Math.random() * 6) + 1;
-            draw(diceFrame);
-            frame++;
-            if (frame == maxFrame) {
-                stopButtonClicked();
-                frame = 0;
-            }
+        	if (isSpinning) {
+        		int diceFrame = (int) (Math.random() * 6) + 1;
+        		draw(diceFrame);
+            	frame++;
+            	
+        	} else if (playerIsMoving) {
+        		
+        		if (currentPos == destination) {
+        			
+        	        StringBuilder sb = new StringBuilder();
+        			
+        			if (players.isFinished()) {
+        	            sb.append(playerToMove.getPlayerName()).append(" has won the game! Congratulations!\n");
+        	            message.setText(sb.toString());
+        	            return;
+        	        }
+
+        	        if (dieRolled == 6) {
+        	            musicController.playRolled6();
+        	            sb.append(playerToMove.getPlayerName()).append(" roll again\n");
+        	        } else {
+        	            sb.append("\n");
+        	            playerToMove = players.nextPlayer();
+        	        }
+
+        	        sb.append(playerToMove.getPlayerName()).append("'s turn:\n");
+
+        	        button.setDisable(false);
+        	        diceImage.setDisable(false);
+        	        button.setText("Start Rolling");
+        	        diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
+        	        button.setOnAction(event -> rollButtonClicked());
+
+        	        message.setText(sb.toString());
+        	        players.clearConsole();
+        	        setCurrentPlayerToken();
+        			players.updateState();
+        			playerIsMoving = false;
+        			
+        		} else if (frame >= 8 && currentPos <= destination) {
+        			
+        			players.updatePosition(playerToMove, currentPos + 1);
+        			currentPos++;
+        			frame = 0;
+
+        		}
+        		draw(dieRolled);
+        		frame++;
+        		
+        	}
         }
     };
 

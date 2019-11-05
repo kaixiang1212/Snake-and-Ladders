@@ -4,3 +4,4 @@ bin/*
 *.ipr
 *.iws
 *.class
+/bin/
