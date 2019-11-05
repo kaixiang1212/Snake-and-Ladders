@@ -109,7 +109,7 @@ public class DiceController {
     /**
      * Called in-between player turns to prepare for the next player roll
      */
-    public void idle() {
+    public void prepareNextTurn() {
     	animationController.setSpinning(false);
     	animationController.setPlayerMoving(false);
     	players.updateState();

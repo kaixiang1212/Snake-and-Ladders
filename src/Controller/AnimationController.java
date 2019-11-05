@@ -47,7 +47,7 @@ public class AnimationController {
             	}
         	} else if (isPlayerMoving) {		
         		if (frame%animationFrames == 0 && currentPos == destination) {
-        			diceController.idle();
+        			diceController.prepareNextTurn();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
         			engine.updatePosition(engine.getCurrentPlayer(), currentPos + 1);
         		}
