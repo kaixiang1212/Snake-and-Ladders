@@ -78,7 +78,7 @@ public class GameScreen {
 		boardController.init();
 
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
-		stage.setResizable(true);
+		//stage.setResizable(true);
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
