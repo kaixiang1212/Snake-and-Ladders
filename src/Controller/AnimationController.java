@@ -46,13 +46,12 @@ public class AnimationController {
             		diceController.stopButtonClicked();
             	}
         	} else if (isPlayerMoving) {		
-        		if (frame%animationFrames == 0 && currentPos == destination) {     			
-        			engine.updateState();
+        		if (frame%animationFrames == 0 && currentPos == destination) {
         			diceController.idle();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
         			engine.updatePosition(engine.getCurrentPlayer(), currentPos + 1);
         		}
-        		frame++;	
+        		frame++;
         	}
         }
     };

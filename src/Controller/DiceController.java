@@ -112,6 +112,7 @@ public class DiceController {
     public void idle() {
     	animationController.setSpinning(false);
     	animationController.setPlayerMoving(false);
+    	players.updateState();
     	StringBuilder sb = new StringBuilder();
     	if (players.isFinished()) {
             sb.append(players.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
