@@ -34,7 +34,12 @@ public class BoardController {
 	private Stage stage;
 	private GameScreen gamescreen;
 
-	public BoardController() {}
+	private MusicController musicController;
+
+	public BoardController() {
+		musicController = new MusicController();
+		musicController.initBoard();
+	}
 
     /**
      * Configuration for Board Controller
@@ -53,7 +58,8 @@ public class BoardController {
 		ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
 	    onWindowResize();
 		stage.widthProperty().addListener(stageSizeListener);
-		stage.heightProperty().addListener(stageSizeListener); 
+		stage.heightProperty().addListener(stageSizeListener);
+		musicController.playBGM();
 	}
 
 	@FXML

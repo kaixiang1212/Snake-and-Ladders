@@ -4,6 +4,8 @@
 
 package Model;
 
+import Controller.MusicController;
+
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -11,10 +13,11 @@ public class GameEngine {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerNum;
-    private Dice dice;
     private Board gameboard;
     private boolean finished;
     private StringBuilder console;
+
+	private MusicController musicController;
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -50,9 +53,10 @@ public class GameEngine {
 	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
 	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
 	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
-        dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
+        musicController = new MusicController();
+        musicController.initGame();
     }
     /**
      * This constructor is used to pass in a pre-made gameboard
@@ -61,7 +65,6 @@ public class GameEngine {
     public GameEngine(Board gameboard){
         players = new ArrayList<>();
         this.gameboard = gameboard;
-        dice = new Dice();
         console = new StringBuilder();
         console.setLength(0);
     }
@@ -115,32 +118,11 @@ public class GameEngine {
 		y = gameboard.getCoords(pos).getY();
 		player.setX(x);
 		player.setY(y);
+		musicController.playMove();
 		return pos;
 	}
 	
 	/**
-     * Invoked when dice button is clicked
-     * Rolls a dice and updates player position accordingly
-     * @return current player and dice number
-     */
-	public int rollDice(){
-		if(isFinished())
-			return 0;
-        int result = dice.roll();
-        console.append(currentPlayer.getPlayerName())
-				.append(" rolled ").append(result)
-				.append("\n");
-        int currPos = gameboard.getPosition(currentPlayer.getX(), currentPlayer.getY());
-        int newPos = updatePosition(currentPlayer, currPos+result);
-        console.append(currentPlayer.getPlayerName())
-				.append(" moves from ")
-				.append(currPos).append(" to ")
-				.append(newPos).append("\n");
-        updateState();
-        return result;
-    }
-	
-    /**
      * Get current player
      * @return current player
      */
@@ -183,6 +165,7 @@ public class GameEngine {
 	 */
 	public boolean isFinished() {
 		updateState();
+		if (finished) musicController.playVictory();
 		return finished;
 	}
 	
@@ -208,6 +191,7 @@ public class GameEngine {
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				musicController.playSnake();
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
@@ -218,6 +202,7 @@ public class GameEngine {
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				musicController.playLadder();
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
