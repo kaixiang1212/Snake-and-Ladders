@@ -86,7 +86,7 @@ public class PlayerCustomizationController {
         imageView.setFitWidth(120);
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
-        FlowPane.setMargin(vBox, new Insets(0,10,0,10));
+        FlowPane.setMargin(vBox, new Insets(-50,10,0,10));
         setPlayerToken(playerCount, playerNum);
     }
 

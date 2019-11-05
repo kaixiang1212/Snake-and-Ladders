@@ -8,18 +8,18 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Text fill="#9a7a39" layoutX="190.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sneks and Ladders">
          <font>
             <Font name="Papyrus" size="51.0" />
          </font>
       </Text>
-      <Button fx:id="StartGameButton" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
+      <Button fx:id="StartGameButton" layoutX="480.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="70.0" prefWidth="180.0" text="Start Game">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="ExitGameButton" layoutX="128.0" layoutY="600.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="62.0" prefWidth="172.0" text=" Exit">
+      <Button fx:id="ExitGameButton" layoutX="160.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="70.0" prefWidth="140.0" text=" Exit">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
