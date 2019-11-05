@@ -12,9 +12,11 @@ import org.json.JSONTokener;
 
 /** 
  * 
- * @author rushenkajayasuriya
+ * Started code taken from:
+ * Edited by: 
  *
- * This class loads a gameboard from a JSON file
+ * This class loads a Game Board from a JSON file
+ * 
  */
 
 
@@ -50,10 +52,6 @@ public abstract class BoardLoader {
 			onLoad(player);
 		}
 		
-		
-		//Set the current player to start
-		//game.setPlayer(dungeon.getPlayer());
-	        
 		return engine;
 		
 	}
@@ -65,7 +63,6 @@ public abstract class BoardLoader {
         int y = json.getInt("y");
         int x2 = json.getInt("x2");
         int y2 = json.getInt("y2");
-        
         switch (type) {
         case "player":
         	int nextTokenNum = engine.getPlayerNum();
@@ -77,14 +74,28 @@ public abstract class BoardLoader {
             	engine.addPlayer(player);
             }
             break;
+        // All Snake Entities:
         case "snake":
-            Snake snake = new Snake(x, y, x2, y2);
+            Snake snake = new Snake(x, y, x2, y2, type);
             onLoad(snake);
             if (snake != null) {
             	engine.getBoard().addEntity(snake);
             }
             break;
-        // TODO Handle other possible entities
+        case "bluesnake":
+            Snake bsnake = new Snake(x, y, x2, y2, type);
+            onLoad(bsnake);
+            if (bsnake != null) {
+            	engine.getBoard().addEntity(bsnake);
+            }
+            break;
+        case "pinksnake":
+            Snake psnake = new Snake(x, y, x2, y2, type);
+            onLoad(psnake);
+            if (psnake != null) {
+            	engine.getBoard().addEntity(psnake);
+            }
+            break;
         case "ladder":
         	Ladder ladder = new Ladder(x, y, x2, y2);
         	onLoad(ladder);

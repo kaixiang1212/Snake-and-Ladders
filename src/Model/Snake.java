@@ -4,8 +4,16 @@ import javafx.util.Pair;
 
 public class Snake extends Entity {
 	
+	// Enum to represent the snake type for differentiating ImageViews
+	public enum SnakeType {
+		  BLUESNAKE,
+		  SNAKE,
+		  PINKSNAKE,
+	}
 	
 	private int x2, y2;
+	protected SnakeType snaketype;
+	
 	
 	/**
 	 * Create a snake positioned at (x,y) that leads to position (x2,y2)
@@ -14,12 +22,26 @@ public class Snake extends Entity {
 	 * @param x2 x-pos of snake tail
 	 * @param y2 y-pos of snake tail
 	 */
-	public Snake(int x, int y, int x2, int y2) {
+	public Snake(int x, int y, int x2, int y2, String type) {
         super(x, y, Type.SNAKE);
         this.x2 = x2;
         this.y2 = y2;
+
+        if (type.equals("snake")) {
+			this.snaketype = SnakeType.SNAKE;
+		} else if (type.equals("bluesnake")) {
+			this.snaketype = SnakeType.BLUESNAKE;
+		} else if (type.equals("pinksnake")) {
+			this.snaketype = SnakeType.PINKSNAKE;
+		}
+       
     }
 	
+	public SnakeType getSnaketype() {
+		return snaketype;
+	}
+
+
 	public Pair<Integer, Integer> getTail() {
 		return new Pair<>(x2,y2);
 	}
@@ -28,6 +50,7 @@ public class Snake extends Entity {
 		this.x2 = x2;
 		this.y2 = y2;
 	}
+	
 	
 	
 }

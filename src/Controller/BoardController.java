@@ -70,17 +70,17 @@ public class BoardController {
 				} else if(engine.getBoard().isLadder(x, engine.getBoard().getHeight() - y - 1) != null) {
 					tileid = 2;
 				}
-				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + tileid + ".png")));
+				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/Gametile" + tileid + ".jpg")));
 				ImageView floorView = new ImageView(boardFloor);
 				floorView.setPreserveRatio(true);
 				floorView.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
 				floorView.setId("tile");
 				squares.add(floorView, x, y);				
 				Text tilenum = new Text(Integer.toString(engine.getBoard().getPosition(x, engine.getBoard().getHeight() - y - 1)));
-				tilenum.setFont(Font.font("Harlow Solid Italic", 42));
-				tilenum.setFill(Color.WHITE);
-				tilenum.setStroke(Color.BLACK);
-				tilenum.setStrokeWidth(2);
+				tilenum.setFont(Font.font("Papyrus", 42));
+				tilenum.setFill(Color.BLACK);
+				//tilenum.setStroke(Color.BLACK);
+				//tilenum.setStrokeWidth(2);
 				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
 				lastrand = rand;

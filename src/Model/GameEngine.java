@@ -36,14 +36,14 @@ public class GameEngine {
 //        gameboard.addLadder(new Ladder(50, 69));
 //        gameboard.addLadder(new Ladder(62, 81));
 //        gameboard.addLadder(new Ladder(74, 92));
-	    gameboard.addEntity(new Snake(6, 2, 4, 0));
-	    gameboard.addEntity(new Snake(0, 3, 2, 0));
-	    gameboard.addEntity(new Snake(2, 4, 2, 1));
-	    gameboard.addEntity(new Snake(6, 7, 9, 3));
-	    gameboard.addEntity(new Snake(5, 6, 4, 4));
-	    gameboard.addEntity(new Snake(4, 7, 2, 5));
-	    gameboard.addEntity(new Snake(8, 8, 7, 5));
-	    gameboard.addEntity(new Snake(1, 9, 0, 4));
+	    gameboard.addEntity(new Snake(6, 2, 4, 0, "snake"));
+	    gameboard.addEntity(new Snake(0, 3, 2, 0, "snake"));
+	    gameboard.addEntity(new Snake(2, 4, 2, 1, "snake"));
+	    gameboard.addEntity(new Snake(6, 7, 9, 3, "snake"));
+	    gameboard.addEntity(new Snake(5, 6, 4, 4, "pinksnake"));
+	    gameboard.addEntity(new Snake(4, 7, 2, 5, "snake"));
+	    gameboard.addEntity(new Snake(8, 8, 7, 5, "snake"));
+	    gameboard.addEntity(new Snake(1, 9, 0, 4, "bluesnake"));
 	    gameboard.addEntity(new Ladder(3, 0, 4, 2));
 	    gameboard.addEntity(new Ladder(7, 1, 5, 4));
 	    gameboard.addEntity(new Ladder(1, 4, 2, 6));
@@ -54,7 +54,6 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
     }
-    
     /**
      * This constructor is used to pass in a pre-made gameboard
      * @param gameboard: pre-made gameboard

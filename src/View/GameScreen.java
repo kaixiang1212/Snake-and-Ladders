@@ -62,7 +62,7 @@ public class GameScreen {
 		*/
 		
 		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader("simpleBoard.json", stage, this, engine);
+		BoardEntityLoader loadedBoard = new BoardEntityLoader("animatedBoard.json", stage, this, engine);
 		return loadedBoard;
 		
 	}
@@ -72,7 +72,7 @@ public class GameScreen {
 
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BoardView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/altBoardView.fxml"));
 		
 		Parent root = loader.load();
 		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
