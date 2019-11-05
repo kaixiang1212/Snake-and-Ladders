@@ -24,6 +24,7 @@ public class MusicController {
     private MediaPlayer snakePlayer1;
     private MediaPlayer snakePlayer2;
     private MediaPlayer victoryPlayer;
+    private MediaPlayer movePlayer;
 
     private boolean initBoard = false;
     private MediaPlayer bgMusicPlayer;
@@ -54,7 +55,7 @@ public class MusicController {
         Media diceThrow1 = new Media(new File("src/asset/Sound/diceThrow1.mp3").toURI().toString());
         Media diceThrow2 = new Media(new File("src/asset/Sound/diceThrow2.mp3").toURI().toString());
         Media dice6Sound = new Media(new File("src/asset/Sound/rolled6.mp3").toURI().toString());
-
+        
         diceRollPlayer = new MediaPlayer(diceRoll);
         diceThrowPlayer1 = new MediaPlayer(diceThrow1);
         diceThrowPlayer2 = new MediaPlayer(diceThrow2);
@@ -79,12 +80,14 @@ public class MusicController {
         Media snakeSound1 = new Media(new File("src/asset/Sound/snake1.mp3").toURI().toString());
         Media snakeSound2 = new Media(new File("src/asset/Sound/snake2.mp3").toURI().toString());
         Media victorySound = new Media(new File("src/asset/Sound/win.mp3").toURI().toString());
+        Media moveSound = new Media(new File("src/asset/Sound/move.mp3").toURI().toString());
 
         ascendPlayer = new MediaPlayer(ascendSound);
         descendPlayer = new MediaPlayer(descendSound);
         snakePlayer1 = new MediaPlayer(snakeSound1);
         snakePlayer2 = new MediaPlayer(snakeSound2);
         victoryPlayer = new MediaPlayer(victorySound);
+        movePlayer = new MediaPlayer(moveSound);
     }
 
     public void initBoard(){
@@ -121,6 +124,7 @@ public class MusicController {
             descendPlayer.stop();
             snakePlayer1.stop();
             snakePlayer2.stop();
+            movePlayer.stop();
         }
     }
 
@@ -164,6 +168,13 @@ public class MusicController {
     public void playRolled6(){
         if (!initDice) return;
         dice6Player.play();
+    }
+    
+    public void playMove(){
+        if (!initGame) return;
+        clear();
+        movePlayer.setVolume(0.2);
+        movePlayer.play();
     }
 
     public void playSnake(){

@@ -105,6 +105,7 @@ public class GameEngine {
 		y = gameboard.getCoords(pos).getY();
 		player.setX(x);
 		player.setY(y);
+		musicController.playMove();
 		return pos;
 	}
 	
@@ -173,22 +174,22 @@ public class GameEngine {
 				finished = true;
 				return;
 			} else if (gameboard.isSnake(currX, currY) != null) {
-				musicController.playSnake();
 				int newX, newY;
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				musicController.playSnake();
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
-				musicController.playLadder();
 				int newX, newY;
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				musicController.playLadder();
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
