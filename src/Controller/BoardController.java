@@ -100,9 +100,8 @@ public class BoardController {
 				return p2.getKey().getEntityType().ordinal() - p1.getKey().getEntityType().ordinal();
 			}
 		});
-		
-		for (int i = initialEntities.size()-1; i >= 0; i--) {
-			Pair<Entity, ImageView> entityPair = initialEntities.get(i);
+
+		for (Pair<Entity, ImageView> entityPair : initialEntities) {
 			Entity entity = entityPair.getKey();
 			ImageView entityImage = entityPair.getValue();
 			squares.getChildren().add(entityImage);
@@ -110,7 +109,6 @@ public class BoardController {
 			if (entity instanceof Snake || entity instanceof Ladder) {
 				addSegments(entity);
 			}
-			
 		}
 		
 	}

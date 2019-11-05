@@ -48,7 +48,8 @@ public abstract class BoardLoader {
 			loadEntity(engine, jsonEntities.getJSONObject(i));
 		}
 		
-		for(Player player : engine.getPlayers()) {
+		for(int i = engine.getPlayers().size()-1; i >= 0; i--) {
+			Player player = engine.getPlayers().get(i);
 			onLoad(player);
 		}
 		
