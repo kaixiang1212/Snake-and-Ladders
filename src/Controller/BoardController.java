@@ -3,14 +3,18 @@ package Controller;
 import Model.*;
 import View.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -28,14 +32,46 @@ public class BoardController {
 	private VBox dice;
 	@FXML
 	private DiceController diceController;
+	@FXML
+	private AnchorPane myAnchorPane;
+	@FXML
+	private Button exitButton;
+	@FXML
+	private Button resumeButton;
+	
 
 	private List<Pair<Entity, ImageView>> initialEntities;
     private GameEngine engine;
 	private Stage stage;
 	private GameScreen gamescreen;
-
+	private boolean isPaused = false;
 	private MusicController musicController;
-
+    public void initialize() {
+    	Button menuButton = diceController.menuButton;
+        myAnchorPane.setManaged(false);
+        myAnchorPane.setVisible(false);
+        Button rollButton = diceController.button;
+        ImageView diceImage = diceController.diceImage;
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                	if (isPaused == false) {
+                    myAnchorPane.setManaged(true);
+                    myAnchorPane.setVisible(true);
+                    rollButton.setDisable(true);
+                    diceImage.setDisable(true);   
+                    isPaused = true;
+                	} else {
+                        myAnchorPane.setManaged(false);
+                        myAnchorPane.setVisible(false);
+                        rollButton.setDisable(false);
+                        diceImage.setDisable(false);  
+                        isPaused = false;
+                	}
+                	
+            }
+        });
+    }
 	public BoardController() {
 		musicController = new MusicController();
 		musicController.initBoard();
@@ -204,4 +240,18 @@ public class BoardController {
 		}
 	}
 
+    @FXML
+    private void handleExitButton() throws IOException {
+    	StartGameScreen startGameScreen = new StartGameScreen(stage);
+        startGameScreen.start();
+    }
+    @FXML
+    private void handleResumeButton() throws IOException {
+        Button rollButton = diceController.button;
+        ImageView diceImage = diceController.diceImage;
+    	myAnchorPane.setManaged(false);
+        myAnchorPane.setVisible(false);
+        rollButton.setDisable(false);
+        diceImage.setDisable(false);   
+    }
 }

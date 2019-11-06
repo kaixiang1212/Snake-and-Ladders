@@ -17,13 +17,15 @@ public class DiceController {
     @FXML
     public AnchorPane diceInterface;
     @FXML
-    private ImageView diceImage;
+    public ImageView diceImage;
     @FXML
     private Text text;
     @FXML
     private Text message;
     @FXML
     private ImageView playerToken;
+    @FXML
+    public Button menuButton;
 
     private GameEngine players;
     private MusicController musicController;
@@ -35,7 +37,7 @@ public class DiceController {
     private int destination;
     private int dieRolled;
     
-    
+
     public DiceController() {
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
@@ -105,6 +107,15 @@ public class DiceController {
     	}
         
     }
+    /**
+     * Called when the 'menu' button is clicked
+     */
+    @FXML
+	public void menuButtonClicked() {
+        button.setDisable(true);
+        diceImage.setDisable(true);   
+    }
+    
     
     /**
      * Called in-between player turns to prepare for the next player roll
