@@ -17,7 +17,7 @@ public class DiceController {
     @FXML
     public AnchorPane diceInterface;
     @FXML
-    private ImageView diceImage;
+    public ImageView diceImage;
     @FXML
     private Text text;
     @FXML

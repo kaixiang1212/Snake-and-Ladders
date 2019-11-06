@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,6 +34,10 @@ public class BoardController {
 	private DiceController diceController;
 	@FXML
 	private AnchorPane myAnchorPane;
+	@FXML
+	private Button exitButton;
+	@FXML
+	private Button resumeButton;
 	
 
 	private List<Pair<Entity, ImageView>> initialEntities;
@@ -43,22 +48,27 @@ public class BoardController {
 	private MusicController musicController;
     public void initialize() {
     	Button menuButton = diceController.menuButton;
+        myAnchorPane.setManaged(false);
+        myAnchorPane.setVisible(false);
+        Button rollButton = diceController.button;
+        ImageView diceImage = diceController.diceImage;
         menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello from top button");
-                if (!isPaused) {
-                	// pause 
-                    myAnchorPane.setManaged(false);
-                    myAnchorPane.setVisible(false);
-                    isPaused = true;
-                } else {
-                	// unpause
-                	myAnchorPane.setManaged(true);
+                	if (isPaused == false) {
+                    myAnchorPane.setManaged(true);
                     myAnchorPane.setVisible(true);
-                    isPaused = false;
-                }
-
+                    rollButton.setDisable(true);
+                    diceImage.setDisable(true);   
+                    isPaused = true;
+                	} else {
+                        myAnchorPane.setManaged(false);
+                        myAnchorPane.setVisible(false);
+                        rollButton.setDisable(false);
+                        diceImage.setDisable(false);  
+                        isPaused = false;
+                	}
+                	
             }
         });
     }
@@ -230,4 +240,18 @@ public class BoardController {
 		}
 	}
 
+    @FXML
+    private void handleExitButton() throws IOException {
+    	StartGameScreen startGameScreen = new StartGameScreen(stage);
+        startGameScreen.start();
+    }
+    @FXML
+    private void handleResumeButton() throws IOException {
+        Button rollButton = diceController.button;
+        ImageView diceImage = diceController.diceImage;
+    	myAnchorPane.setManaged(false);
+        myAnchorPane.setVisible(false);
+        rollButton.setDisable(false);
+        diceImage.setDisable(false);   
+    }
 }
