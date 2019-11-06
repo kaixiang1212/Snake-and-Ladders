@@ -9,16 +9,24 @@ import javafx.stage.Stage;
 
 public class HelpController {
     private Stage stage;
-    public HelpController(){}
-
+    private MusicController musicController;
+    
+    public HelpController(){
+    	musicController = new MusicController();
+    	musicController.initUI();
+    }
+    
     @FXML
     private Button backButton;
     @FXML
     private void backButtonClicked() throws IOException {
-        StartGameScreen startGameScreen = new StartGameScreen(stage);
+    	musicController.playBack();
+    	StartGameScreen startGameScreen = new StartGameScreen(stage);
         startGameScreen.start();
     }
+    
     public void setStage(Stage stage){
         this.stage = stage;
     }
+    
 }
