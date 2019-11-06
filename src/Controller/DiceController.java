@@ -24,6 +24,8 @@ public class DiceController {
     private Text message;
     @FXML
     private ImageView playerToken;
+    @FXML
+    public Button menuButton;
 
     private GameEngine players;
     private MusicController musicController;
@@ -35,7 +37,7 @@ public class DiceController {
     private int destination;
     private int dieRolled;
     
-    
+
     public DiceController() {
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));

@@ -8,9 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -28,14 +31,37 @@ public class BoardController {
 	private VBox dice;
 	@FXML
 	private DiceController diceController;
+	@FXML
+	private AnchorPane myAnchorPane;
+	
 
 	private List<Pair<Entity, ImageView>> initialEntities;
     private GameEngine engine;
 	private Stage stage;
 	private GameScreen gamescreen;
-
+	private boolean isPaused = false;
 	private MusicController musicController;
+    public void initialize() {
+    	Button menuButton = diceController.menuButton;
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hello from top button");
+                if (!isPaused) {
+                	// pause 
+                    myAnchorPane.setManaged(false);
+                    myAnchorPane.setVisible(false);
+                    isPaused = true;
+                } else {
+                	// unpause
+                	myAnchorPane.setManaged(true);
+                    myAnchorPane.setVisible(true);
+                    isPaused = false;
+                }
 
+            }
+        });
+    }
 	public BoardController() {
 		musicController = new MusicController();
 		musicController.initBoard();
