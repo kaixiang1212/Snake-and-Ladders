@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Text fill="#9a7a39" layoutX="190.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sneks and Ladders">
@@ -20,6 +20,11 @@
          </font>
       </Button>
       <Button fx:id="ExitGameButton" layoutX="502.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="62.0" prefWidth="172.0" text=" Exit">
+         <font>
+            <Font name="Papyrus" size="22.0" />
+         </font>
+      </Button>
+      <Button fx:id="HelpGameButton" layoutX="323.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="62.0" prefWidth="172.0" text="Help">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
