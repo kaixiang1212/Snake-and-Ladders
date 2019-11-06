@@ -27,13 +27,10 @@ public class GameScreen {
 
 	public GameScreen(Stage s) {
 		this.stage = s;
-
 		this.title = "Sneks & Ladders";
 	}
 
 	public void start() throws IOException, JSONException {
-		//this.stage = s;
-
 		loadGameScreen(this.stage, this.engine);
 	}
 
@@ -62,17 +59,16 @@ public class GameScreen {
 		*/
 		
 		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader("simpleBoard.json", stage, this, engine);
+		BoardEntityLoader loadedBoard = new BoardEntityLoader("animatedBoard.json", stage, this, engine);
 		return loadedBoard;
 		
 	}
 		
 	// Loads the Game screen for the given level by 'DungeonControllerLoader'
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
-
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BoardView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/altBoardView.fxml"));
 		
 		Parent root = loader.load();
 		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
@@ -81,10 +77,8 @@ public class GameScreen {
 		boardLoader.configBoardController(boardController);
 		boardController.init();
 
-		
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
-		
-		
+		//stage.setResizable(true);
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();

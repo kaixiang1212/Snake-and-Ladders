@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 
+
 // StartScreen Controller communicates between View and Model.
 
 public class StartGameScreenController {
@@ -22,13 +23,18 @@ public class StartGameScreenController {
 	private Button HelpGameButton;
 	
 	private Stage s;
+
+	private MusicController musicController;
 	
 	public StartGameScreenController(Stage s) {
 		this.s = s;
+		musicController = new MusicController();
+		musicController.initUI();
 	}
 	
 	@FXML
 	public void handleStartGameButton (ActionEvent event) {
+		musicController.playNext();
 		// We always start the game with level 0.
 		//Game game = new Game(0, null);
 		//LevelIntroScreen introScreen = new LevelIntroScreen(s, game);
@@ -43,11 +49,12 @@ public class StartGameScreenController {
 //			e.printStackTrace();
 //		}
 	}
-	
+
 	
 	@FXML
 	// Exits the Game Application
 	public void handleExitGameButton (ActionEvent event) {
+		musicController.playBack();
 		Platform.exit();
 	}
 	@FXML

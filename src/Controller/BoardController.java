@@ -34,7 +34,12 @@ public class BoardController {
 	private Stage stage;
 	private GameScreen gamescreen;
 
-	public BoardController() {}
+	private MusicController musicController;
+
+	public BoardController() {
+		musicController = new MusicController();
+		musicController.initBoard();
+	}
 
     /**
      * Configuration for Board Controller
@@ -50,33 +55,41 @@ public class BoardController {
 		this.stage = s;
 		this.gamescreen = game;
 		diceController.config(engine);
-		ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
-	    onWindowResize();
-		stage.widthProperty().addListener(stageSizeListener);
-		stage.heightProperty().addListener(stageSizeListener); 
+		//ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> onWindowResize();
+		//stage.widthProperty().addListener(stageSizeListener);
+		//stage.heightProperty().addListener(stageSizeListener);
+		musicController.playBGM();
 	}
 
 	@FXML
 	public void init() {
 		int lastrand = 0, rand = 0;
+		int[] lastrandv = new int[engine.getBoard().getWidth()];
 		for (int y = 0; y < engine.getBoard().getHeight(); y++) {
 			for (int x = 0; x < engine.getBoard().getWidth(); x++) {
-				while (rand == lastrand)
+				while (rand == lastrand || rand == lastrandv[x])
 					rand = (int) (Math.random() * 6);
-				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/gametile" + rand + ".png")));
+				int tileid = (x%2 + y%2)%2*4;
+				if(engine.getBoard().isSnake(x, engine.getBoard().getHeight() - y - 1) != null) {
+					tileid = 6;
+				} else if(engine.getBoard().isLadder(x, engine.getBoard().getHeight() - y - 1) != null) {
+					tileid = 2;
+				}
+				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/Gametile" + tileid + ".jpg")));
 				ImageView floorView = new ImageView(boardFloor);
 				floorView.setPreserveRatio(true);
 				floorView.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
 				floorView.setId("tile");
 				squares.add(floorView, x, y);				
 				Text tilenum = new Text(Integer.toString(engine.getBoard().getPosition(x, engine.getBoard().getHeight() - y - 1)));
-				tilenum.setFont(Font.font("Harlow Solid Italic", 42));
-				tilenum.setFill(Color.WHITE);
-				tilenum.setStroke(Color.BLACK);
-				tilenum.setStrokeWidth(2);
+				tilenum.setFont(Font.font("Papyrus", 42));
+				tilenum.setFill(Color.BLACK);
+				//tilenum.setStroke(Color.BLACK);
+				//tilenum.setStrokeWidth(2);
 				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
 				lastrand = rand;
+				lastrandv[x] = rand;
 			}
 		}
 
@@ -179,7 +192,7 @@ public class BoardController {
 			if(node instanceof ImageView) {
 				ImageView image = (ImageView) node;
 				if(image.getId() != null && image.getId().equals("player")) {
-					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight()*0.7f);
+					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight()*0.75f);
 				} else {
 					image.setFitHeight(gamescreen.getSceneHeight() / (float) engine.getBoard().getHeight());
 				}		
