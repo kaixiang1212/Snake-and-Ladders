@@ -105,6 +105,15 @@ public class DiceController {
     	}
         
     }
+    /**
+     * Called when the 'menu' button is clicked
+     */
+    @FXML
+	public void menuButtonClicked() {
+        button.setDisable(true);
+        diceImage.setDisable(true);   
+    }
+    
     
     /**
      * Called in-between player turns to prepare for the next player roll
