@@ -1,5 +1,6 @@
 package Controller;
 
+import View.HelpGameScreen;
 import View.PlayerNumSelectionScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
@@ -16,6 +17,9 @@ public class StartGameScreenController {
 	
 	@FXML
 	private Button ExitGameButton;
+	
+	@FXML
+	private Button HelpGameButton;
 
 	private Stage s;
 	
@@ -45,6 +49,12 @@ public class StartGameScreenController {
 	// Exits the Game Application
 	public void handleExitGameButton (ActionEvent event) {
 		Platform.exit();
+	}
+	
+	@FXML 
+	public void handleHelpGameButton (ActionEvent event) {
+		HelpGameScreen selectionScreen = new HelpGameScreen(s);
+		selectionScreen.start();	
 	}
 
 }
