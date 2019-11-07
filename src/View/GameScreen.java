@@ -82,9 +82,9 @@ public class GameScreen {
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
-		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
-		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
-		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
+//		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
+//		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
+//		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
 	}
 	
 	public int getWidth() {
