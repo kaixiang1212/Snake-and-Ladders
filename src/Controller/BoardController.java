@@ -236,7 +236,6 @@ public class BoardController {
 	 * Used to render pipe and vine segments onto the gridpane (UNUSED)
 	 */
 	/*
->>>>>>> 1beecebc0642485f89823e14207c19a1fc5c1b76
 	public void addSegments(Entity entity) {
 		int x, y, x_end, y_end, y_init, x_init;
 		String name;

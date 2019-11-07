@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.*;
 
@@ -34,7 +35,7 @@ public class DiceController {
     private final Image[] diceFace;
     private int currentPos;
     private int destination;
-    private int dieRolled;
+    private int diceResult;
     private boolean isPaused;
 
     public DiceController() {
@@ -91,16 +92,14 @@ public class DiceController {
         diceImage.setDisable(true);   
 
         Player currentPlayer = players.getCurrentPlayer();
-        int diceResult = getDiceRolled();
+        diceResult = getDiceRolled();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
         musicController.playThrowDice();
         
     	if(!players.isFinished()) {
             currentPos = getCurrentPos();
             destination = currentPos+diceResult;
-            destination = getDestination();
-            dieRolled = diceResult;
-            
+            destination = getDestination();        
             animationController.setPlayerMoving(true);
     	}
         
@@ -144,7 +143,7 @@ public class DiceController {
     	button.setDisable(false);
         diceImage.setDisable(false);
 
-    	if (dieRolled == 6) {
+    	if (diceResult == 6) {
             musicController.playRolled6();
             sb.append(players.getCurrentPlayer().getPlayerName().concat(" roll again"));
         } else {
