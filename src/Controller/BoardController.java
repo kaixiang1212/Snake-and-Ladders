@@ -56,7 +56,7 @@ public class BoardController {
 	public ImageView Ladder7;
 	@FXML
 	public ImageView gifLadder7;
-
+	@FXML
 	private AnchorPane menuPane;
 	@FXML
 	private Button exitButton;
