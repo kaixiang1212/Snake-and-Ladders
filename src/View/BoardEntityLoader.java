@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import Model.Snake.SnakeType;
 import Controller.*;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -41,9 +39,7 @@ public class BoardEntityLoader extends BoardLoader{
 		stage = s;
 		gamescreen = game;
 		this.engine = engine;
-	}
-
-	      
+	}      
 	
 	private void addEntity(Entity entity, ImageView view) {
 		trackPosition(entity, view);

@@ -36,8 +36,6 @@ public class PlayerCustomizationController {
 
     private ArrayList<Integer> availableToken;
 
-    private int lastPlayerImageClicked = 0;
-
     private MusicController musicController;
 
 
@@ -51,7 +49,7 @@ public class PlayerCustomizationController {
         musicController = new MusicController();
         musicController.initUI();
     }
-
+    
     public void setStage(Stage stage) { this.stage = stage; }
 
     /**
@@ -88,7 +86,7 @@ public class PlayerCustomizationController {
         imageView.setFitWidth(120);
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
-        FlowPane.setMargin(vBox, new Insets(-50,10,0,10));
+        FlowPane.setMargin(vBox, new Insets(10,10,0,10));
         setPlayerToken(playerCount, playerNum);
         
     }
@@ -105,13 +103,6 @@ public class PlayerCustomizationController {
             	availableToken.add(i);
         }
         return availableToken.remove(0);
-    }
-
-    /**
-     * Clear available token list
-     */
-    private void clearAvailableToken(){
-        availableToken.clear();
     }
 
     /**

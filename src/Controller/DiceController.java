@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Dice;
 import Model.GameEngine;
 import Model.Player;
 import javafx.fxml.FXML;
@@ -13,9 +12,9 @@ import javafx.scene.text.*;
 public class DiceController {
 
     @FXML
-    public Button button;
+    private Button button;
     @FXML
-    public AnchorPane diceInterface;
+    private AnchorPane diceInterface;
     @FXML
     private ImageView diceImage;
     @FXML
@@ -24,18 +23,20 @@ public class DiceController {
     private Text message;
     @FXML
     private ImageView playerToken;
+    @FXML
+    private Button menuButton;
 
     private GameEngine players;
     private MusicController musicController;
     private AnimationController animationController;
-    
-    private Dice dice;
+    private BoardController boardController;
+
     private final Image[] diceFace;
     private int currentPos;
     private int destination;
     private int dieRolled;
-    
-    
+    private boolean isPaused;
+
     public DiceController() {
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));
@@ -46,7 +47,6 @@ public class DiceController {
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
         musicController = new MusicController();
         musicController.initDice();
-        dice = new Dice();
         animationController = new AnimationController(players, this);
         animationController.getAnimation().start();
     }
@@ -57,8 +57,9 @@ public class DiceController {
      *
      * @param engine Game Engine
      */
-    void config(GameEngine engine) {
+    void config(GameEngine engine, BoardController boardController) {
         this.players = engine;
+        this.boardController = boardController;
         animationController.setEngine(engine);
         setCurrentPlayerToken();
         Player player = players.getCurrentPlayer();
@@ -90,10 +91,9 @@ public class DiceController {
         diceImage.setDisable(true);   
 
         Player currentPlayer = players.getCurrentPlayer();
-        int diceResult = dice.roll();
+        int diceResult = getDiceRolled();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
         musicController.playThrowDice();
-        draw(diceResult);
         
     	if(!players.isFinished()) {
             currentPos = getCurrentPos();
@@ -105,6 +105,27 @@ public class DiceController {
     	}
         
     }
+
+    /**
+     * Called when the 'menu' button is clicked
+     */
+    @FXML
+	public void menuButtonClicked() {
+    	if (isPaused == false) {
+            isPaused = true;
+            button.setDisable(true);
+            diceImage.setDisable(true);
+            boardController.showMenu();
+    	} else {
+            boardController.hideMenu();
+            if(!players.isFinished()) {
+	            diceImage.setDisable(false);
+	            button.setDisable(false);
+            }
+            isPaused = false;
+    	}
+    }
+    
     
     /**
      * Called in-between player turns to prepare for the next player roll
@@ -177,6 +198,18 @@ public class DiceController {
     private void setCurrentPlayerToken() {
         int token = players.getCurrentPlayerToken();
         playerToken.setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+    }
+
+    /**
+     * Get last randomly rolled dice image as result
+     * @return dice result between 1 - 6
+     */
+    private int getDiceRolled(){
+        Image lastRolled = diceImage.getImage();
+        for(int i=0; i<6;i++){
+            if (lastRolled == diceFace[i]) return i+1;
+        }
+        return -1;
     }
 
 }

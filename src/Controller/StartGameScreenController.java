@@ -1,5 +1,6 @@
 package Controller;
 
+import View.HelpGameScreen;
 import View.PlayerNumSelectionScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
@@ -18,6 +19,9 @@ public class StartGameScreenController {
 	@FXML
 	private Button ExitGameButton;
 
+	@FXML
+	private Button HelpGameButton;
+	
 	private Stage s;
 
 	private MusicController musicController;
@@ -51,7 +55,19 @@ public class StartGameScreenController {
 	// Exits the Game Application
 	public void handleExitGameButton (ActionEvent event) {
 		musicController.playBack();
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Platform.exit();
+	}
+	@FXML
+	// goes to rules page
+	public void handleHelpButton (ActionEvent event) {
+		musicController.playNext();
+		HelpGameScreen selectionScreen = new HelpGameScreen(s);
+		selectionScreen.start();	
 	}
 
 }

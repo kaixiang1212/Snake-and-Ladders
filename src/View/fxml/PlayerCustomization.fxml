@@ -13,9 +13,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" width="800.0"/>
+      <ImageView fitHeight="1228.0" fitWidth="1167.0" layoutX="27.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" rotate="-29.1" x="-70.0" y="-140.0">
+         <image>
+            <Image url="@../../asset/coralsnake.png" />
+         </image>
+      </ImageView>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0">
           <children>
 	        <Label fx:id="title" alignment="CENTER" prefHeight="80.0" prefWidth="280.0" text="Players" textFill="#8d6b23">
@@ -23,7 +28,7 @@
 	                <Font name="Papyrus" size="50.0" />
 	             </font>
 	             <VBox.margin>
-	                <Insets top="20.0" />
+	                <Insets top="-54.0" />
 	             </VBox.margin>
 	          </Label>
 		      <FlowPane fx:id="flowPane" alignment="CENTER" prefHeight="315.0" prefWidth="600.0" >
@@ -35,7 +40,7 @@
 		                        <Image url="@../../asset/token0.png" />
 		                     </image>
 		                     <VBox.margin>
-		                        <Insets top="-50.0"/>
+		                        <Insets top="10.0"/>
 		                     </VBox.margin>
 		                  </ImageView>
 		                  <TextField alignment="CENTER" text="Player 1">
@@ -61,12 +66,12 @@
 		      </FlowPane>
 		      <Pane prefHeight="107.0" prefWidth="800.0">
 		         <children>
-		            <Button fx:id="backButton" layoutX="160.0" layoutY="75.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
+		            <Button fx:id="backButton" layoutX="160.0" layoutY="149.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
 		               <font>
 		                  <Font name="Papyrus" size="22.0" />
 		               </font>
 		            </Button>
-		            <Button fx:id="createGameButton" layoutX="460.0" layoutY="75.0" mnemonicParsing="false" onAction="#createGameButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Create Game &gt;">
+		            <Button fx:id="createGameButton" layoutX="460.0" layoutY="149.0" mnemonicParsing="false" onAction="#createGameButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Create Game &gt;">
 		               <font>
 		                  <Font name="Papyrus" size="22.0" />
 		               </font>
@@ -76,4 +81,4 @@
 	       </children>
        </VBox>
    </children>
-</AnchorPane>
+</Pane>
