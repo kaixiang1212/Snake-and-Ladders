@@ -5,15 +5,10 @@ import View.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -33,53 +28,25 @@ public class BoardController {
 	@FXML
 	private DiceController diceController;
 	@FXML
-	private AnchorPane myAnchorPane;
+	private AnchorPane menuPane;
 	@FXML
 	private Button exitButton;
 	@FXML
 	private Button resumeButton;
 	
-
 	private List<Pair<Entity, ImageView>> initialEntities;
     private GameEngine engine;
 	private Stage stage;
 	private GameScreen gamescreen;
-	private boolean isPaused = false;
 	private MusicController musicController;
-    public void initialize() {
-    	Button menuButton = diceController.menuButton;
-        myAnchorPane.setManaged(false);
-        myAnchorPane.setVisible(false);
-        Button rollButton = diceController.button;
-        ImageView diceImage = diceController.diceImage;
-        menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                	if (isPaused == false) {
-                    myAnchorPane.setManaged(true);
-                    myAnchorPane.setVisible(true);
-                    rollButton.setDisable(true);
-                    diceImage.setDisable(true);   
-                    isPaused = true;
-                	} else {
-                        myAnchorPane.setManaged(false);
-                        myAnchorPane.setVisible(false);
-                        rollButton.setDisable(false);
-                        diceImage.setDisable(false);  
-                        isPaused = false;
-                	}
-                	
-            }
-        });
-    }
+	
 	public BoardController() {
 		musicController = new MusicController();
 		musicController.initBoard();
 	}
 
     /**
-     * Configuration for Board Controller
-     * and configure Dice Controller
+     * Configuration for Board Controller and configure Dice Controller
      * @param engine Game Engine
      * @param initialEntities
      * @param s Stage
@@ -88,28 +55,35 @@ public class BoardController {
 	public void config(GameEngine engine, List<Pair<Entity, ImageView>> initialEntities, Stage s, GameScreen game) {
 		this.engine = engine;
 		this.initialEntities = new ArrayList<>(initialEntities);
-		this.stage = s;
+		stage = s;
 		this.gamescreen = game;
-		diceController.config(engine);
+		diceController.config(engine, this);
+		hideMenu();
 		//ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> onWindowResize();
 		//stage.widthProperty().addListener(stageSizeListener);
 		//stage.heightProperty().addListener(stageSizeListener);
 		musicController.playBGM();
+		
 	}
-
+	
+	/**
+	 * Called when the board screen is loaded
+	 */
 	@FXML
 	public void init() {
-		int lastrand = 0, rand = 0;
-		int[] lastrandv = new int[engine.getBoard().getWidth()];
+//		int lastrand = 0, rand = 0;
+//		int[] lastrandv = new int[engine.getBoard().getWidth()];
+		
+		// Adds gametiles to the gridpane
 		for (int y = 0; y < engine.getBoard().getHeight(); y++) {
 			for (int x = 0; x < engine.getBoard().getWidth(); x++) {
-				while (rand == lastrand || rand == lastrandv[x])
-					rand = (int) (Math.random() * 6);
-				int tileid = (x%2 + y%2)%2*4;
+//				while (rand == lastrand || rand == lastrandv[x])
+//					rand = (int) (Math.random() * 6);
+				int tileid = (x%2 + y%2)%2;
 				if(engine.getBoard().isSnake(x, engine.getBoard().getHeight() - y - 1) != null) {
-					tileid = 6;
+					tileid = 7;
 				} else if(engine.getBoard().isLadder(x, engine.getBoard().getHeight() - y - 1) != null) {
-					tileid = 2;
+					tileid = 4;
 				}
 				Image boardFloor = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/Gametile" + tileid + ".jpg")));
 				ImageView floorView = new ImageView(boardFloor);
@@ -124,31 +98,62 @@ public class BoardController {
 				//tilenum.setStrokeWidth(2);
 				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
-				lastrand = rand;
-				lastrandv[x] = rand;
-			}
-		}
-
-		// Order entities by their order in the enum Type (in Model.Entity)
-		initialEntities.sort(new Comparator<Pair<Entity, ImageView>>() {
-			@Override
-			public int compare(Pair<Entity, ImageView> p1, Pair<Entity, ImageView> p2) {
-				return p2.getKey().getEntityType().ordinal() - p1.getKey().getEntityType().ordinal();
-			}
-		});
-
-		for (Pair<Entity, ImageView> entityPair : initialEntities) {
-			Entity entity = entityPair.getKey();
-			ImageView entityImage = entityPair.getValue();
-			squares.getChildren().add(entityImage);
-			GridPane.setHalignment(entityImage, HPos.CENTER);
-			if (entity instanceof Snake || entity instanceof Ladder) {
-				addSegments(entity);
+//				lastrand = rand;
+//				lastrandv[x] = rand;
 			}
 		}
 		
+		// Adds initial entities (players, items) to the gridpane
+		for (Pair<Entity, ImageView> entityPair : initialEntities) {
+			ImageView entityImage = entityPair.getValue();
+			squares.getChildren().add(entityImage);
+			GridPane.setHalignment(entityImage, HPos.CENTER);
+		}
+		
 	}
-
+	
+	/**
+	 * Called when the exit button is clicked from the pause menu
+	 * @throws IOException
+	 */
+    @FXML
+    private void handleExitButton() throws IOException {
+    	hideMenu();
+        musicController.clear();
+        musicController.stopBGM();
+        StartGameScreen startGameScreen = new StartGameScreen(stage);
+        startGameScreen.start();
+    }
+    
+    /**
+     * Called when the resume button is clicked from the pause menu
+     * @throws IOException
+     */
+    @FXML
+    private void handleResumeButton() throws IOException {
+    	diceController.menuButtonClicked();
+    }
+    
+	/**
+	 * Shows the pause menu (doesn't pause/unpause the game by itself)
+	 */
+    public void showMenu() {
+    	menuPane.setManaged(true);
+        menuPane.setVisible(true);
+    }
+    
+    /**
+	 * Hides the pause menu (doesn't pause/unpause the game by itself)
+	 */
+    public void hideMenu() {
+    	menuPane.setManaged(false);
+        menuPane.setVisible(false);
+    }
+    
+	/**
+	 * Used to render pipe and vine segments onto the gridpane (UNUSED)
+	 */
+	/*
 	public void addSegments(Entity entity) {
 		int x, y, x_end, y_end, y_init, x_init;
 		String name;
@@ -221,8 +226,12 @@ public class BoardController {
 		}
 
 	}
-	
-	
+	*/
+    
+	/**
+	 * Called when the board window is resized (UNUSED)
+	 */
+    /*
 	public void onWindowResize() {
 		for(Node node : squares.getChildren()) {
 			if(node instanceof ImageView) {
@@ -239,19 +248,5 @@ public class BoardController {
 			}
 		}
 	}
-
-    @FXML
-    private void handleExitButton() throws IOException {
-    	StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
-    }
-    @FXML
-    private void handleResumeButton() throws IOException {
-        Button rollButton = diceController.button;
-        ImageView diceImage = diceController.diceImage;
-    	myAnchorPane.setManaged(false);
-        myAnchorPane.setVisible(false);
-        rollButton.setDisable(false);
-        diceImage.setDisable(false);   
-    }
+    */
 }

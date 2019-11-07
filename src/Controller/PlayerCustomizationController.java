@@ -36,8 +36,6 @@ public class PlayerCustomizationController {
 
     private ArrayList<Integer> availableToken;
 
-    private int lastPlayerImageClicked = 0;
-
     private MusicController musicController;
 
 
@@ -51,7 +49,7 @@ public class PlayerCustomizationController {
         musicController = new MusicController();
         musicController.initUI();
     }
-
+    
     public void setStage(Stage stage) { this.stage = stage; }
 
     /**
@@ -105,13 +103,6 @@ public class PlayerCustomizationController {
             	availableToken.add(i);
         }
         return availableToken.remove(0);
-    }
-
-    /**
-     * Clear available token list
-     */
-    private void clearAvailableToken(){
-        availableToken.clear();
     }
 
     /**
