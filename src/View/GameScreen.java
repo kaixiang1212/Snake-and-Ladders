@@ -64,7 +64,7 @@ public class GameScreen {
 		
 	}
 		
-	// Loads the Game screen for the given level by 'DungeonControllerLoader'
+	
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
@@ -76,7 +76,17 @@ public class GameScreen {
 		boardController = loader.getController();
 		boardLoader.configBoardController(boardController);
 		boardController.init();
-
+		
+		// Create a GifController to manage the gifs once the boar has been loaded.
+		GifController gifcontroller = new GifController(boardController);
+		
+		// Add the Gifcontroller to the gameEngine
+		game.setGifcontroller(gifcontroller);
+		
+		
+		//System.out.println("" + boardController.gifladder1);
+		
+		
 		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
 		//stage.setResizable(true);
 		stage.setTitle(title);

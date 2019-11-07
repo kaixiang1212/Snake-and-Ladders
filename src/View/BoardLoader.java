@@ -60,6 +60,7 @@ public abstract class BoardLoader {
 
     private void loadEntity(GameEngine engine, JSONObject json) throws JSONException {
         String type = json.getString("type");
+        String id = json.getString("id");
         int x = json.getInt("x");
         int y = json.getInt("y");
         int x2 = json.getInt("x2");
@@ -98,7 +99,7 @@ public abstract class BoardLoader {
             }
             break;
         case "ladder":
-        	Ladder ladder = new Ladder(x, y, x2, y2);
+        	Ladder ladder = new Ladder(x, y, x2, y2, id);
         	onLoad(ladder);
             if (ladder != null) {
             	engine.getBoard().addEntity(ladder);

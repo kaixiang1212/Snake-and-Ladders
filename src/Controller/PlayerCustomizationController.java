@@ -186,6 +186,8 @@ public class PlayerCustomizationController {
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
         musicController.playNext();
+        
+        // Modify GameEngine to hold a gifController.
         GameEngine engine = new GameEngine();
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){

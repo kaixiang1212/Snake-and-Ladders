@@ -5,8 +5,13 @@
 package Model;
 
 import Controller.MusicController;
+import Controller.GifController;
+import javafx.scene.image.ImageView;
 
+import javafx.util.Duration;
 import java.util.ArrayList;
+import javafx.animation.PauseTransition;  
+
 
 public class GameEngine {
 
@@ -18,6 +23,10 @@ public class GameEngine {
     private StringBuilder console;
 
 	private MusicController musicController;
+	
+	// GameEngine now carries a gifController instance that allows methods from boardController to be used when updating the game state.
+	private GifController gifcontroller;
+	
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -39,7 +48,7 @@ public class GameEngine {
 //        gameboard.addLadder(new Ladder(50, 69));
 //        gameboard.addLadder(new Ladder(62, 81));
 //        gameboard.addLadder(new Ladder(74, 92));
-	    gameboard.addEntity(new Snake(6, 2, 4, 0, "snake"));
+	    /**gameboard.addEntity(new Snake(6, 2, 4, 0, "snake"));
 	    gameboard.addEntity(new Snake(0, 3, 2, 0, "snake"));
 	    gameboard.addEntity(new Snake(2, 4, 2, 1, "snake"));
 	    gameboard.addEntity(new Snake(6, 7, 9, 3, "snake"));
@@ -53,6 +62,7 @@ public class GameEngine {
 	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
 	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
 	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
+	    */
         console = new StringBuilder();
         console.setLength(0);
         musicController = new MusicController();
@@ -62,9 +72,10 @@ public class GameEngine {
      * This constructor is used to pass in a pre-made gameboard
      * @param gameboard: pre-made gameboard
      */
-    public GameEngine(Board gameboard){
+    public GameEngine(Board gameboard, GifController gifcontroller){
         players = new ArrayList<>();
         this.gameboard = gameboard;
+        this.gifcontroller = gifcontroller;
         console = new StringBuilder();
         console.setLength(0);
     }
@@ -150,7 +161,13 @@ public class GameEngine {
 		return gameboard;
 	}
 	
-    /**
+    public GifController getGifcontroller() {
+		return gifcontroller;
+	}
+	public void setGifcontroller(GifController gifcontroller) {
+		this.gifcontroller = gifcontroller;
+	}
+	/**
      * Set the next player in turn as current player, looping over the list of all players
      */
     public Player nextPlayer(){
@@ -199,10 +216,25 @@ public class GameEngine {
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
+				Ladder currLadder = gameboard.isLadder(currX, currY);
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				musicController.playLadder();
+				
+				ImageView ladderGif = this.gifcontroller.getGifView(currLadder.getId());
+				ImageView ladderImg = this.gifcontroller.getImgView(currLadder.getId());
+				// Shake the ladder
+				// Shake the ladder
+				this.gifcontroller.shakeLadder(ladderGif, ladderImg);
+				// Stop laddershake after 1 second
+				PauseTransition pause = new PauseTransition(Duration.seconds(1));
+				pause.setOnFinished(event ->
+					this.gifcontroller.stopShakeLadder(ladderGif, ladderImg)
+				);
+				pause.play();
+				
+				
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")

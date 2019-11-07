@@ -7,98 +7,113 @@
         "y": 0,
         "x2": 2,
         "y2": 1,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder4"
     },
     {
         "x": 9,
         "y": 0,
         "x2": 7,
         "y2": 3,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder5"
     },
     {
         "x": 3,
         "y": 3,
         "x2": 2,
         "y2": 4,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder3"
     },
     {
         "x": 8,
         "y": 4,
         "x2": 7,
         "y2": 6,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder6"
     },
     {
         "x": 0,
         "y": 4,
         "x2": 2,
         "y2": 7,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder2"
     },
     {
         "x": 3,
         "y": 5,
         "x2": 4,
         "y2": 9,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder1"
     },
     {
         "x": 9,
         "y": 7,
         "x2": 8,
         "y2": 9,
-        "type": "ladder"
+        "type": "ladder",
+        "id": "Ladder7"
     },
     {
       "x": 5,
       "y": 2,
       "x2": 3,
       "y2": 0,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake1"
     },
     {
       "x": 8,
       "y": 3,
       "x2": 7,
       "y2": 0,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake2"
     },
     {
       "x": 1,
       "y": 4,
       "x2": 3,
       "y2": 2,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake3"
     },
     {
       "x": 6,
       "y": 6,
       "x2": 4,
       "y2": 4,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake4"
     },
     {
       "x": 7,
       "y": 8,
       "x2": 8,
       "y2": 6,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake5"
+      
     },
     {
       "x": 7,
       "y": 9,
       "x2": 6,
       "y2": 7,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake6"
     },
     {
       "x": 1,
       "y": 9,
       "x2": 3,
       "y2": 6,
-      "type": "snake"
+      "type": "snake",
+      "id": "Snake7"
     }
   ]
 }

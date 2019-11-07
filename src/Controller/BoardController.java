@@ -20,6 +20,7 @@ import javafx.util.Pair;
 
 public class BoardController {
 
+	
 	@FXML
 	private HBox hbox;
 	@FXML
@@ -28,6 +29,36 @@ public class BoardController {
 	private VBox dice;
 	@FXML
 	private DiceController diceController;
+	@FXML
+	public ImageView Ladder1;
+	@FXML
+	public ImageView gifLadder1;
+	@FXML
+	public ImageView Ladder2;
+	@FXML
+	public ImageView gifLadder2;
+	@FXML
+	public ImageView Ladder3;
+	@FXML
+	public ImageView gifLadder3;
+	@FXML
+	public ImageView Ladder4;
+	@FXML
+	public ImageView gifLadder4;
+	@FXML
+	public ImageView Ladder5;
+	@FXML
+	public ImageView gifLadder5;
+	@FXML
+	public ImageView Ladder6;
+	@FXML
+	public ImageView gifLadder6;
+	@FXML
+	public ImageView Ladder7;
+	@FXML
+	public ImageView gifLadder7;
+	
+	
 
 	private List<Pair<Entity, ImageView>> initialEntities;
     private GameEngine engine;
@@ -112,7 +143,62 @@ public class BoardController {
 		}
 		
 	}
+	
+	
+	public ImageView getGif(String id) {
+		// currently only returns the gifLadder1. once tested, make getter for all imageviews based on string id.
+		ImageView view = null;
+		if (id.equals("gifLadder1")) {
+			view = gifLadder1;
+		} else if(id.equals("gifLadder2")) {
+			view = gifLadder2;
+		} else if(id.equals("gifLadder3")) {
+			view = gifLadder3;
+		} else if(id.equals("gifLadder4")) {
+			view = gifLadder4;
+		} else if(id.equals("gifLadder5")) {
+			view = gifLadder5;
+		} else if(id.equals("gifLadder6")) {
+			view = gifLadder6;
+		} else if(id.equals("gifLadder7")) {
+			view = gifLadder7;
+		}
+		return view;
+	}
+	
+	public ImageView getImg(String id) {
+		// currently only returns the gifLadder1. once tested, make getter for all imageviews based on string id.
+		ImageView img = null;
+		if (id.equals("Ladder1")) {
+			img = Ladder1;
+		} else if(id.equals("Ladder2")) {
+			img = Ladder2;
+		} else if(id.equals("Ladder3")) {
+			img = Ladder3;
+		} else if(id.equals("Ladder4")) {
+			img = Ladder4;
+		} else if(id.equals("Ladder5")) {
+			img = Ladder5;
+		} else if(id.equals("Ladder6")) {
+			img = Ladder6;
+		} else if(id.equals("Ladder7")) {
+			img = Ladder7;
+		}
+		return img;
+	}
+	
+	
+	public void shakeLadder(ImageView ladderGif, ImageView ladderImg) {
+		ladderImg.setVisible(false);
+		ladderGif.setVisible(true);
+	}
+	
 
+	public void stopShakeLadder(ImageView ladderGif, ImageView ladderImg) {
+		ladderGif.setVisible(false);
+		ladderImg.setVisible(true);
+	}
+	
 	public void addSegments(Entity entity) {
 		int x, y, x_end, y_end, y_init, x_init;
 		String name;

@@ -32,9 +32,14 @@
             <Image url="@../../../../../../Desktop/Screen%20Shot%202019-11-05%20at%2012.06.58%20am.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="325.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" x="230.0" y="60.0">
+      <ImageView fx:id="Ladder1" fitHeight="325.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" x="230.0" y="60.0">
          <image>
-            <Image url="@../../asset/ladder20.png" />
+            <Image url="@../../asset/Ladders/Ladder1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder1" fitHeight="325.0" fitWidth="400.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="230.0" y="60.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder1.gif" />
          </image>
       </ImageView>
       <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" x="105.0" y="15.0">
@@ -47,14 +52,14 @@
             <Image url="@../../asset/bluesnake.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="90.0" y="450.0">
-         <image>
-            <Image url="@../../asset/1.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" x="360.0" y="270.0">
          <image>
             <Image url="@../../asset/coralsnake2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" x="90.0" y="450.0">
+         <image>
+            <Image url="@../../asset/1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" x="600.0" y="100.0">
@@ -67,39 +72,74 @@
             <Image url="@../../asset/coralsnake1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="140.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="180.0" y="410.0">
-         <image>
-            <Image url="@../../asset/ladder1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="310.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="-4.8" x="585.0" y="500.0">
-         <image>
-            <Image url="@../../asset/ladder2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="170.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="565.0" y="295.0">
-         <image>
-            <Image url="@../../asset/ladder3.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="270.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="14.0" x="30.0" y="200.0">
-         <image>
-            <Image url="@../../asset/ladder4.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="110.0" y="670.0">
-         <image>
-            <Image url="@../../asset/ladder5.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="175.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="-11.3" x="470.0" y="50.0">
          <image>
             <Image url="@../../asset/coralsnake10.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="190.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="-9.5" x="670.0" y="40.0">
+      <ImageView fx:id="Ladder3" fitHeight="140.0" fitWidth="200.0" layoutX="1.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" x="180.0" y="410.0">
          <image>
-            <Image url="@../../asset/ladder7.png" />
+            <Image url="@../../asset/Ladders/Ladder3.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder3" fitHeight="140.0" fitWidth="200.0" layoutX="1.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" visible="false" x="180.0" y="410.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder3.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder5" fitHeight="286.0" fitWidth="206.0" layoutX="-9.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" rotate="-4.8" x="585.0" y="500.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder5.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder5" fitHeight="286.0" fitWidth="206.0" layoutX="-11.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" visible="false" x="585.0" y="500.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder5.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder6" fitHeight="245.0" fitWidth="173.0" layoutX="-20.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true" x="565.0" y="295.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder6.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder6" fitHeight="245.0" fitWidth="173.0" layoutX="-20.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true" visible="false" x="565.0" y="295.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder6.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder2" fitHeight="270.0" fitWidth="229.0" layoutX="-20.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" x="30.0" y="200.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder2" fitHeight="270.0" fitWidth="229.0" layoutX="-16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" visible="false" x="30.0" y="200.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder2.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder4" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="110.0" y="670.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder4.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder4" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" x="110.0" y="670.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder4.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder7.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder7" fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder7.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder7" fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder7.gif" />
          </image>
       </ImageView>
    </children>
