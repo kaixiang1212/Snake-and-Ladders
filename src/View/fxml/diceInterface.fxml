@@ -10,20 +10,20 @@
 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DiceController">
    <children>
       <Button fx:id="menuButton" alignment="CENTER" mnemonicParsing="false" onAction="#menuButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Menu" />
-   <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="CENTER" wrappingWidth="200.0" />
-      <ImageView fx:id="playerToken" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-      <Text disable="true" strokeType="OUTSIDE" strokeWidth="0.0" />
-   <ImageView fx:id="diceImage" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#rollButtonClicked" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../asset/dice1.png" />
-      </image>
-   </ImageView>
-   <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" onAction="#rollButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Start Rolling" />
-      <Text disable="true" strokeType="OUTSIDE" strokeWidth="0.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Text>
-   <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.0" />
-</children>
+	  <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="CENTER" wrappingWidth="200.0" />
+	     <ImageView fx:id="playerToken" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+	     <Text disable="true" strokeType="OUTSIDE" strokeWidth="0.0" />
+	  <ImageView fx:id="diceImage" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#rollButtonClicked" pickOnBounds="true" preserveRatio="true">
+	     <image>
+	        <Image url="@../../asset/dice1.png" />
+	     </image>
+	  </ImageView>
+	  <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" onAction="#rollButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Start Rolling" />
+	     <Text disable="true" strokeType="OUTSIDE" strokeWidth="0.0">
+	        <font>
+	           <Font size="10.0" />
+	        </font>
+	     </Text>
+	  <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.0" />
+   </children>
 </VBox>

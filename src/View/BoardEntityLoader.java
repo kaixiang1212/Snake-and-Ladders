@@ -41,9 +41,7 @@ public class BoardEntityLoader extends BoardLoader{
 		stage = s;
 		gamescreen = game;
 		this.engine = engine;
-	}
-
-	      
+	}      
 	
 	private void addEntity(Entity entity, ImageView view) {
 		trackPosition(entity, view);

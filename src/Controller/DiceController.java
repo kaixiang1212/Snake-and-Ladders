@@ -13,11 +13,11 @@ import javafx.scene.text.*;
 public class DiceController {
 
     @FXML
-    public Button button;
+    private Button button;
     @FXML
-    public AnchorPane diceInterface;
+    private AnchorPane diceInterface;
     @FXML
-    public ImageView diceImage;
+    private ImageView diceImage;
     @FXML
     private Text text;
     @FXML
@@ -25,18 +25,19 @@ public class DiceController {
     @FXML
     private ImageView playerToken;
     @FXML
-    public Button menuButton;
+    private Button menuButton;
 
     private GameEngine players;
     private MusicController musicController;
     private AnimationController animationController;
+    private BoardController boardController;
     
     private Dice dice;
     private final Image[] diceFace;
     private int currentPos;
     private int destination;
     private int dieRolled;
-    
+    private boolean isPaused;
 
     public DiceController() {
         this.diceFace = new Image[6];
@@ -59,8 +60,9 @@ public class DiceController {
      *
      * @param engine Game Engine
      */
-    void config(GameEngine engine) {
+    void config(GameEngine engine, BoardController boardController) {
         this.players = engine;
+        this.boardController = boardController;
         animationController.setEngine(engine);
         setCurrentPlayerToken();
         Player player = players.getCurrentPlayer();
@@ -107,13 +109,25 @@ public class DiceController {
     	}
         
     }
+    
     /**
      * Called when the 'menu' button is clicked
      */
     @FXML
 	public void menuButtonClicked() {
-        button.setDisable(true);
-        diceImage.setDisable(true);   
+    	if (isPaused == false) {
+            isPaused = true;
+            button.setDisable(true);
+            diceImage.setDisable(true);   
+            boardController.showMenu();
+    	} else {
+            boardController.hideMenu();
+            if(!players.isFinished()) {
+	            diceImage.setDisable(false);  
+	            button.setDisable(false);
+            }
+            isPaused = false;
+    	}
     }
     
     

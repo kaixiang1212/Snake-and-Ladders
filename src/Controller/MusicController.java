@@ -206,4 +206,9 @@ public class MusicController {
         bgMusicPlayer.setVolume(0.1);
         bgMusicPlayer.play();
     }
+    
+    public void stopBGM(){
+        if (!initBoard) return;
+        bgMusicPlayer.stop();
+    }
 }
