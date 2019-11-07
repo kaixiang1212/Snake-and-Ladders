@@ -46,8 +46,7 @@ public class BoardController {
 	}
 
     /**
-     * Configuration for Board Controller
-     * and configure Dice Controller
+     * Configuration for Board Controller and configure Dice Controller
      * @param engine Game Engine
      * @param initialEntities
      * @param s Stage
