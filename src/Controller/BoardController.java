@@ -5,15 +5,10 @@ import View.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -45,11 +40,6 @@ public class BoardController {
 	private GameScreen gamescreen;
 	private MusicController musicController;
 	
-    public void initialize() {
-        menuPane.setManaged(false);
-        menuPane.setVisible(false);
-    }
-    
 	public BoardController() {
 		musicController = new MusicController();
 		musicController.initBoard();
@@ -69,16 +59,23 @@ public class BoardController {
 		stage = s;
 		this.gamescreen = game;
 		diceController.config(engine, this);
+		hideMenu();
 		//ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> onWindowResize();
 		//stage.widthProperty().addListener(stageSizeListener);
 		//stage.heightProperty().addListener(stageSizeListener);
 		musicController.playBGM();
+		
 	}
-
+	
+	/**
+	 * Called when the board screen is loaded
+	 */
 	@FXML
 	public void init() {
 //		int lastrand = 0, rand = 0;
 //		int[] lastrandv = new int[engine.getBoard().getWidth()];
+		
+		// Adds gametiles to the gridpane
 		for (int y = 0; y < engine.getBoard().getHeight(); y++) {
 			for (int x = 0; x < engine.getBoard().getWidth(); x++) {
 //				while (rand == lastrand || rand == lastrandv[x])
@@ -107,6 +104,7 @@ public class BoardController {
 			}
 		}
 		
+		// Adds initial entities (players, items) to the gridpane
 		for (Pair<Entity, ImageView> entityPair : initialEntities) {
 			ImageView entityImage = entityPair.getValue();
 			squares.getChildren().add(entityImage);
@@ -114,7 +112,48 @@ public class BoardController {
 		}
 		
 	}
-
+	
+	/**
+	 * Called when the exit button is clicked from the pause menu
+	 * @throws IOException
+	 */
+    @FXML
+    private void handleExitButton() throws IOException {
+    	hideMenu();
+        musicController.clear();
+        musicController.stopBGM();
+        StartGameScreen startGameScreen = new StartGameScreen(stage);
+        startGameScreen.start();
+    }
+    
+    /**
+     * Called when the resume button is clicked from the pause menu
+     * @throws IOException
+     */
+    @FXML
+    private void handleResumeButton() throws IOException {
+    	diceController.menuButtonClicked();
+    }
+    
+	/**
+	 * Shows the pause menu (doesn't pause/unpause the game by itself)
+	 */
+    public void showMenu() {
+    	menuPane.setManaged(true);
+        menuPane.setVisible(true);
+    }
+    
+    /**
+	 * Hides the pause menu (doesn't pause/unpause the game by itself)
+	 */
+    public void hideMenu() {
+    	menuPane.setManaged(false);
+        menuPane.setVisible(false);
+    }
+    
+	/**
+	 * Used to render pipe and vine segments onto the gridpane (UNUSED)
+	 */
 	/*
 	public void addSegments(Entity entity) {
 		int x, y, x_end, y_end, y_init, x_init;
@@ -189,7 +228,11 @@ public class BoardController {
 
 	}
 	*/
-	
+    
+	/**
+	 * Called when the board window is resized (UNUSED)
+	 */
+    /*
 	public void onWindowResize() {
 		for(Node node : squares.getChildren()) {
 			if(node instanceof ImageView) {
@@ -206,28 +249,5 @@ public class BoardController {
 			}
 		}
 	}
-
-    public void showMenu() {
-    	menuPane.setManaged(true);
-        menuPane.setVisible(true);
-    }
-    
-    public void hideMenu() {
-    	menuPane.setManaged(false);
-        menuPane.setVisible(false);
-    }
-	
-    @FXML
-    private void handleExitButton() throws IOException {
-    	hideMenu();
-        musicController.clear();
-        musicController.stopBGM();
-        StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
-    }
-    
-    @FXML
-    private void handleResumeButton() throws IOException {
-    	diceController.menuButtonClicked();
-    }
+    */
 }

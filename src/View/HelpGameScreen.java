@@ -3,15 +3,12 @@ package View;
 import java.io.IOException;
 
 import Controller.HelpController;
-import Controller.PlayerNumSelectionController;
-import Controller.StartGameScreenController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class HelpGameScreen {
-
 	
 	private String screenTitle;
 	private Stage stage;

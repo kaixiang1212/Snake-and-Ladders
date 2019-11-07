@@ -8,7 +8,11 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class HelpController {
-    private Stage stage;
+    
+	@FXML
+    private Button backButton;
+	
+	private Stage stage;
     private MusicController musicController;
     
     public HelpController(){
@@ -16,8 +20,10 @@ public class HelpController {
     	musicController.initUI();
     }
     
-    @FXML
-    private Button backButton;
+    /**
+     * Called when the back button is clicked from the rules screen
+     * @throws IOException
+     */
     @FXML
     private void backButtonClicked() throws IOException {
     	musicController.playBack();

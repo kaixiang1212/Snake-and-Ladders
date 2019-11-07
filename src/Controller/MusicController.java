@@ -71,7 +71,7 @@ public class MusicController {
     }
 
     /**
-     * Initialise Game Sound (Snake/Ladders/Victory)
+     * Initialise Game Sound (Movement/Snake/Ladders/Victory)
      */
     public void initGame(){
         initGame = true;
@@ -89,7 +89,10 @@ public class MusicController {
         victoryPlayer = new MediaPlayer(victorySound);
         movePlayer = new MediaPlayer(moveSound);
     }
-
+    
+    /**
+     * Initialise background sounds
+     */
     public void initBoard(){
         initBoard = true;
         Media bgMusic = new Media(new File("src/asset/Sound/bgMusic.mp3").toURI().toString());
@@ -127,7 +130,7 @@ public class MusicController {
             movePlayer.stop();
         }
     }
-
+    
     public void playNext(){
         if (!initUI) return;
         clear();
