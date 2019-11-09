@@ -4,8 +4,9 @@ import Model.GameEngine;
 import javafx.animation.AnimationTimer;
 
 public class AnimationController {
-	private final int maxFrames = 1000;
+	private final int maxFrames = 300;
 	private final int animationFrames = 10;
+	private final long frametime = 8333333;
 	
     private int frame;
     private boolean isSpinning;
@@ -13,6 +14,7 @@ public class AnimationController {
     
     private GameEngine engine;
     private DiceController diceController;
+    private long lastTime;
     
     public AnimationController(GameEngine engine, DiceController diceController) {
     	isSpinning = false;
@@ -35,13 +37,15 @@ public class AnimationController {
      */
     private AnimationTimer animation = new AnimationTimer() {
         public void handle(long time) {
+        	if((time - lastTime) < frametime) {
+        		return;
+        	}
         	int currentPos = diceController.getCurrentPos();
         	int destination = diceController.getDestination();
         	
         	if (isSpinning) {
         		int diceFrame = (int) (Math.random() * 6) + 1;
         		diceController.draw(diceFrame);
-            	frame++;
             	if(frame == maxFrames) {
             		diceController.stopButtonClicked();
             	}
@@ -50,9 +54,10 @@ public class AnimationController {
         			diceController.prepareNextTurn();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
         			engine.updatePosition(engine.getCurrentPlayer(), currentPos + 1);
-        		}
-        		frame++;
+        		}		
         	}
+        	frame++;
+        	lastTime = time;
         }
     };
     
