@@ -45,8 +45,11 @@ public class ClientHandler extends Thread {
             if ("quit".equalsIgnoreCase(cmd)|| "exit".equals(cmd)) break;
             else if ("roll".equalsIgnoreCase(cmd)){
                 handleRoll();
+            } else if ("next".equalsIgnoreCase(cmd)){
+                handleNextToken();
+            } else if ("".equals(cmd)){
+
             } else {
-                if ("".equals(cmd)) continue;
                 msg = "Unknown command: " + cmd + "\n";
                 send(msg);
             }
@@ -54,8 +57,9 @@ public class ClientHandler extends Thread {
         closeSocket();
     }
 
-    private void handleRoll() {
-    }
+    private void handleNextToken() { }
+
+    private void handleRoll() { }
 
     void send(String msg) throws IOException {
         outputStream.write(msg.getBytes());

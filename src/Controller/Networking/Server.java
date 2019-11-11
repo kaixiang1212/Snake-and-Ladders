@@ -40,22 +40,28 @@ public class Server {
     private void addPlayer(int slot, Socket clientSocket) throws IOException {
         ClientHandler clientHandler = new ClientHandler(this, slot, clientSocket);
         player[slot-1] = 1;
+
+        String msg = "Player " + slot + " joined the game\n";
         for (ClientHandler client : clientList){
-            String msg = "Player " + slot + " joined the game\n";
             client.send(msg);
         }
+
         clientList.add(clientHandler);
         clientHandler.start();
+        System.out.print(msg);
     }
 
     void removePlayer(ClientHandler clientHandler) throws IOException {
         int i = clientHandler.getPlayerNo();
         player[i-1] = 0;
         clientList.remove(clientHandler);
+
+        String msg = "Player " + i + " left the game\n";
         for (ClientHandler client : clientList){
-            String msg = "Player " + i + " left the game\n";
             client.send(msg);
         }
+
+        System.out.print(msg);
     }
 
     public void start() {
