@@ -45,7 +45,9 @@ public class ClientHandler extends Thread {
             if ("quit".equalsIgnoreCase(cmd)|| "exit".equals(cmd)) break;
             else if ("roll".equalsIgnoreCase(cmd)){
                 handleRoll();
-            } else if ("next".equalsIgnoreCase(cmd)){
+            } else if ("stop".equalsIgnoreCase(cmd)){
+                handleStop();
+            }else if ("next".equalsIgnoreCase(cmd)){
                 handleNextToken();
             } else if ("".equals(cmd)){
 
@@ -57,9 +59,17 @@ public class ClientHandler extends Thread {
         closeSocket();
     }
 
-    private void handleNextToken() { }
+    private void handleNextToken() {
+        server.nextToken(player);
+    }
 
-    private void handleRoll() { }
+    private void handleRoll() {
+        server.playerRoll(player);
+    }
+
+    private void handleStop() {
+        server.playerStop(player);
+    }
 
     void send(String msg) throws IOException {
         outputStream.write(msg.getBytes());

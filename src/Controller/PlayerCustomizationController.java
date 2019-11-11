@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,6 +39,8 @@ public class PlayerCustomizationController {
 
     private MusicController musicController;
 
+    private Server serverController;
+
 
     public PlayerCustomizationController(){
         token = new ArrayList<>();
@@ -48,6 +51,10 @@ public class PlayerCustomizationController {
         availableToken = new ArrayList<>();
         musicController = new MusicController();
         musicController.initUI();
+        System.out.println(playerCount);
+        serverController = new Server();
+        serverController.setCustomisableController(this);
+        serverController.start();
     }
     
     public void setStage(Stage stage) { this.stage = stage; }
@@ -62,6 +69,7 @@ public class PlayerCustomizationController {
             addPlayer();
             playerCount++;
         }
+        serverController.setPlayers(numPlayer);
     }
 
     /**
@@ -180,6 +188,7 @@ public class PlayerCustomizationController {
         
         // Modify GameEngine to hold a gifController.
         GameEngine engine = new GameEngine();
+        engine.setServer(serverController);
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
@@ -196,5 +205,29 @@ public class PlayerCustomizationController {
         game.setEngine(engine);
         game.start();
     }
+
+    public void playerChangeToken(int player) {
+        musicController.clear();
+        int index = 0;
+        for (Node node : flowPane.getChildren()){
+            if (index != player - 1) {
+                index++;
+                continue;
+            }
+            if (node instanceof VBox){
+                for (Node node1 : ((VBox) node).getChildren()){
+                    if (node1 instanceof ImageView) {
+                        ImageView image = (ImageView) node1;
+                        setPlayerToken(index, -1);
+                        int next = nextToken();
+                        ((ImageView) node1).setImage(getImage(next));
+                        setPlayerToken(index, next);
+                        musicController.playSwitch();
+                        return;
+                        }
+                    }
+                }
+            }
+        }
 
 }

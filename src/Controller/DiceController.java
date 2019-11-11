@@ -37,6 +37,8 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
+    private Player currentPlayer;
+    private boolean diceRolling;
 
     public DiceController() {
         this.diceFace = new Image[6];
@@ -63,16 +65,19 @@ public class DiceController {
         this.boardController = boardController;
         animationController.setEngine(engine);
         setCurrentPlayerToken();
-        Player player = players.getCurrentPlayer();
+        currentPlayer = players.getCurrentPlayer();
         StringBuilder sb = new StringBuilder();
-        message.setText((sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString()));
+        message.setText((sb.append("\n").append(currentPlayer.getPlayerName()).append("'s turn:\n").toString()));
+        this.players.getServer().setDiceController(this);
     }
     
     /**
      * Called when the 'roll' button is clicked
      */
     @FXML
-    private void rollButtonClicked() {
+    public void rollButtonClicked() {
+        if (diceRolling) return;
+        this.diceRolling = true;
         musicController.playRollDice();
         text.setText("");
         animationController.setSpinning(true);
@@ -86,6 +91,8 @@ public class DiceController {
      */
     @FXML
 	public void stopButtonClicked() {
+        if (!diceRolling) return;
+        diceRolling = false;
         musicController.clear();
         animationController.setSpinning(false);
         button.setDisable(true);
@@ -209,6 +216,10 @@ public class DiceController {
             if (lastRolled == diceFace[i]) return i+1;
         }
         return -1;
+    }
+
+    public int getCurrentPlayerNum(){
+        return players.getCurrentPlayerNum();
     }
 
 }

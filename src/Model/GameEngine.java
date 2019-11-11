@@ -6,6 +6,7 @@ package Model;
 
 import Controller.MusicController;
 import Controller.GifController;
+import Controller.Networking.Server;
 import javafx.scene.image.ImageView;
 
 import javafx.util.Duration;
@@ -26,9 +27,10 @@ public class GameEngine {
 	
 	// GameEngine now carries a gifController instance that allows methods from boardController to be used when updating the game state.
 	private GifController gifcontroller;
-	
-    
-    /**
+	private Server server;
+
+
+	/**
      * Default constructor generates a 10x10 board with some snakes and ladders
      */
     public GameEngine(){
@@ -296,4 +298,11 @@ public class GameEngine {
 		return getCurrentPlayer().getPlayerToken();
 	}
 
+	public void setServer(Server server) {
+		this.server = server;
+	}
+
+	public Server getServer(){
+		return this.server;
+	}
 }
