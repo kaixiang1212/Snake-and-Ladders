@@ -1,4 +1,4 @@
-#Simple Server Command Line Instruction
+# Simple Server Command Line Instruction
 Connect to server via `telnet localhost 8888`\
 Available command:
 1. `exit` / `quit`\
