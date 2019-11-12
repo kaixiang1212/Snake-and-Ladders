@@ -9,3 +9,5 @@ roll dice
 stop rolling dice
 4. `next`\
 next token
+5. `change [new player name]`\
+change existing player name to [new player name]

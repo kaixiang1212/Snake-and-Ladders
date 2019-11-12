@@ -39,17 +39,19 @@ public class ClientHandler extends Thread {
         send(msg);
 
         String line;
-        while ( (line = reader.readLine()) != null ){
+        while ( (line = reader.readLine()) != null ) {
             String[] token = line.split(" ");
             String cmd = token[0];
-            if ("quit".equalsIgnoreCase(cmd)|| "exit".equals(cmd)) break;
-            else if ("roll".equalsIgnoreCase(cmd)){
+            if ("quit".equalsIgnoreCase(cmd) || "exit".equals(cmd)) break;
+            else if ("roll".equalsIgnoreCase(cmd)) {
                 handleRoll();
-            } else if ("stop".equalsIgnoreCase(cmd)){
+            } else if ("stop".equalsIgnoreCase(cmd)) {
                 handleStop();
-            }else if ("next".equalsIgnoreCase(cmd)){
+            } else if ("next".equalsIgnoreCase(cmd)) {
                 handleNextToken();
-            } else if ("".equals(cmd)) {
+            } else if ("change".equalsIgnoreCase(cmd)) {
+                handleNameChange(token);
+            }else if ("".equals(cmd)) {
             } else {
                 msg = "Unknown command: " + cmd + "\n";
                 send(msg);
@@ -73,6 +75,15 @@ public class ClientHandler extends Thread {
         if (!server.diceScreen) return;
         if (server.getCurrentPlayer() != player - 1) return;
         server.diceStop();
+    }
+
+    private void handleNameChange(String[] token){
+        if (!server.playerCustomiseScreen) return;
+        StringBuilder sb = new StringBuilder();
+        for (int i=1;i < token.length;i++){
+            sb.append(token[i]);
+        }
+        server.setPlayerName(player, sb.toString());
     }
 
     void send(String msg) throws IOException {

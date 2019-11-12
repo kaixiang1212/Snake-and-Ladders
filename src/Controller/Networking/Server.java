@@ -114,4 +114,14 @@ public class Server extends Thread {
     }
 
     int getCurrentPlayer(){ return diceController.getCurrentPlayerNum(); }
+
+    public void onPlayerSelection(){ return; }
+
+    public void onGameStart(){ return; }
+
+    public void onPlayerChange(int player){ return; }
+
+    void setPlayerName(int player, String name) {
+        playerCustomizationController.playerChangeName(player, name);
+    }
 }

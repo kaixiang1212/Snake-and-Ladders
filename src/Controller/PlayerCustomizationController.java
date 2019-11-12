@@ -55,6 +55,7 @@ public class PlayerCustomizationController {
         serverController = new Server();
         serverController.setCustomisableController(this);
         serverController.start();
+        serverController.onPlayerSelection();
     }
     
     public void setStage(Stage stage) { this.stage = stage; }
@@ -86,7 +87,7 @@ public class PlayerCustomizationController {
         textField.setText("Player " + (playerCount+1));
         vBox.getChildren().add(textField);
         this.flowPane.getChildren().add(vBox);
-
+        System.out.println(flowPane.getChildren().get(1));
         textField.setAlignment(Pos.CENTER);
         textField.setFont(new Font(16));
         vBox.setAlignment(Pos.CENTER);
@@ -208,26 +209,15 @@ public class PlayerCustomizationController {
 
     public void playerChangeToken(int player) {
         musicController.clear();
-        int index = 0;
-        for (Node node : flowPane.getChildren()){
-            if (index != player - 1) {
-                index++;
-                continue;
-            }
-            if (node instanceof VBox){
-                for (Node node1 : ((VBox) node).getChildren()){
-                    if (node1 instanceof ImageView) {
-                        ImageView image = (ImageView) node1;
-                        setPlayerToken(index, -1);
-                        int next = nextToken();
-                        ((ImageView) node1).setImage(getImage(next));
-                        setPlayerToken(index, next);
-                        musicController.playSwitch();
-                        return;
-                        }
-                    }
-                }
-            }
-        }
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        ImageView img = (ImageView) vbox.getChildren().get(0);
+        img.setImage(getImage(nextToken()));
+    }
+
+    public void playerChangeName(int player, String playerName){
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        TextField nameField = (TextField) vbox.getChildren().get(1);
+        nameField.setText(playerName);
+    }
 
 }
