@@ -49,8 +49,7 @@ public class ClientHandler extends Thread {
                 handleStop();
             }else if ("next".equalsIgnoreCase(cmd)){
                 handleNextToken();
-            } else if ("".equals(cmd)){
-
+            } else if ("".equals(cmd)) {
             } else {
                 msg = "Unknown command: " + cmd + "\n";
                 send(msg);
@@ -60,15 +59,20 @@ public class ClientHandler extends Thread {
     }
 
     private void handleNextToken() {
+        if (!server.playerCustomiseScreen) return;
         server.nextToken(player);
     }
 
     private void handleRoll() {
-        server.playerRoll(player);
+        if (!server.diceScreen) return;
+        if (server.getCurrentPlayer() != player - 1) return;
+        server.diceRoll();
     }
 
     private void handleStop() {
-        server.playerStop(player);
+        if (!server.diceScreen) return;
+        if (server.getCurrentPlayer() != player - 1) return;
+        server.diceStop();
     }
 
     void send(String msg) throws IOException {
@@ -80,8 +84,6 @@ public class ClientHandler extends Thread {
         clientSocket.close();
     }
 
-    int getPlayerNo(){
-        return player;
-    }
+    int getPlayerNo(){ return player; }
 
 }

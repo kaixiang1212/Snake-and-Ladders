@@ -2,6 +2,7 @@ package Controller;
 
 import Model.GameEngine;
 import Model.Player;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -74,14 +75,13 @@ public class DiceController {
     /**
      * Called when the 'roll' button is clicked
      */
-    @FXML
     public void rollButtonClicked() {
         if (diceRolling) return;
         this.diceRolling = true;
         musicController.playRollDice();
         text.setText("");
+        Platform.runLater(() -> button.setText("Stop"));
         animationController.setSpinning(true);
-        button.setText("Stop");
         button.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
     }
@@ -89,7 +89,6 @@ public class DiceController {
     /**
      * Called when the 'stop' button is clicked
      */
-    @FXML
 	public void stopButtonClicked() {
         if (!diceRolling) return;
         diceRolling = false;

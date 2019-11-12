@@ -15,25 +15,21 @@ public class Server extends Thread {
     private int numPlayer;
     private int[] player;
     private PlayerCustomizationController playerCustomizationController;
-    private boolean playerCustomiseScreen = false;
+    boolean playerCustomiseScreen;
     private DiceController diceController;
-    private boolean diceScreen = false;
+    boolean diceScreen;
 
     public Server(){
+        diceScreen = false;
+        playerCustomiseScreen = false;
         clientList = new ArrayList<>();
     }
 
-    List<ClientHandler> getClientList(){
-        return clientList;
-    }
+    List<ClientHandler> getClientList(){ return clientList; }
 
-    int getNumClient(){
-        return clientList.size();
-    }
+    int getNumClient(){ return clientList.size(); }
 
-    int getNumPlayer() {
-        return numPlayer;
-    }
+    int getNumPlayer() { return numPlayer; }
 
     private int getNextSlot(){
         for (int i=0;i < numPlayer;i++){
@@ -45,15 +41,9 @@ public class Server extends Thread {
     private void addPlayer(int slot, Socket clientSocket) throws IOException {
         ClientHandler clientHandler = new ClientHandler(this, slot, clientSocket);
         player[slot-1] = 1;
-
-        String msg = "Player " + slot + " joined the game\n";
-        for (ClientHandler client : clientList){
-            client.send(msg);
-        }
-
         clientList.add(clientHandler);
         clientHandler.start();
-        System.out.print(msg);
+        onPlayerConnected(slot);
     }
 
     void removePlayer(ClientHandler clientHandler) throws IOException {
@@ -61,12 +51,7 @@ public class Server extends Thread {
         player[i-1] = 0;
         clientList.remove(clientHandler);
 
-        String msg = "Player " + i + " left the game\n";
-        for (ClientHandler client : clientList){
-            client.send(msg);
-        }
-
-        System.out.print(msg);
+        onPlayerDisconnect(i);
     }
 
     @Override
@@ -100,10 +85,7 @@ public class Server extends Thread {
         this.playerCustomizationController = playerCustomizationController;
     }
 
-    public void nextToken(int player){
-        if (!playerCustomiseScreen) return;
-        playerCustomizationController.playerChangeToken(player);
-    }
+    void nextToken(int player){ playerCustomizationController.playerChangeToken(player); }
 
     public void setDiceController(DiceController diceController){
         this.diceScreen = true;
@@ -111,15 +93,25 @@ public class Server extends Thread {
         this.diceController = diceController;
     }
 
-    void playerRoll(int player){
-        if (!diceScreen) return;
-        if (diceController.getCurrentPlayerNum() != player - 1) return;
-        diceController.rollButtonClicked();
+    void diceRoll(){ diceController.rollButtonClicked(); }
+
+    void diceStop(){ diceController.stopButtonClicked(); }
+
+    private void onPlayerDisconnect(int player) throws IOException {
+        String msg = "Player " + player + " left the game\n";
+        for (ClientHandler client : clientList){
+            client.send(msg);
+        }
+        System.out.println(msg);
     }
 
-    void playerStop(int player){
-        if (!diceScreen) return;
-        if (diceController.getCurrentPlayerNum() != player - 1) return;
-        diceController.stopButtonClicked();
+    private void onPlayerConnected(int player) throws IOException {
+        String msg = "Player " + player + " joined the game\n";
+        for (ClientHandler client : clientList){
+            client.send(msg);
+        }
+        System.out.print(msg);
     }
+
+    int getCurrentPlayer(){ return diceController.getCurrentPlayerNum(); }
 }
