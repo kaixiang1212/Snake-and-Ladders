@@ -6,6 +6,7 @@ import Controller.PlayerCustomizationController;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,18 @@ public class Server extends Thread {
     boolean playerCustomiseScreen;
     private DiceController diceController;
     boolean diceScreen;
+    private ServerSocket serverSocket;
+    private int port = 8888;
 
-    public Server(){
+    public Server() throws IOException {
         diceScreen = false;
         playerCustomiseScreen = false;
         clientList = new ArrayList<>();
+        try  {
+            serverSocket = new ServerSocket(port);
+        } catch (Exception e){
+            System.exit(-1);
+        }
     }
 
     List<ClientHandler> getClientList(){ return clientList; }
@@ -57,10 +65,9 @@ public class Server extends Thread {
     @Override
     public void run() {
         int port = 8888;
+        Socket clientSocket;
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
+            while ((clientSocket = serverSocket.accept() )!= null) {
                 int slot = getNextSlot();
                 if (slot != -1) {
                     addPlayer(slot, clientSocket);
@@ -69,6 +76,7 @@ public class Server extends Thread {
                     clientSocket.close();
                 }
             }
+        } catch (SocketException e){
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,5 +131,9 @@ public class Server extends Thread {
 
     void setPlayerName(int player, String name) {
         playerCustomizationController.playerChangeName(player, name);
+    }
+
+    public void close() throws IOException {
+        serverSocket.close();
     }
 }
