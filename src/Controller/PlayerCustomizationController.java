@@ -220,12 +220,15 @@ public class PlayerCustomizationController {
         musicController.clear();
         VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
         ImageView img = (ImageView) vbox.getChildren().get(0);
+        musicController.playSwitch();
         img.setImage(getImage(nextToken()));
     }
 
     public void playerChangeName(int player, String playerName){
+        musicController.clear();
         VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
         TextField nameField = (TextField) vbox.getChildren().get(1);
+        musicController.playSwitch();
         nameField.setText(playerName);
     }
 

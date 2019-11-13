@@ -1,7 +1,7 @@
 # Simple Server Command Line Instruction
-Connect to server via `telnet localhost 8888`\
+Connect to server via `python basic_client.py`\
 Available command:
-1. `exit` / `quit`\
+1. `exit` / `quit` / `q` \
 exit game
 2. `roll`\
 roll dice
