@@ -28,7 +28,8 @@ public class MusicController {
 
     private boolean initBoard = false;
     private MediaPlayer bgMusicPlayer;
-
+    
+    private static boolean soundfx = true;
 
     public MusicController(){ }
 
@@ -134,19 +135,22 @@ public class MusicController {
     public void playNext(){
         if (!initUI) return;
         clear();
-        nextBtnPlayer.play();
+        if(soundfx)
+        	nextBtnPlayer.play();
     }
 
     public void playBack(){
         if (!initUI) return;
         clear();
-        backBtnPlayer.play();
+        if(soundfx)
+        	backBtnPlayer.play();
     }
 
     public void playSwitch(){
         clear();
         if (!initUI) return;
-        switchBtnPlayer.play();
+        if(soundfx)
+        	switchBtnPlayer.play();
     }
 
     public void playThrowDice(){
@@ -155,53 +159,63 @@ public class MusicController {
         diceThrowPlayer2.stop();
         int rand = (int )(Math.random() * 2) + 1;
         if (rand == 1) {
-            diceThrowPlayer1.play();
+        	if(soundfx)
+        		diceThrowPlayer1.play();
         }
         else if (rand == 2) {
-            diceThrowPlayer2.play();
+        	if(soundfx)
+        		diceThrowPlayer2.play();
         }
     }
 
     public void playRollDice(){
         if (!initDice) return;
         clear();
-        diceRollPlayer.play();
+        if(soundfx)
+        	diceRollPlayer.play();
     }
 
     public void playRolled6(){
         if (!initDice) return;
-        dice6Player.play();
+        if(soundfx)
+        	dice6Player.play();
     }
     
     public void playMove(){
         if (!initGame) return;
         clear();
         movePlayer.setVolume(0.2);
-        movePlayer.play();
+        if(soundfx)
+        	movePlayer.play();
     }
 
     public void playSnake(){
         if (!initGame) return;
         clear();
-        descendPlayer.play();
+        if(soundfx)
+        	descendPlayer.play();
         int rand = (int) (Math.random() * 2) + 1;
         if (rand == 1){
-            snakePlayer1.play();
+        	if(soundfx)
+        		snakePlayer1.play();
         } else {
-            snakePlayer2.play();
+        	if(soundfx)
+        		snakePlayer2.play();
         }
     }
 
     public void playLadder(){
         if (!initGame) return;
         clear();
-        ascendPlayer.play();
+        if(soundfx)
+        	ascendPlayer.play();
     }
 
     public void playVictory(){
         if (!initGame) return;
         clear();
-        victoryPlayer.play();
+        if(soundfx)
+        	victoryPlayer.play();
     }
 
     public void playBGM(){
@@ -213,5 +227,13 @@ public class MusicController {
     public void stopBGM(){
         if (!initBoard) return;
         bgMusicPlayer.stop();
+    }
+    
+    public void togglefx() {
+    	soundfx = !soundfx;
+    }
+    
+    public boolean getfx() {
+    	return soundfx;
     }
 }

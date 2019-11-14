@@ -62,12 +62,18 @@ public class BoardController {
 	private Button exitButton;
 	@FXML
 	private Button resumeButton;
+	@FXML
+	private Button musicButton;
+	@FXML
+	private Button soundFXButton;
 	
 	private List<Pair<Entity, ImageView>> initialEntities;
     private GameEngine engine;
 	private Stage stage;
 	private GameScreen gamescreen;
 	private MusicController musicController;
+	
+	private boolean music= true;
 	
 	public BoardController() {
 		musicController = new MusicController();
@@ -91,8 +97,18 @@ public class BoardController {
 		//ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> onWindowResize();
 		//stage.widthProperty().addListener(stageSizeListener);
 		//stage.heightProperty().addListener(stageSizeListener);
-		musicController.playBGM();
-		
+		if(music == true) {
+    		musicButton.setText("Music: ON");
+    		musicController.playBGM();
+    	} else {
+    		musicButton.setText("Music: OFF");
+    		musicController.stopBGM();
+    	}
+		if(musicController.getfx() == true) {
+    		soundFXButton.setText("Sound FX: ON");
+    	} else {
+    		soundFXButton.setText("Sound FX: OFF");
+    	}
 	}
 	
 	/**
@@ -214,6 +230,28 @@ public class BoardController {
     @FXML
     private void handleResumeButton() throws IOException {
     	diceController.menuButtonClicked();
+    }
+    
+    @FXML
+    private void handleMusicButton() throws IOException {
+    	music = !music;
+    	if(music == true) {
+    		musicButton.setText("Music: ON");
+    		musicController.playBGM();
+    	} else {
+    		musicButton.setText("Music: OFF");
+    		musicController.stopBGM();
+    	}
+    }
+    
+    @FXML
+    private void handleSoundFXButton() throws IOException {
+    	musicController.togglefx();
+    	if(musicController.getfx() == true) {
+    		soundFXButton.setText("Sound FX: ON");
+    	} else {
+    		soundFXButton.setText("Sound FX: OFF");
+    	}
     }
     
 	/**
