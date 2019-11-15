@@ -1,12 +1,6 @@
 package Controller;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import javafx.fxml.*;
-
-import Model.GameEngine;
-import javafx.scene.image.*;
 
 
 public class GifController {

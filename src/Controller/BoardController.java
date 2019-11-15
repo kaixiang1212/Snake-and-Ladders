@@ -116,14 +116,10 @@ public class BoardController {
 	 */
 	@FXML
 	public void init() {
-//		int lastrand = 0, rand = 0;
-//		int[] lastrandv = new int[engine.getBoard().getWidth()];
-		
+
 		// Adds gametiles to the gridpane
 		for (int y = 0; y < engine.getBoard().getHeight(); y++) {
 			for (int x = 0; x < engine.getBoard().getWidth(); x++) {
-//				while (rand == lastrand || rand == lastrandv[x])
-//					rand = (int) (Math.random() * 6);
 				int tileid = (x%2 + y%2)%2;
 				if(engine.getBoard().isSnake(x, engine.getBoard().getHeight() - y - 1) != null) {
 					tileid = 7;
@@ -139,12 +135,8 @@ public class BoardController {
 				Text tilenum = new Text(Integer.toString(engine.getBoard().getPosition(x, engine.getBoard().getHeight() - y - 1)));
 				tilenum.setFont(Font.font("Papyrus", 42));
 				tilenum.setFill(Color.BLACK);
-				//tilenum.setStroke(Color.BLACK);
-				//tilenum.setStrokeWidth(2);
 				squares.add(new StackPane(tilenum), x, y);
 				GridPane.setHalignment(tilenum, HPos.CENTER);
-//				lastrand = rand;
-//				lastrandv[x] = rand;
 			}
 		}
 		
@@ -268,6 +260,10 @@ public class BoardController {
     public void hideMenu() {
     	menuPane.setManaged(false);
         menuPane.setVisible(false);
+    }
+    
+    public GridPane getGridPane() {
+    	return squares;
     }
     
 	/**

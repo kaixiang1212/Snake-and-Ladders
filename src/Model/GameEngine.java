@@ -5,11 +5,16 @@
 package Model;
 
 import Controller.MusicController;
+import View.GameScreen;
 import Controller.GifController;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.util.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.animation.PauseTransition;  
 
 
@@ -26,6 +31,8 @@ public class GameEngine {
 	
 	// GameEngine now carries a gifController instance that allows methods from boardController to be used when updating the game state.
 	private GifController gifcontroller;
+	
+    private Map<Item, ImageView> spawnedItems;
 	
     
     /**
@@ -67,17 +74,17 @@ public class GameEngine {
         console.setLength(0);
         musicController = new MusicController();
         musicController.initGame();
+        spawnedItems = new HashMap<Item, ImageView>();
     }
     /**
      * This constructor is used to pass in a pre-made gameboard
      * @param gameboard: pre-made gameboard
      */
-    public GameEngine(Board gameboard, GifController gifcontroller){
+    public GameEngine(Board gameboard){
         players = new ArrayList<>();
-        this.gameboard = gameboard;
-        this.gifcontroller = gifcontroller;
         console = new StringBuilder();
         console.setLength(0);
+        spawnedItems = new HashMap<Item, ImageView>();
     }
 
     /**
@@ -295,5 +302,62 @@ public class GameEngine {
 	public int getCurrentPlayerToken(){
 		return getCurrentPlayer().getPlayerToken();
 	}
-
+	
+	/**
+	 * Spawns a random item in the board. Item spawns at position < top player position && position > last player position && position != any player or existing item position
+	 * @return spawned item object
+	 */
+	public Item spawnRandomItem() {
+		if(gameboard.getItemPool().isEmpty())
+			gameboard.fillItemPool();
+		
+		// Set item position to be < top player's position
+		int maxPlayerPos = gameboard.getMinPos();
+		int minPlayerPos = gameboard.getMaxPos();
+		for(Player player : players) {
+			maxPlayerPos = Math.max(maxPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
+			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
+		}
+		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
+		System.out.println("Item pos = " + itemPos);
+		
+		// Check that position != any player position
+		for(Player player : players) {
+			int playerPos = gameboard.getPosition(player.getX(), player.getY());
+			if(playerPos == itemPos)
+				return null;
+		}
+		
+		// Check that position != any existing item position
+		for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
+			Item currItem = itemPair.getKey();
+			int currItemPos = gameboard.getPosition(currItem.getX(), currItem.getY());
+			if(currItemPos == itemPos)
+				return null;
+		}
+		
+		// Obtain a random item from the pool of available items
+		ArrayList<Item> pool = gameboard.getItemPool();
+		int size = pool.size();
+		int index = (int) (Math.random()*size);
+		Item itemTemplate = pool.get(index);
+		
+		int itemX = gameboard.getCoords(itemPos).getX();
+		int itemY = gameboard.getCoords(itemPos).getY();
+		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
+		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + item.getItemType().ordinal() + ".png"))));
+		view.setPreserveRatio(true);
+		view.setFitHeight(GameScreen.getHeight()/(float)gameboard.getHeight()*0.65f);
+		view.setId("item" + item.getItemType().ordinal());
+		spawnedItems.put(item, view);
+		return item;
+	}
+	
+	public Map<Item, ImageView> getSpawnedItems() {
+		return spawnedItems;
+	}
+	
+	public void setSpawnedItems(Map<Item, ImageView> spawnedItems) {
+		this.spawnedItems = spawnedItems;
+	}
 }

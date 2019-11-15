@@ -106,6 +106,14 @@ public class BoardEntityLoader extends BoardLoader{
 		*/
 	}
 	
+	@Override
+	public void onLoad(Item item) {
+		ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + item.getItemType().ordinal() + ".png"))));
+		view.setPreserveRatio(true);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*0.75f);
+		view.setId("item" + item.getItemType().ordinal());
+		addEntity(item, view);
+	}
 
 
 	/**
@@ -191,7 +199,7 @@ public class BoardEntityLoader extends BoardLoader{
 	
 	// private void trackPosition(Entity entity, Image) {
 
-	public void configBoardController(BoardController boardController) throws JSONException {
+	public void configBoardController(BoardController boardController, GameEngine engine) throws JSONException {
 		boardController.config(load(engine), this.entities, this.stage, this.gamescreen);
 	}
 

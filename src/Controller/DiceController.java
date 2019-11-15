@@ -1,17 +1,25 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import Model.GameEngine;
+import Model.Item;
 import Model.Player;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 
 public class DiceController {
-
+	
+	private final int spawnItemChance = 20;		// Chance of an item spawning each turn in percentage
+	
     @FXML
     private Button button;
     @FXML
@@ -37,6 +45,8 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
+    
+
 
     public DiceController() {
         this.diceFace = new Image[6];
@@ -139,9 +149,6 @@ public class DiceController {
             message.setText((sb.toString()));
             return;
         }
-    	
-    	button.setDisable(false);
-        diceImage.setDisable(false);
 
     	if (diceResult == 6) {
             musicController.playRolled6();
@@ -160,6 +167,51 @@ public class DiceController {
         players.clearConsole();
         setCurrentPlayerToken();
         text.setText("");
+        
+        GridPane gridpane = boardController.getGridPane();
+        Map<Item, ImageView> spawnedItems = players.getSpawnedItems();
+        ArrayList<Item> expired = new ArrayList<Item>();   
+        
+        for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
+        	Item item = itemPair.getKey();
+        	ImageView itemView = itemPair.getValue();
+    		if(item.getExpiry() == 0) {
+    			expired.add(item);
+    			for(Node node : gridpane.getChildren()) {
+    				if(node instanceof ImageView) {
+    					ImageView nodeView = (ImageView) node;
+    					if(nodeView.equals(itemView)) {
+    						gridpane.getChildren().remove(nodeView);
+    						break;
+    					}
+    				}
+    			}
+    			System.out.println("Item expired.");
+    		} else {
+    			item.decrementExpiry();
+    		}
+        }
+        spawnedItems.keySet().removeAll(expired);
+        
+        
+        if(Math.random() < (float)spawnItemChance/100f) {
+        	Item item = players.spawnRandomItem();
+        	if(item != null) {
+        		spawnedItems = players.getSpawnedItems();
+        		ImageView view = spawnedItems.get(item);
+        		gridpane.getChildren().add(gridpane.getChildren().size()-4, view);
+        		GridPane.setColumnIndex(view, item.getX());
+        		GridPane.setRowIndex(view, players.getBoard().getHeight() - 1 - item.getY());
+				GridPane.setHalignment(view, HPos.CENTER);
+				spawnedItems.put(item, view);
+        	} else {
+        		System.out.println("Item spawned failed: space occupied.");
+        	}
+        }
+        players.setSpawnedItems(spawnedItems);
+        
+        button.setDisable(false);
+        diceImage.setDisable(false);
     }
     
     /**

@@ -111,6 +111,7 @@ public abstract class BoardLoader {
     public abstract void onLoad(Player player);
     public abstract void onLoad(Snake snake);
     public abstract void onLoad(Ladder ladder);
+    public abstract void onLoad(Item item);
     public abstract void changeImage(Entity entity, String string);
     // TODO Create additional abstract methods for the other entities
   
