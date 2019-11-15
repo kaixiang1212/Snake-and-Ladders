@@ -319,7 +319,7 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
-		System.out.println("Item pos = " + itemPos);
+		System.out.println("Spawning item at position " + itemPos);
 		
 		// Check that position != any player position
 		for(Player player : players) {

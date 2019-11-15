@@ -18,7 +18,7 @@ import javafx.scene.text.*;
 
 public class DiceController {
 	
-	private final int spawnItemChance = 20;		// Chance of an item spawning each turn in percentage
+	
 	
     @FXML
     private Button button;
@@ -45,6 +45,7 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
+    private int spawnItemChance;		// Chance of an item spawning each turn in percentage
     
 
 
@@ -76,6 +77,7 @@ public class DiceController {
         Player player = players.getCurrentPlayer();
         StringBuilder sb = new StringBuilder();
         message.setText((sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString()));
+        spawnItemChance = players.getPlayerNum()*10;
     }
     
     /**
@@ -205,7 +207,7 @@ public class DiceController {
 				GridPane.setHalignment(view, HPos.CENTER);
 				spawnedItems.put(item, view);
         	} else {
-        		System.out.println("Item spawned failed: space occupied.");
+        		System.out.println("Item spawn failed: space occupied.");
         	}
         }
         players.setSpawnedItems(spawnedItems);
