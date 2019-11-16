@@ -11,12 +11,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Server extends Thread {
 
-	private ArrayList<Client> clientList;
+ 	private ArrayList<Client> clientList;
 	private int numPlayer;
 	private int[] player;
 	private PlayerCustomizationController playerCustomizationController;

@@ -42,7 +42,7 @@ public class PlayerCustomizationController {
     private Server serverController;
 
 
-    public PlayerCustomizationController(){
+    public PlayerCustomizationController() throws IOException {
         token = new ArrayList<>();
         token.add(0,0);
         token.add(1,-1);
@@ -51,14 +51,24 @@ public class PlayerCustomizationController {
         availableToken = new ArrayList<>();
         musicController = new MusicController();
         musicController.initUI();
-        System.out.println(playerCount);
         serverController = new Server();
         serverController.setCustomisableController(this);
         serverController.start();
         serverController.onPlayerSelection();
     }
     
-    public void setStage(Stage stage) { this.stage = stage; }
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        stage.setOnCloseRequest(windowEvent -> {
+            try {
+                serverController.close();
+                System.out.println("Server Closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Failed to close server socket");
+            }
+        });
+    }
 
     /**
      * Render a customisation screen for
@@ -87,7 +97,6 @@ public class PlayerCustomizationController {
         textField.setText("Player " + (playerCount+1));
         vBox.getChildren().add(textField);
         this.flowPane.getChildren().add(vBox);
-        System.out.println(flowPane.getChildren().get(1));
         textField.setAlignment(Pos.CENTER);
         textField.setFont(new Font(16));
         vBox.setAlignment(Pos.CENTER);
@@ -211,12 +220,15 @@ public class PlayerCustomizationController {
         musicController.clear();
         VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
         ImageView img = (ImageView) vbox.getChildren().get(0);
+        musicController.playSwitch();
         img.setImage(getImage(nextToken()));
     }
 
     public void playerChangeName(int player, String playerName){
+        musicController.clear();
         VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
         TextField nameField = (TextField) vbox.getChildren().get(1);
+        musicController.playSwitch();
         nameField.setText(playerName);
     }
 
