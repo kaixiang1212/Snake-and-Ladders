@@ -7,7 +7,7 @@ import time
 import uuid
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
 host = socket.gethostname() # Get local machine name
-port = 3038         # Reserve a port for your service.
+port = 5001         # Reserve a port for your service.
 host = "localhost"
 s.connect((host, port))
 s.send(b"this is my thank yo\n")
