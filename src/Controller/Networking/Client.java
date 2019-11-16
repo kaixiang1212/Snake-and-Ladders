@@ -41,8 +41,7 @@ public class Client extends Thread
 	            try {
 	            	System.out.println("client is runnign");
 	                line = brinp.readLine();
-	                System.out.println(line.length());
-	                if (line.equals("roll")) {
+ 	                if (line.equals("roll")) {
 		            	System.out.println("number of player is " + server.getCurrentPlayer());
 		            	System.out.println("this player num is actually" + player);
 		            	// make sure other players can't roll when it is player's turn
