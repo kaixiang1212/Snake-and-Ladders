@@ -21,6 +21,7 @@ public class ClientHandler extends Thread {
     public void run() {
         try {
             handleClientSocket();
+            
         } catch (IOException e) {
             try {
                 closeSocket();

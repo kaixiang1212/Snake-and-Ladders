@@ -3,7 +3,12 @@ package Controller.Networking;
 import Controller.DiceController;
 import Controller.PlayerCustomizationController;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,117 +16,172 @@ import java.util.List;
 
 public class Server extends Thread {
 
-    private ArrayList<ClientHandler> clientList;
-    private int numPlayer;
-    private int[] player;
-    private PlayerCustomizationController playerCustomizationController;
-    boolean playerCustomiseScreen;
-    private DiceController diceController;
-    boolean diceScreen;
+	private ArrayList<Client> clientList;
+	private int numPlayer;
+	private int[] player;
+	private PlayerCustomizationController playerCustomizationController;
+	boolean playerCustomiseScreen;
+	private DiceController diceController;
+	boolean diceScreen;
 
-    public Server(){
-        diceScreen = false;
-        playerCustomiseScreen = false;
-        clientList = new ArrayList<>();
-    }
+	public Server() {
+		diceScreen = false;
+		playerCustomiseScreen = false;
+		clientList = new ArrayList<>();
+	}
 
-    List<ClientHandler> getClientList(){ return clientList; }
+	List<Client> getClientList() {
+		return clientList;
+	}
 
-    int getNumClient(){ return clientList.size(); }
+	int getNumClient() {
+		return clientList.size();
+	}
 
-    int getNumPlayer() { return numPlayer; }
+	int getNumPlayer() {
+		return numPlayer;
+	}
 
-    private int getNextSlot(){
-        for (int i=0;i < numPlayer;i++){
-            if (player[i] != 1) return i + 1;
-        }
-        return -1;
-    }
+	private int getNextSlot() {
+		for (int i = 0; i < numPlayer; i++) {
+			if (player[i] != 1)
+				return i + 1;
+		}
+		return -1;
+	}
 
-    private void addPlayer(int slot, Socket clientSocket) throws IOException {
-        ClientHandler clientHandler = new ClientHandler(this, slot, clientSocket);
-        player[slot-1] = 1;
-        clientList.add(clientHandler);
-        clientHandler.start();
-        onPlayerConnected(slot);
-    }
+	private void addPlayer(int slot, Socket clientSocket) throws IOException {
+		player[slot - 1] = 1;
 
-    void removePlayer(ClientHandler clientHandler) throws IOException {
-        int i = clientHandler.getPlayerNo();
-        player[i-1] = 0;
-        clientList.remove(clientHandler);
+		Client newClient = new Client(clientSocket , this, slot);
+		newClient.start();
+		onPlayerConnected(slot);
 
-        onPlayerDisconnect(i);
-    }
+	}
+/*
+	void removePlayer(Client clientHandler) throws IOException {
+		int i = clientHandler.getPlayerNo();
+		player[i - 1] = 0;
+		clientList.remove(clientHandler);
 
-    @Override
-    public void run() {
-        int port = 8888;
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                int slot = getNextSlot();
-                if (slot != -1) {
-                    addPlayer(slot, clientSocket);
-                } else {
-                    clientSocket.getOutputStream().write("Maximum player exceeded\n".getBytes());
-                    clientSocket.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		onPlayerDisconnect(i);
+	}
+*/
+	@Override
+	public void run() {
+		int port = 3038;
+		try {
+			ServerSocket serverSocket = new ServerSocket(port);
+			while (true) {
+				Socket clientSocket = serverSocket.accept();
+				
+				PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				BufferedReader br1 = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				InputStream input = clientSocket.getInputStream();
+				// String str[20];
+				// String msg[20];
+				System.out.println("Client connected..");
+				 
 
-    public void setPlayers(int numPlayer) {
-        this.numPlayer = numPlayer;
-        this.player = new int[numPlayer];
-    }
+				String line = br1.readLine();
+				//System.out.println(line + "line is");
+				/*
+				 * while ((line = br1.readLine()) != null) { System.out.println(line); }
+				 */
+				/*
+				 * System.out.println(line); if ("roll".equalsIgnoreCase(line)) {
+				 * System.out.println("entered"); if (!this.diceScreen) return; this.diceRoll();
+				 * }
+				 */
+				// System.out.println("Enter command:");
+				// System.out.println(in);
+				// System.out.println(input.read());
 
-    public void setCustomisableController(PlayerCustomizationController playerCustomizationController){
-        this.playerCustomiseScreen = true;
-        this.diceScreen = false;
-        this.playerCustomizationController = playerCustomizationController;
-    }
+				// OutputStream outputstream = clientSocket.getOutputStream();
+				// outputstream.write("helo world\n".getBytes());
+				
+				 int slot = getNextSlot(); 
+				 if (slot != -1) { 
+					 addPlayer(slot, clientSocket);
+			     }
+				 else {
+					 clientSocket.getOutputStream().write("Maximum player exceeded\n".getBytes());
+					 clientSocket.close();
+				 }
+				 
+				
+			}
 
-    void nextToken(int player){ playerCustomizationController.playerChangeToken(player); }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    public void setDiceController(DiceController diceController){
-        this.diceScreen = true;
-        this.playerCustomiseScreen = false;
-        this.diceController = diceController;
-    }
+	}
 
-    void diceRoll(){ diceController.rollButtonClicked(); }
+	public void setPlayers(int numPlayer) {
+		this.numPlayer = numPlayer;
+		this.player = new int[numPlayer];
+	}
 
-    void diceStop(){ diceController.stopButtonClicked(); }
+	public void setCustomisableController(PlayerCustomizationController playerCustomizationController) {
+		this.playerCustomiseScreen = true;
+		this.diceScreen = false;
+		this.playerCustomizationController = playerCustomizationController;
+	}
 
-    private void onPlayerDisconnect(int player) throws IOException {
-        String msg = "Player " + player + " left the game\n";
-        for (ClientHandler client : clientList){
-            client.send(msg);
-        }
-        System.out.println(msg);
-    }
+	void nextToken(int player) {
+		playerCustomizationController.playerChangeToken(player);
+	}
 
-    private void onPlayerConnected(int player) throws IOException {
-        String msg = "Player " + player + " joined the game\n";
-        for (ClientHandler client : clientList){
-            client.send(msg);
-        }
-        System.out.print(msg);
-    }
+	public void setDiceController(DiceController diceController) {
+		this.diceScreen = true;
+		this.playerCustomiseScreen = false;
+		this.diceController = diceController;
+	}
 
-    int getCurrentPlayer(){ return diceController.getCurrentPlayerNum(); }
+	void diceRoll() {
+		diceController.rollButtonClicked();
+	}
 
-    public void onPlayerSelection(){ return; }
+	void diceStop() {
+		diceController.stopButtonClicked();
+	}
 
-    public void onGameStart(){ return; }
+	private void onPlayerDisconnect(int player) throws IOException {
+		String msg = "Player " + player + " left the game\n";
+		for (Client client : clientList) {
+			client.send(msg);
+		}
+		System.out.println(msg);
+	}
 
-    public void onPlayerChange(int player){ return; }
+	private void onPlayerConnected(int player) throws IOException {
+		String msg = "Player " + player + " joined the game\n";
+		/*
+		for (Client client : clientList) {
+			client.send(msg);
+		}*/
+		System.out.print(msg);
+	}
 
-    void setPlayerName(int player, String name) {
-        playerCustomizationController.playerChangeName(player, name);
-    }
+	int getCurrentPlayer() {
+		return diceController.getCurrentPlayerNum();
+	}
+
+	public void onPlayerSelection() {
+		return;
+	}
+
+	public void onGameStart() {
+		return;
+	}
+
+	public void onPlayerChange(int player) {
+		return;
+	}
+
+	void setPlayerName(int player, String name) {
+		playerCustomizationController.playerChangeName(player, name);
+	}
 }
