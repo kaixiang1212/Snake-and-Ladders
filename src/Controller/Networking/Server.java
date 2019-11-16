@@ -54,7 +54,7 @@ public class Server extends Thread {
 		player[slot - 1] = 1;
 
 		Client newClient = new Client(clientSocket , this, slot);
-		newClient.start();
+		//newClient.start();
 		onPlayerConnected(slot);
 
 	}
