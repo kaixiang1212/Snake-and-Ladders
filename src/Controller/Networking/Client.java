@@ -8,13 +8,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import Controller.DiceController;
+import Model.Player;
+
 public class Client extends Thread 
 {
 	   protected Socket socket;
 	   private final Server server;
 	   private int player;
 	   private OutputStream outputStream;
-
 
 	   public Client(Socket clientSocket, Server server, int player) {
 	        this.socket = clientSocket;
@@ -41,10 +43,16 @@ public class Client extends Thread
 	                line = brinp.readLine();
 	                System.out.println(line.length());
 	                if (line.equals("roll")) {
-	                	System.out.println("dankerino peeppperion");
-	                	handleRoll();
-	                } else if (line.equals("stop")) {
+		            	System.out.println("number of player is " + server.getCurrentPlayer());
+		            	System.out.println("this player num is actually" + player);
+		            	// make sure other players can't roll when it is player's turn
+		            	if (server.getCurrentPlayer() == player) {
+		                	handleRoll();
+		            	}
+ 	                } else if (line.equals("stop")) {
+		            	if (server.getCurrentPlayer() == player) {
 	                	handleStop();
+		            	}
 	                }
 	                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
 	                    socket.close();

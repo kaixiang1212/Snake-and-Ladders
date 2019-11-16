@@ -18,6 +18,7 @@ public class Server extends Thread {
 
 	private ArrayList<Client> clientList;
 	private int numPlayer;
+	private static int playersCount  = 0;
 	private int[] player;
 	private PlayerCustomizationController playerCustomizationController;
 	boolean playerCustomiseScreen;
@@ -52,11 +53,10 @@ public class Server extends Thread {
 
 	private void addPlayer(int slot, Socket clientSocket) throws IOException {
 		player[slot - 1] = 1;
-
-		Client newClient = new Client(clientSocket , this, slot);
-		//newClient.start();
+		playersCount++;
+		Client newClient = new Client(clientSocket , this, slot - 1);
+		newClient.start();
 		onPlayerConnected(slot);
-
 	}
 /*
 	void removePlayer(Client clientHandler) throws IOException {
@@ -82,7 +82,7 @@ public class Server extends Thread {
 				// String str[20];
 				// String msg[20];
 				System.out.println("Client connected..");
-				 
+				
 
 				String line = br1.readLine();
 				//System.out.println(line + "line is");
@@ -158,10 +158,10 @@ public class Server extends Thread {
 
 	private void onPlayerConnected(int player) throws IOException {
 		String msg = "Player " + player + " joined the game\n";
-		/*
+		
 		for (Client client : clientList) {
 			client.send(msg);
-		}*/
+		}
 		System.out.print(msg);
 	}
 
