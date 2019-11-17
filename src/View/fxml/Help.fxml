@@ -17,9 +17,9 @@
 <Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HelpController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="804.0" stroke="BLACK" strokeType="INSIDE" width="805.0" />
-      <ImageView fitHeight="300.0" layoutX="-59.0" layoutY="-124.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="340.0" layoutX="-89.0" layoutY="-84.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../asset/ladder2.png" />
+            <Image url="@../../asset/Ladders/ladder2.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="300.0" layoutX="431.0" layoutY="-148.0" pickOnBounds="true" preserveRatio="true" x="200.0" y="700.0">

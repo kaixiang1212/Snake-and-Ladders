@@ -1,19 +1,25 @@
 package Controller;
 
-import Model.Dice;
+import java.util.ArrayList;
+import java.util.Map;
+
 import Model.GameEngine;
+import Model.Item;
 import Model.Player;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 
 public class DiceController {
-
+	
     @FXML
-    private Button button;
+    private Button rollButton;
     @FXML
     private AnchorPane diceInterface;
     @FXML
@@ -27,17 +33,14 @@ public class DiceController {
     @FXML
     private Button menuButton;
 
-    private GameEngine players;
-    private MusicController musicController;
-    private AnimationController animationController;
     private BoardController boardController;
-    
-    private Dice dice;
+
     private final Image[] diceFace;
     private int currentPos;
     private int destination;
-    private int dieRolled;
+    private int diceResult;
     private boolean isPaused;
+    private int spawnItemChance;		// Chance of an item spawning each turn in percentage
 
     public DiceController() {
         this.diceFace = new Image[6];
@@ -47,11 +50,9 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
-        musicController = new MusicController();
-        musicController.initDice();
-        dice = new Dice();
-        animationController = new AnimationController(players, this);
-        animationController.getAnimation().start();
+        MusicController.initDice();
+        new AnimationController(this);
+        AnimationController.getAnimation().start();
     }
 
     /**
@@ -60,14 +61,15 @@ public class DiceController {
      *
      * @param engine Game Engine
      */
-    void config(GameEngine engine, BoardController boardController) {
-        this.players = engine;
+    void config(BoardController boardController) {
         this.boardController = boardController;
-        animationController.setEngine(engine);
         setCurrentPlayerToken();
-        Player player = players.getCurrentPlayer();
+        Player player = GameEngine.getCurrentPlayer();
         StringBuilder sb = new StringBuilder();
         message.setText((sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString()));
+        spawnItemChance = GameEngine.getPlayerNum()*10;
+        isPaused = false;
+        rollButton.setDefaultButton(true);
     }
     
     /**
@@ -75,11 +77,12 @@ public class DiceController {
      */
     @FXML
     private void rollButtonClicked() {
-        musicController.playRollDice();
+    	MusicController.playRollDice();
         text.setText("");
-        animationController.setSpinning(true);
-        button.setText("Stop");
-        button.setOnAction(event -> stopButtonClicked());
+        AnimationController.setSpinning(true);
+        menuButton.setDisable(true);
+        rollButton.setText("Stop");
+        rollButton.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
     }
     
@@ -88,45 +91,46 @@ public class DiceController {
      */
     @FXML
 	public void stopButtonClicked() {
-        musicController.clear();
-        animationController.setSpinning(false);
-        button.setDisable(true);
-        diceImage.setDisable(true);   
+    	MusicController.clear();
+    	AnimationController.setSpinning(false);
+    	rollButton.setDisable(true);
+        diceImage.setDisable(true);  
+        menuButton.setDisable(false);
 
-        Player currentPlayer = players.getCurrentPlayer();
-        int diceResult = dice.roll();
+
+        Player currentPlayer = GameEngine.getCurrentPlayer();
+        diceResult = getDiceRolled();
         text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
-        musicController.playThrowDice();
-        draw(diceResult);
+        MusicController.playThrowDice();
         
-    	if(!players.isFinished()) {
+    	if(!GameEngine.isFinished()) {
             currentPos = getCurrentPos();
             destination = currentPos+diceResult;
-            destination = getDestination();
-            dieRolled = diceResult;
-            
-            animationController.setPlayerMoving(true);
+            destination = Math.max(destination, GameEngine.getBoard().getMinPos());
+            if(destination > GameEngine.getBoard().getMaxPos()) {
+            	prepareNextTurn();
+            	return;
+            }
+            AnimationController.setPlayerMoving(true);
     	}
-        
     }
-    
+
     /**
      * Called when the 'menu' button is clicked
      */
     @FXML
 	public void menuButtonClicked() {
-    	if (isPaused == false) {
-            isPaused = true;
-            button.setDisable(true);
-            diceImage.setDisable(true);   
+    	isPaused = !isPaused;
+    	if (isPaused) {
+    		rollButton.setDisable(true);
+            diceImage.setDisable(true);
             boardController.showMenu();
     	} else {
             boardController.hideMenu();
-            if(!players.isFinished()) {
-	            diceImage.setDisable(false);  
-	            button.setDisable(false);
+            if(!GameEngine.isFinished()) {
+	            diceImage.setDisable(false);
+	            rollButton.setDisable(false);
             }
-            isPaused = false;
     	}
     }
     
@@ -135,36 +139,79 @@ public class DiceController {
      * Called in-between player turns to prepare for the next player roll
      */
     public void prepareNextTurn() {
-    	animationController.setSpinning(false);
-    	animationController.setPlayerMoving(false);
-    	players.updateState();
+    	AnimationController.setSpinning(false);
+    	AnimationController.setPlayerMoving(false);
+    	GameEngine.updateState();
     	StringBuilder sb = new StringBuilder();
-    	if (players.isFinished()) {
-            sb.append(players.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
+    	if (GameEngine.isFinished()) {
+            sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText((sb.toString()));
             return;
         }
-    	
-    	button.setDisable(false);
-        diceImage.setDisable(false);
 
-    	if (dieRolled == 6) {
-            musicController.playRolled6();
-            sb.append(players.getCurrentPlayer().getPlayerName().concat(" roll again"));
+    	if (diceResult == 6) {
+    		MusicController.playRolled6();
+            sb.append(GameEngine.getCurrentPlayer().getPlayerName().concat(" roll again"));
         } else {
-        	players.nextPlayer();
+        	GameEngine.nextPlayer();
         }
     	
     	sb.append("\n");
-    	sb.append(players.getCurrentPlayer().getPlayerName()).append("'s turn:\n");
+    	sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append("'s turn:\n");
     	message.setText(sb.toString());
     	
-        button.setText("Start Rolling");
+    	rollButton.setText("Start Rolling");
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
-        button.setOnAction(event -> rollButtonClicked());
-        players.clearConsole();
+        rollButton.setOnAction(event -> rollButtonClicked());
+        GameEngine.clearConsole();
         setCurrentPlayerToken();
         text.setText("");
+        
+        GridPane gridpane = boardController.getGridPane();
+        Map<Item, ImageView> spawnedItems = GameEngine.getSpawnedItems();
+        ArrayList<Item> expired = new ArrayList<Item>();   
+        
+        for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
+        	Item item = itemPair.getKey();
+        	ImageView itemView = itemPair.getValue();
+    		if(item.getExpiry() == 0) {
+    			expired.add(item);
+    			for(Node node : gridpane.getChildren()) {
+    				if(node instanceof ImageView) {
+    					ImageView nodeView = (ImageView) node;
+    					if(nodeView.equals(itemView)) {
+    						gridpane.getChildren().remove(nodeView);
+    						break;
+    					}
+    				}
+    			}
+    			MusicController.playItemDisappear();
+    			System.out.println("Item expired.");
+    		} else {
+    			item.decrementExpiry();
+    		}
+        }
+        spawnedItems.keySet().removeAll(expired);
+        
+        if(Math.random() < (float)spawnItemChance/100f) {
+        	Item item = GameEngine.spawnRandomItem();
+        	if(item != null) {
+        		spawnedItems = GameEngine.getSpawnedItems();
+        		ImageView view = spawnedItems.get(item);
+        		gridpane.getChildren().add(gridpane.getChildren().size()-GameEngine.getPlayerNum(), view);
+        		GridPane.setColumnIndex(view, item.getX());
+        		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
+				GridPane.setHalignment(view, HPos.CENTER);
+				spawnedItems.put(item, view);
+				MusicController.playItemAppear();
+        	} else {
+        		System.out.println("Item spawn failed: space occupied.");
+        	}
+        }
+        GameEngine.setSpawnedItems(spawnedItems);
+        
+        rollButton.setDisable(false);
+        diceImage.setDisable(false);
     }
     
     /**
@@ -172,8 +219,8 @@ public class DiceController {
      * @return current player's current board position
      */
     public int getCurrentPos() {
-    	Player currentPlayer = players.getCurrentPlayer();
-    	return players.getBoard().getPosition(currentPlayer.getX(), currentPlayer.getY());
+    	Player currentPlayer = GameEngine.getCurrentPlayer();
+    	return GameEngine.getBoard().getPosition(currentPlayer.getX(), currentPlayer.getY());
     }
     
     /**
@@ -181,8 +228,6 @@ public class DiceController {
      * @return destination of current player
      */
     public int getDestination() {
-    	destination = Math.max(destination, players.getBoard().getMinPos());
-        destination = Math.min(destination, players.getBoard().getMaxPos());
     	return destination;
     }
 
@@ -200,8 +245,20 @@ public class DiceController {
      * Updates the current player's token to the correct player
      */
     private void setCurrentPlayerToken() {
-        int token = players.getCurrentPlayerToken();
+        int token = GameEngine.getCurrentPlayerToken();
         playerToken.setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+    }
+
+    /**
+     * Get last randomly rolled dice image as result
+     * @return dice result between 1 - 6
+     */
+    private int getDiceRolled(){
+        Image lastRolled = diceImage.getImage();
+        for(int i = 0; i < 6; i++){
+            if (lastRolled == diceFace[i]) return i+1;
+        }
+        return -1;
     }
 
 }

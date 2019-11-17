@@ -10,21 +10,21 @@ import java.io.IOException;
 
 public class PlayerNumSelectionScreen {
 
-    private Stage stage;
-    private String screenTitle;
-    private FXMLLoader fxmlLoader;
+    private static Stage stage;
+    private static String screenTitle;
+    private static FXMLLoader fxmlLoader;
 
-    public PlayerNumSelectionScreen(Stage stage) {
-        this.stage = stage;
-        this.screenTitle = "Player Selection";
-        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/playerNumberSelection.fxml"));
+    public PlayerNumSelectionScreen(Stage s) {
+        stage = s;
+        screenTitle = "Player Selection";
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/playerNumberSelection.fxml"));
     }
 
-    public void start() {
+    public static void start() {
         stage.setTitle(screenTitle);
         try {
             Parent root = fxmlLoader.load();
-            ((PlayerNumSelectionController )fxmlLoader.getController()).setStage(stage);
+            ((PlayerNumSelectionController)fxmlLoader.getController()).setStage(stage);
             Scene sc = new Scene(root);
             stage.setScene(sc);
             stage.show();
