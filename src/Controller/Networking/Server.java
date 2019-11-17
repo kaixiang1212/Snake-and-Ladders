@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class Server extends Thread {
 	boolean playerCustomiseScreen;
 	private DiceController diceController;
 	boolean diceScreen;
+	private ServerSocket serverSocket;
 
 	public Server() {
 		diceScreen = false;
@@ -72,7 +74,7 @@ public class Server extends Thread {
 	public void run() {
 		int port = 8000;
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 			while (true) {
                 Socket clientSocket = serverSocket.accept();
 
@@ -90,6 +92,8 @@ public class Server extends Thread {
 				    clientSocket.close();
 				}
 			}
+
+		} catch (SocketException se){
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -161,5 +165,9 @@ public class Server extends Thread {
 
 	void setPlayerName(int player, String name) {
 		playerCustomizationController.playerChangeName(player, name);
+	}
+
+	public void kill() throws IOException {
+		serverSocket.close();
 	}
 }
