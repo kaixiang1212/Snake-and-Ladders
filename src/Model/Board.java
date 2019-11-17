@@ -188,18 +188,21 @@ public class Board {
 		includeItem(item);
 		item = new Item(-1, -1, ItemType.ANTIDOTE, 1, 7);
 		includeItem(item);
-		item = new Item(-1, -1, ItemType.DOUBLE, 2, 7);
+		item = new Item(-1, -1, ItemType.DOUBLE, 1, 7);
 		includeItem(item);
-		item = new Item(-1, -1, ItemType.EXTRAROLL, 3, 7);
+		item = new Item(-1, -1, ItemType.EXTRAROLL, 2, 7);
 		includeItem(item);
-		item = new Item(-1, -1, ItemType.IMMUNITY, 2, 7);
+		item = new Item(-1, -1, ItemType.SHIELD, 1, 7);
 		includeItem(item);
 		item = new Item(-1, -1, ItemType.REVERSE, 2, 7);
 		includeItem(item);
+		item = new Item(-1, -1, ItemType.SWAP, 1, 7);
+		includeItem(item);
 		item = new Item(-1, -1, ItemType.ROLLBACK, 1, 7);
 		includeItem(item);
-		item = new Item(-1, -1, ItemType.SLOWDOWN, 3, 7);
+		item = new Item(-1, -1, ItemType.SLOWDOWN, 1, 7);
 		includeItem(item);
+		Collections.shuffle(itemPool);
 	}
 	
 	/**

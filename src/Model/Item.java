@@ -4,13 +4,13 @@ public class Item extends Entity {
 	
 	public enum ItemType {
 		  SKIPTURN,				// Skip next player's turn
-		  EXTRAROLL,			// Roll an extra dice
-		  SLOWDOWN,				// Slowdown the next player piece (on the board) for a few turns by halving their rolls
-		  IMMUNITY,				// Get temporary snake immunity
-		  ROLLBACK,				// Roll a dice to move the leading player back
-		  DOUBLE,				// Double the number on the dice
-		  SWITCHEROO,			// Switch the functionality of the snakes and the ladders for the next player piece (on the board) for a few turns
-		  ANTIDOTE,				// Use when poisoned by a snake
+		  EXTRAROLL,			// Roll an extra dice (preserved if you roll a 6)
+		  SLOWDOWN,				// Slow down the next closest piece on the board for a few turns by halving their rolls
+		  SHIELD,				// Temporarily protects against power-ups
+		  ROLLBACK,				// Roll a dice to move the first player on the board backwards
+		  DOUBLE,				// Double the result of the next roll
+		  SWAP,					// Swap positions with the first player on the board
+		  ANTIDOTE,				// Heals snake poison and gives temporary snake immunity
 		  REVERSE				// Reverse the order of play
 	}
 	
