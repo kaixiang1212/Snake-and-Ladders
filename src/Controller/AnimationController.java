@@ -4,28 +4,23 @@ import Model.GameEngine;
 import javafx.animation.AnimationTimer;
 
 public class AnimationController {
-	private final int maxFrames = 300;
-	private final int animationFrames = 10;
-	private final long frametime = 8333333;
+	private static final int maxFrames = 300;
+	private static final int animationFrames = 10;
+	private static final long frametime = 8333333;
 	
-    private int frame;
-    private boolean isSpinning;
-    private boolean isPlayerMoving;
+    private static int frame;
+    private static boolean isSpinning;
+    private static boolean isPlayerMoving;
+    private static long lastTime;
     
-    private GameEngine engine;
-    private DiceController diceController;
-    private long lastTime;
+    private static DiceController diceController;
     
-    public AnimationController(GameEngine engine, DiceController diceController) {
+    public AnimationController(DiceController dc) {
+    	frame = 0;
     	isSpinning = false;
     	isPlayerMoving = false;
-    	frame = 0;
-    	this.engine = engine;
-    	this.diceController = diceController;
-    }
-    
-    public void setEngine(GameEngine engine) {
-    	this.engine = engine;
+    	lastTime = 0;
+    	diceController = dc;
     }
     
     /**
@@ -35,7 +30,7 @@ public class AnimationController {
      * When a player is moving, move their token one position every animationFrames frames
      * once the player reaches their destination, update the game state and prepare for next roll
      */
-    private AnimationTimer animation = new AnimationTimer() {
+    private static AnimationTimer animation = new AnimationTimer() {
         public void handle(long time) {
         	if((time - lastTime) < frametime) {
         		return;
@@ -53,7 +48,7 @@ public class AnimationController {
         		if (frame%animationFrames == 0 && currentPos == destination) {
         			diceController.prepareNextTurn();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
-        			engine.updatePosition(engine.getCurrentPlayer(), currentPos + 1);
+        			GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
         		}		
         	}
         	frame++;
@@ -65,7 +60,7 @@ public class AnimationController {
      * Return the AnimationTimer object of the class
      * @return animation: AnimationTimer object
      */
-    public AnimationTimer getAnimation() {
+    public static AnimationTimer getAnimation() {
     	return animation;
     }
     
@@ -74,7 +69,7 @@ public class AnimationController {
      * @param value: true if dice should currently be spinning
      * 				 false otherwise
      */
-    public void setSpinning(boolean value) {
+    public static void setSpinning(boolean value) {
     	frame = 0;
     	isSpinning = value;
     }
@@ -84,7 +79,7 @@ public class AnimationController {
      * @param value: true if current player should currently be moving
      * 			     false otherwise
      */
-    public void setPlayerMoving(boolean value) {
+    public static void setPlayerMoving(boolean value) {
     	frame = 0;
     	isPlayerMoving = value;
     }

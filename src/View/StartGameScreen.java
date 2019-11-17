@@ -14,19 +14,19 @@ import javafx.stage.Stage;
 
 public class StartGameScreen {
 
-	private Stage stage;
-	private String title;
-	private StartGameScreenController controller;
-	private Scene scene;
+	private static Stage stage;
+	private static String title;
+	private static StartGameScreenController controller;
+	private static Scene scene;
 	
 	
-	public StartGameScreen (Stage stage) throws IOException {
-		this.stage = stage;
-		this.title = "Start Screen";
+	public StartGameScreen (Stage s) throws IOException {
+		stage = s;
+		title = "Start Screen";
 		stage.setResizable(false);
 		//if(!stage.isShowing())
 			//stage.initStyle(StageStyle.DECORATED);
-		controller = new StartGameScreenController(stage);
+		controller = new StartGameScreenController(s);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/StartGameScreen.fxml"));
 		loader.setController(controller);
 		Parent root = loader.load();
@@ -34,13 +34,13 @@ public class StartGameScreen {
 		stage.sizeToScene();
 	}
 	
-	public void start() {
+	public static void start() {
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
 	}
 	
-	public StartGameScreenController getController() {
+	public static StartGameScreenController getController() {
 		return controller;
 	}
 

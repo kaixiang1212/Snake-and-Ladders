@@ -9,19 +9,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class PlayerCustomizationScreen {
-    private Stage stage;
-    private FXMLLoader fxmlLoader;
-    private String screenTitle;
-    private int numPlayer;
+    private static Stage stage;
+    private static FXMLLoader fxmlLoader;
+    private static String screenTitle;
+    private static int numPlayer;
 
-    public PlayerCustomizationScreen(Stage stage, int numPlayer){
-        this.stage = stage;
-        this.screenTitle = "Player Customisation";
-        this.numPlayer = numPlayer;
-        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerCustomization.fxml"));
+    public PlayerCustomizationScreen(Stage s, int nPlayer){
+        stage = s;
+        screenTitle = "Player Customisation";
+        numPlayer = nPlayer;
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerCustomization.fxml"));
     }
 
-    public void start(){
+    public static void start(){
         stage.setTitle(screenTitle);
         try {
             Parent root = fxmlLoader.load();
