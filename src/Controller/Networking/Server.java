@@ -69,7 +69,7 @@ public class Server extends Thread {
 */
 	@Override
 	public void run() {
-		int port = 5000;
+		int port = 5001;
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			while (true) {
