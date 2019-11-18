@@ -43,8 +43,6 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>();
-        spawnedItems.clear();
         board = boardNum;
     }
 

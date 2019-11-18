@@ -3,7 +3,6 @@ package Controller;
 
 import View.BoardSelectionScreen;
 import View.PlayerCustomizationScreen;
-import View.StartGameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

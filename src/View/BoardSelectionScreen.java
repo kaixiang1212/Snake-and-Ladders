@@ -1,7 +1,6 @@
 package View;
 
 import Controller.BoardSelectionController;
-import Controller.PlayerNumSelectionController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
