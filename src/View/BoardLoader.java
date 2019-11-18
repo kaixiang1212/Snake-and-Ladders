@@ -37,7 +37,7 @@ public abstract class BoardLoader {
      * @return
      * @throws JSONException 
      */
-	public static void load () throws JSONException {
+	public static void load() throws JSONException {
 		int width = json.getInt("width");
 		int height = json.getInt("height");
 	        

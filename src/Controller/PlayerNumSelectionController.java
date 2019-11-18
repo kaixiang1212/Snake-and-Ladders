@@ -3,6 +3,7 @@ package Controller;
 
 import View.BoardSelectionScreen;
 import View.PlayerCustomizationScreen;
+import View.StartGameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,8 +16,9 @@ import java.io.IOException;
 public class PlayerNumSelectionController {
 
     private Stage stage;
-    private int boardNum;
     
+    private int boardNum;
+
     @FXML
     private Label title;
     @FXML
@@ -33,7 +35,7 @@ public class PlayerNumSelectionController {
     private Button backButton;
     @FXML
     private Button nextButton;
-    @FXML
+
     private Toggle playerSelected;
 
     public PlayerNumSelectionController(){
