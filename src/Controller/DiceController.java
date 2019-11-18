@@ -1,11 +1,11 @@
 package Controller;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import Model.GameEngine;
 import Model.Item;
 import Model.Player;
+import View.GameScreen;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
@@ -168,12 +168,12 @@ public class DiceController {
         text.setText("");
         
         GridPane gridpane = boardController.getGridPane();
-        Map<Item, ImageView> spawnedItems = GameEngine.getSpawnedItems();
+        ArrayList<Item> spawnedItems = GameEngine.getSpawnedItems();
         ArrayList<Item> expired = new ArrayList<Item>();   
         
-        for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
-        	Item item = itemPair.getKey();
-        	ImageView itemView = itemPair.getValue();
+        // Clean up expired items
+        for(Item item : spawnedItems) {
+        	ImageView itemView = item.getImage();
     		if(item.getExpiry() == 0) {
     			expired.add(item);
     			for(Node node : gridpane.getChildren()) {
@@ -186,29 +186,34 @@ public class DiceController {
     				}
     			}
     			MusicController.playItemDisappear();
-    			System.out.println("Item expired.");
+    			System.out.println("Item " + item.getName() + " expired.");
     		} else {
     			item.decrementExpiry();
     		}
         }
-        spawnedItems.keySet().removeAll(expired);
+        spawnedItems.removeAll(expired);
+        GameEngine.setSpawnedItems(spawnedItems);
         
+        // Chance to randomly spawn an item
         if(Math.random() < (float)spawnItemChance/100f) {
         	Item item = GameEngine.spawnRandomItem();
         	if(item != null) {
+        		System.out.println("Spawning item at position " + GameEngine.getBoard().getPosition(item.getX(), item.getY()));
+        		System.out.println("- " + item.getName() + ": " + item.getDescription() + "\n");
         		spawnedItems = GameEngine.getSpawnedItems();
-        		ImageView view = spawnedItems.get(item);
+        		ImageView view = item.getImage();
+        		view.setPreserveRatio(true);
+        		view.setFitHeight(GameScreen.getHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
         		gridpane.getChildren().add(gridpane.getChildren().size()-GameEngine.getPlayerNum(), view);
         		GridPane.setColumnIndex(view, item.getX());
         		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
 				GridPane.setHalignment(view, HPos.CENTER);
-				spawnedItems.put(item, view);
 				MusicController.playItemAppear();
         	} else {
         		System.out.println("Item spawn failed: space occupied.");
         	}
         }
-        GameEngine.setSpawnedItems(spawnedItems);
+        
         
         rollButton.setDisable(false);
         diceImage.setDisable(false);

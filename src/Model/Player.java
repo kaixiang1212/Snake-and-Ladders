@@ -1,10 +1,13 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Player extends Entity {
 
     private String playerName;
     // private int position;
     private int token;
+    private ArrayList<Item> items;
 
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
@@ -60,6 +63,17 @@ public class Player extends Entity {
     	this.token = token;
     }
     
+    public void pickupItem(Item item) {
+    	items.add(item);
+    }
+    
+    public void useItem(Item item) {
+    	items.remove(item);
+    }
+    
+    public void useItem(int index) {
+    	items.remove(index);
+    }
     
     
 }
