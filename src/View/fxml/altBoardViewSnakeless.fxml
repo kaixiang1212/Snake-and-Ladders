@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BoardController">
+   <children>
+      <HBox fx:id="hbox" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <GridPane fx:id="squares" alignment="CENTER" minHeight="800.0" minWidth="800.0" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #6a2e20;">
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            <fx:include fx:id="dice" source="diceInterface.fxml" />
+         </children>
+      </HBox>
+      <ImageView fitHeight="800.0" fitWidth="800.0">
+         <image>
+            <Image url="@../../../../../../Desktop/Screen%20Shot%202019-11-05%20at%2012.06.58%20am.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder1" fitHeight="325.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" x="230.0" y="60.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder1" fitHeight="325.0" fitWidth="400.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="230.0" y="60.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder1.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder3" fitHeight="140.0" fitWidth="200.0" layoutX="1.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" x="180.0" y="410.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder3.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder3" fitHeight="140.0" fitWidth="200.0" layoutX="1.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" visible="false" x="180.0" y="410.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder3.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder5" fitHeight="286.0" fitWidth="206.0" layoutX="-9.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" rotate="-4.8" x="585.0" y="500.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder5.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder5" fitHeight="286.0" fitWidth="206.0" layoutX="-11.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" visible="false" x="585.0" y="500.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder5.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder6" fitHeight="245.0" fitWidth="173.0" layoutX="-20.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true" x="565.0" y="295.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder6.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder6" fitHeight="245.0" fitWidth="173.0" layoutX="-20.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true" visible="false" x="565.0" y="295.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder6.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder2" fitHeight="270.0" fitWidth="229.0" layoutX="-20.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" x="30.0" y="200.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder2" fitHeight="270.0" fitWidth="229.0" layoutX="-16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" visible="false" x="30.0" y="200.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder2.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder4" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="110.0" y="670.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder4.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder4" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" x="110.0" y="670.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder4.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder7.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Ladder7" fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/Ladders/Ladder7.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="gifLadder7" fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false" x="670.0" y="40.0">
+         <image>
+            <Image url="@../../asset/gifs/gifLadder7.gif" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="menuPane" layoutX="115.0" layoutY="75.0" prefHeight="597.0" prefWidth="587.0" style="-fx-background-color: white;">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="672.0" stroke="BLACK" strokeType="INSIDE" width="587.0" />
+            <Label fx:id="title" alignment="CENTER" layoutX="149.0" layoutY="-1.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">
+               <font>
+                  <Font name="Papyrus" size="50.0" />
+               </font>
+            </Label>
+            <Button fx:id="exitButton" contentDisplay="CENTER" layoutX="247.0" layoutY="301.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="25.0" prefWidth="93.0" text="Exit Game" />
+            <Button fx:id="resumeButton" alignment="CENTER" contentDisplay="CENTER" layoutX="247.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleResumeButton" text="Resume Game" />
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

@@ -1,5 +1,6 @@
 package Controller;
 
+import View.BoardSelectionScreen;
 import View.HelpGameScreen;
 import View.PlayerNumSelectionScreen;
 import javafx.event.ActionEvent;
@@ -30,8 +31,9 @@ public class StartGameScreenController {
 	@FXML
 	public void handleStartGameButton (ActionEvent event) {
 		MusicController.playNext();
-		new PlayerNumSelectionScreen(s);
-		PlayerNumSelectionScreen.start();
+		new BoardSelectionScreen(s);
+		BoardSelectionScreen.start();
+
 	}
 	
 	@FXML

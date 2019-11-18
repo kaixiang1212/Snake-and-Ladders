@@ -30,6 +30,8 @@ public class PlayerCustomizationController {
 
     private Stage stage;
     private int playerCount = 1;
+    private int board;
+
     private ArrayList<Integer> token;
     private ArrayList<Integer> availableToken;
 
@@ -56,6 +58,8 @@ public class PlayerCustomizationController {
             playerCount++;
         }
     }
+    
+    public void setBoard(int board) { this.board = board; }
 
     /**
      * Add player
@@ -161,16 +165,19 @@ public class PlayerCustomizationController {
 
     @FXML
     public void backButtonClicked(){
+    	
     	MusicController.playBack();
-        new PlayerNumSelectionScreen(stage);
+        new PlayerNumSelectionScreen(stage, board);
         PlayerNumSelectionScreen.start();
+
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
     	MusicController.playNext();
         
-        new GameEngine();
+        new GameEngine(board);
+
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){

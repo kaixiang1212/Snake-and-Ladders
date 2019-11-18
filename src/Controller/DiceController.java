@@ -161,6 +161,7 @@ public class DiceController {
         GameEngine.clearConsole();
         setCurrentPlayerToken();
         text.setText("");
+        AnimationController.setPoison(GameEngine.getCurrentPlayer().getPoisonStatus());
         
         // Clean up expired items
         boardController.cleanExpiredItems();
