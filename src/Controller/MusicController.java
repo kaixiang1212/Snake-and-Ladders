@@ -27,6 +27,7 @@ public class MusicController {
     private static MediaPlayer movePlayer;
     private static MediaPlayer itemAppearPlayer;
     private static MediaPlayer itemDisappearPlayer;
+    private static MediaPlayer itemPickupPlayer;
 
     private static boolean initBoard = false;
     private static MediaPlayer bgMusicPlayer;
@@ -87,6 +88,7 @@ public class MusicController {
         Media moveSound = new Media(new File("src/asset/Sound/move.mp3").toURI().toString());
         Media itemAppearSound = new Media(new File("src/asset/Sound/itemappear.mp3").toURI().toString());
         Media itemDisappearSound = new Media(new File("src/asset/Sound/itemdisappear.mp3").toURI().toString());
+        Media itemPickupSound = new Media(new File("src/asset/Sound/itempickup.mp3").toURI().toString());
 
         ascendPlayer = new MediaPlayer(ascendSound);
         descendPlayer = new MediaPlayer(descendSound);
@@ -96,6 +98,7 @@ public class MusicController {
         movePlayer = new MediaPlayer(moveSound);
         itemAppearPlayer = new MediaPlayer(itemAppearSound);
         itemDisappearPlayer = new MediaPlayer(itemDisappearSound);
+        itemPickupPlayer = new MediaPlayer(itemPickupSound);
     }
     
     /**
@@ -142,6 +145,7 @@ public class MusicController {
             movePlayer.stop();
             itemAppearPlayer.stop();
             itemDisappearPlayer.stop();
+            itemPickupPlayer.stop();
         }
     }
     
@@ -183,14 +187,12 @@ public class MusicController {
 
     public static void playRollDice(){
         if (!initDice) return;
-        clear();
         if(soundFxOn)
         	diceRollPlayer.play();
     }
 
     public static void playRolled6(){
         if (!initDice) return;
-        clear();
         if(soundFxOn)
         	dice6Player.play();
     }
@@ -215,6 +217,14 @@ public class MusicController {
         itemDisappearPlayer.setVolume(1.0);
         if(soundFxOn)
         	itemDisappearPlayer.play();
+    }
+    
+    public static void playItemPickup() {
+    	if (!initGame) return;
+        itemPickupPlayer.setVolume(1.0);
+        clear();
+        if(soundFxOn)
+        	itemPickupPlayer.play();
     }
 
     public static void playSnake(){
