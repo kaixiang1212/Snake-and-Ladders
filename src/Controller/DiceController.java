@@ -1,19 +1,13 @@
 package Controller;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import Model.GameEngine;
-import Model.Item;
 import Model.Player;
+
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 
 public class DiceController {
@@ -51,7 +45,7 @@ public class DiceController {
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
         MusicController.initDice();
-        new AnimationController(this);
+        new AnimationController(this, boardController);
         AnimationController.getAnimation().start();
     }
 
@@ -70,6 +64,7 @@ public class DiceController {
         spawnItemChance = GameEngine.getPlayerNum()*10;
         isPaused = false;
         rollButton.setDefaultButton(true);
+        new AnimationController(this, this.boardController);
     }
     
     /**
@@ -166,49 +161,15 @@ public class DiceController {
         GameEngine.clearConsole();
         setCurrentPlayerToken();
         text.setText("");
+        AnimationController.setPoison(GameEngine.getCurrentPlayer().getPoisonStatus());
         
-        GridPane gridpane = boardController.getGridPane();
-        Map<Item, ImageView> spawnedItems = GameEngine.getSpawnedItems();
-        ArrayList<Item> expired = new ArrayList<Item>();   
+        // Clean up expired items
+        boardController.cleanExpiredItems();
         
-        for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
-        	Item item = itemPair.getKey();
-        	ImageView itemView = itemPair.getValue();
-    		if(item.getExpiry() == 0) {
-    			expired.add(item);
-    			for(Node node : gridpane.getChildren()) {
-    				if(node instanceof ImageView) {
-    					ImageView nodeView = (ImageView) node;
-    					if(nodeView.equals(itemView)) {
-    						gridpane.getChildren().remove(nodeView);
-    						break;
-    					}
-    				}
-    			}
-    			MusicController.playItemDisappear();
-    			System.out.println("Item expired.");
-    		} else {
-    			item.decrementExpiry();
-    		}
-        }
-        spawnedItems.keySet().removeAll(expired);
+        // Chance to randomly spawn an item
+    	if(Math.random() < (float)spawnItemChance/100f)
+    		boardController.spawnItem();
         
-        if(Math.random() < (float)spawnItemChance/100f) {
-        	Item item = GameEngine.spawnRandomItem();
-        	if(item != null) {
-        		spawnedItems = GameEngine.getSpawnedItems();
-        		ImageView view = spawnedItems.get(item);
-        		gridpane.getChildren().add(gridpane.getChildren().size()-GameEngine.getPlayerNum(), view);
-        		GridPane.setColumnIndex(view, item.getX());
-        		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
-				GridPane.setHalignment(view, HPos.CENTER);
-				spawnedItems.put(item, view);
-				MusicController.playItemAppear();
-        	} else {
-        		System.out.println("Item spawn failed: space occupied.");
-        	}
-        }
-        GameEngine.setSpawnedItems(spawnedItems);
         
         rollButton.setDisable(false);
         diceImage.setDisable(false);
@@ -260,5 +221,6 @@ public class DiceController {
         }
         return -1;
     }
-
+    
+    
 }

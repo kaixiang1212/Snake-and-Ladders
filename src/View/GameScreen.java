@@ -1,7 +1,7 @@
 package View;
 
 import Controller.*;
-import Model.*;
+import Model.GameEngine;
 
 import java.io.IOException;
 
@@ -36,7 +36,24 @@ public class GameScreen {
 	public static void loadGameScreen() throws IOException, JSONException {
 		// Get the correct Json file for the current level.
 		loadJsonBoard();
-		FXMLLoader loader = new FXMLLoader(GameScreen.class.getResource("fxml/altBoardView.fxml"));
+		String filename;
+		switch (GameEngine.getBoardType()) {
+		case 1:
+			filename = "fxml/altBoardView.fxml";
+			break;
+		case 2:
+			filename = "fxml/altBoardViewPlain.fxml";
+			break;
+		case 3:
+			filename = "fxml/altBoardViewSnakeless.fxml";
+			break;
+		case 4:
+			filename = "fxml/altBoardViewLadderless.fxml";
+			break;
+		default:
+			filename = "fxml/altBoardView.fxml";
+		}
+		FXMLLoader loader = new FXMLLoader(GameScreen.class.getResource(filename));
 		
 		Parent root = loader.load();
 		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
@@ -57,22 +74,82 @@ public class GameScreen {
 	// NOTE: Probably the part where you choose the Board
 	public static void loadJsonBoard() throws IOException, JSONException {
 		
-		//String filename;
-		//int currentBoard = game.getcurrentBoard();
+		String filename;
+		int currentBoard = GameEngine.getBoardType();
 		
-		/**
 		switch (currentBoard) {
-		case 0:
-			filename = "simpleboard.json";
-			break;
-		default:
-			filename = "simpleboard.json";
+			case 1:
+				filename = "animatedBoard.json";
+				break;
+			case 2:
+				filename = "animatedBoardPlain.json";
+				break;
+			case 3:
+				filename = "animatedBoardSnakeless.json";
+				break;
+			case 4:
+				filename = "animatedBoardLadderless.json";
+				break;
+			default:
+				filename = "animatedBoard.json";
 		}
-		*/
 		
 		// Load the BoardEntityLoader.
-		new BoardEntityLoader("animatedBoard.json", stage);
+		
+		new BoardEntityLoader(filename, stage);
+
 	}
+		
+	/*
+	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
+		// Get the correct Json file for the current level.
+		loadJsonBoard();
+		String filename;
+		switch (game.getBoardType()) {
+		case 1:
+			filename = "altBoardView.fxml";
+			break;
+		case 2:
+			filename = "altBoardViewPlain.fxml";
+			break;
+		case 3:
+			filename = "altBoardViewSnakeless.fxml";
+			break;
+		case 4:
+			filename = "altBoardViewLadderless.fxml";
+			break;
+		default:
+			filename = "altBoardView.fxml";
+		}
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/" + filename));
+		
+		Parent root = loader.load();
+		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
+		// Configure Board Controller
+		boardController = loader.getController();
+		boardLoader.configBoardController(boardController);
+		boardController.init();
+		
+		// Create a GifController to manage the gifs once the board has been loaded.
+		GifController gifcontroller = new GifController(boardController);
+		
+
+		
+		
+		//System.out.println("" + boardController.gifladder1);
+		
+		
+		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
+		//stage.setResizable(true);
+		stage.setTitle(title);
+		stage.setScene(scene);
+		stage.show();
+//		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
+//		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
+//		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
+    }*/
+
+	
 	
 	public static int getWidth() {
 		return WIDTH;

@@ -5,8 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.scene.image.ImageView;
 
 
 public class Entity {
@@ -24,7 +23,7 @@ public class Entity {
     //protected String entityName;   // entity identifier
     protected Type type;
     protected BooleanProperty isVisible;
-    protected StringProperty image;
+    protected ImageView image;
 	
     /**
      * Create an entity positioned in square (x,y)
@@ -36,7 +35,6 @@ public class Entity {
         this.y = new SimpleIntegerProperty(y);
         this.type = type;
         this.isVisible =  new SimpleBooleanProperty(true);
-        this.image =  new SimpleStringProperty("N/A");
     }
 
     public IntegerProperty x() {
@@ -72,11 +70,12 @@ public class Entity {
 		return isVisible;
 	}
 	//TO MAKE GRAPHIC CHANGE
-	public void setImage(String string) {
-		this.image.setValue(string);
+	public ImageView getImage() {
+		return image;
 	}
-	public StringProperty getImage() {
-		return this.image;
+	
+	public void setImage(ImageView img) {
+		image = img;
 	}
     
     public Type getEntityType() {
