@@ -13,11 +13,13 @@ public class PlayerCustomizationScreen {
     private FXMLLoader fxmlLoader;
     private String screenTitle;
     private int numPlayer;
+    private int boardNum;
 
-    public PlayerCustomizationScreen(Stage stage, int numPlayer){
+    public PlayerCustomizationScreen(Stage stage, int numPlayer, int board){
         this.stage = stage;
         this.screenTitle = "Player Customisation";
         this.numPlayer = numPlayer;
+        this.boardNum = board;
         this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerCustomization.fxml"));
     }
 
@@ -28,6 +30,7 @@ public class PlayerCustomizationScreen {
             PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
             playerCustomizationController.setStage(stage);
             playerCustomizationController.setPlayers(numPlayer);
+            playerCustomizationController.setBoard(boardNum);
 
             Scene sc = new Scene(root);
             stage.setScene(sc);

@@ -1,5 +1,6 @@
 package Controller;
 
+import View.BoardSelectionScreen;
 import View.HelpGameScreen;
 import View.PlayerNumSelectionScreen;
 import javafx.event.ActionEvent;
@@ -39,7 +40,7 @@ public class StartGameScreenController {
 		//Game game = new Game(0, null);
 		//LevelIntroScreen introScreen = new LevelIntroScreen(s, game);
 		//introScreen.start();
-		PlayerNumSelectionScreen selectionScreen = new PlayerNumSelectionScreen(s);
+		BoardSelectionScreen selectionScreen = new BoardSelectionScreen(s);
 		selectionScreen.start();
 //		GameScreen gameScreen = new GameScreen(s);
 //		try {

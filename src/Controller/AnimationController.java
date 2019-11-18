@@ -11,6 +11,7 @@ public class AnimationController {
     private int frame;
     private boolean isSpinning;
     private boolean isPlayerMoving;
+    private boolean poisoned;
     
     private GameEngine engine;
     private DiceController diceController;
@@ -19,6 +20,7 @@ public class AnimationController {
     public AnimationController(GameEngine engine, DiceController diceController) {
     	isSpinning = false;
     	isPlayerMoving = false;
+    	poisoned = false;
     	frame = 0;
     	this.engine = engine;
     	this.diceController = diceController;
@@ -44,14 +46,23 @@ public class AnimationController {
         	int destination = diceController.getDestination();
         	
         	if (isSpinning) {
-        		int diceFrame = (int) (Math.random() * 6) + 1;
-        		diceController.draw(diceFrame);
+        		int diceFrame = 1;
+        		if (poisoned) {
+        			diceFrame = (int) (Math.random() * 3) + 1;
+        		}  else {
+        			diceFrame = (int) (Math.random() * 6) + 1;
+        		}
+        		if (frame % 6 == 0) {
+        			diceController.draw(diceFrame);
+        		}
+        		
             	if(frame == maxFrames) {
             		diceController.stopButtonClicked();
             	}
         	} else if (isPlayerMoving) {		
         		if (frame%animationFrames == 0 && currentPos == destination) {
         			diceController.prepareNextTurn();
+        			engine.getCurrentPlayer().updatePoison();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
         			engine.updatePosition(engine.getCurrentPlayer(), currentPos + 1);
         		}		
@@ -87,5 +98,9 @@ public class AnimationController {
     public void setPlayerMoving(boolean value) {
     	frame = 0;
     	isPlayerMoving = value;
+    }
+    
+    public void setPoison(boolean status) {
+    	poisoned = status;
     }
 }

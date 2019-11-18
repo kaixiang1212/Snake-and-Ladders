@@ -5,11 +5,15 @@ public class Player extends Entity {
     private String playerName;
     // private int position;
     private int token;
+    private int turnsPoisoned;
+    private boolean isPoisoned;
 
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
+        this.turnsPoisoned = 0;
+        this.isPoisoned = false;
     }
 
     /**
@@ -58,6 +62,26 @@ public class Player extends Entity {
      */
     public void setToken(char token) {
     	this.token = token;
+    }
+    
+    public void setPoison(int turns) {
+    	this.turnsPoisoned = turns;
+    	this.isPoisoned = true;
+    }
+    
+    public void updatePoison() {
+    	if (this.isPoisoned) {
+    		if (turnsPoisoned > 0) {
+    			turnsPoisoned--;
+    		} else {
+    			this.isPoisoned = false;
+    			turnsPoisoned = 0;
+    		}
+    	}
+    }
+    
+    public boolean getPoisonStatus() {
+    	return this.isPoisoned;
     }
     
     

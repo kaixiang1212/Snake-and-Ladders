@@ -21,6 +21,7 @@ public class GameEngine {
     private Board gameboard;
     private boolean finished;
     private StringBuilder console;
+    private int board;
 
 	private MusicController musicController;
 	
@@ -34,39 +35,19 @@ public class GameEngine {
     public GameEngine(){
         players = new ArrayList<>();
         gameboard = new Board(10, 10);
-//        gameboard.addEntity(new Snake(27, 5));
-//        gameboard.addSnake(new Snake(40, 3));
-//        gameboard.addSnake(new Snake(43, 18));
-//        gameboard.addSnake(new Snake(54, 31));
-//        gameboard.addSnake(new Snake(66, 45));
-//        gameboard.addSnake(new Snake(76, 58));
-//        gameboard.addSnake(new Snake(89, 53));
-//        gameboard.addSnake(new Snake(99, 41));
-//        gameboard.addLadder(new Ladder(4, 25));
-//        gameboard.addLadder(new Ladder(33, 49));
-//        gameboard.addLadder(new Ladder(42, 63));
-//        gameboard.addLadder(new Ladder(50, 69));
-//        gameboard.addLadder(new Ladder(62, 81));
-//        gameboard.addLadder(new Ladder(74, 92));
-	    /**gameboard.addEntity(new Snake(6, 2, 4, 0, "snake"));
-	    gameboard.addEntity(new Snake(0, 3, 2, 0, "snake"));
-	    gameboard.addEntity(new Snake(2, 4, 2, 1, "snake"));
-	    gameboard.addEntity(new Snake(6, 7, 9, 3, "snake"));
-	    gameboard.addEntity(new Snake(5, 6, 4, 4, "pinksnake"));
-	    gameboard.addEntity(new Snake(4, 7, 2, 5, "snake"));
-	    gameboard.addEntity(new Snake(8, 8, 7, 5, "snake"));
-	    gameboard.addEntity(new Snake(1, 9, 0, 4, "bluesnake"));
-	    gameboard.addEntity(new Ladder(3, 0, 4, 2));
-	    gameboard.addEntity(new Ladder(7, 1, 5, 4));
-	    gameboard.addEntity(new Ladder(1, 4, 2, 6));
-	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
-	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
-	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
-	    */
         console = new StringBuilder();
         console.setLength(0);
         musicController = new MusicController();
         musicController.initGame();
+    }
+    public GameEngine(int boardNum){
+        players = new ArrayList<>();
+        gameboard = new Board(10, 10);
+        console = new StringBuilder();
+        console.setLength(0);
+        musicController = new MusicController();
+        musicController.initGame();
+        board = boardNum;
     }
     /**
      * This constructor is used to pass in a pre-made gameboard
@@ -161,6 +142,10 @@ public class GameEngine {
 		return gameboard;
 	}
 	
+	public int getBoardType() {
+		return board;
+	}
+	
     public GifController getGifcontroller() {
 		return gifcontroller;
 	}
@@ -213,6 +198,7 @@ public class GameEngine {
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
+				currPlayer.setPoison(2);
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
@@ -239,7 +225,7 @@ public class GameEngine {
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
-				updateState();
+				//updateState();
 			}
 		}
 		finished = false;

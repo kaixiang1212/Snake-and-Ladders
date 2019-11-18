@@ -31,6 +31,8 @@ public class PlayerCustomizationController {
     private Stage stage;
 
     private int playerCount = 1;
+    
+    private int board;
 
     private ArrayList<Integer> token;
 
@@ -63,6 +65,8 @@ public class PlayerCustomizationController {
             playerCount++;
         }
     }
+    
+    public void setBoard(int board) { this.board = board; }
 
     /**
      * Add player
@@ -170,7 +174,7 @@ public class PlayerCustomizationController {
     @FXML
     public void backButtonClicked(){
         musicController.playBack();
-        PlayerNumSelectionScreen playerNumSelectionScreen = new PlayerNumSelectionScreen(stage);
+        PlayerNumSelectionScreen playerNumSelectionScreen = new PlayerNumSelectionScreen(stage, board);
         playerNumSelectionScreen.start();
     }
 
@@ -179,7 +183,7 @@ public class PlayerCustomizationController {
         musicController.playNext();
         
         // Modify GameEngine to hold a gifController.
-        GameEngine engine = new GameEngine();
+        GameEngine engine = new GameEngine(board);
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){

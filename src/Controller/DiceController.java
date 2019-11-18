@@ -133,9 +133,10 @@ public class DiceController {
     	animationController.setSpinning(false);
     	animationController.setPlayerMoving(false);
     	players.updateState();
+    	Player currPlayer = players.getCurrentPlayer();
     	StringBuilder sb = new StringBuilder();
     	if (players.isFinished()) {
-            sb.append(players.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
+            sb.append(currPlayer.getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText((sb.toString()));
             return;
         }
@@ -145,9 +146,10 @@ public class DiceController {
 
     	if (diceResult == 6) {
             musicController.playRolled6();
-            sb.append(players.getCurrentPlayer().getPlayerName().concat(" roll again"));
+            sb.append(currPlayer.getPlayerName().concat(" roll again"));
         } else {
         	players.nextPlayer();
+        	currPlayer = players.getCurrentPlayer();
         }
     	
     	sb.append("\n");
@@ -160,6 +162,8 @@ public class DiceController {
         players.clearConsole();
         setCurrentPlayerToken();
         text.setText("");
+        animationController.setPoison(currPlayer.getPoisonStatus());
+
     }
     
     /**

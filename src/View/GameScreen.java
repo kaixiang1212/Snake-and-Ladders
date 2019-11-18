@@ -45,21 +45,28 @@ public class GameScreen {
 	// NOTE--> Probably the part where you choose the Board
 	public BoardEntityLoader loadJsonBoard(Stage stage, GameEngine game) throws IOException, JSONException {
 		
-		//String filename;
-		//int currentBoard = game.getcurrentBoard();
+		String filename;
+		int currentBoard = game.getBoardType();
 		
-		/**
 		switch (currentBoard) {
-		case 0:
-			filename = "simpleboard.json";
-			break;
-		default:
-			filename = "simpleboard.json";
+			case 1:
+				filename = "animatedBoard.json";
+				break;
+			case 2:
+				filename = "animatedBoardPlain.json";
+				break;
+			case 3:
+				filename = "animatedBoardSnakeless.json";
+				break;
+			case 4:
+				filename = "animatedBoardLadderless.json";
+				break;
+			default:
+				filename = "animatedBoard.json";
 		}
-		*/
 		
 		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader("animatedBoard.json", stage, this, engine);
+		BoardEntityLoader loadedBoard = new BoardEntityLoader(filename, stage, this, engine);
 		return loadedBoard;
 		
 	}
@@ -68,7 +75,24 @@ public class GameScreen {
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
 		// Get the correct Json file for the current level.
 		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/altBoardView.fxml"));
+		String filename;
+		switch (game.getBoardType()) {
+		case 1:
+			filename = "altBoardView.fxml";
+			break;
+		case 2:
+			filename = "altBoardViewPlain.fxml";
+			break;
+		case 3:
+			filename = "altBoardViewSnakeless.fxml";
+			break;
+		case 4:
+			filename = "altBoardViewLadderless.fxml";
+			break;
+		default:
+			filename = "altBoardView.fxml";
+		}
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/" + filename));
 		
 		Parent root = loader.load();
 		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
@@ -77,7 +101,7 @@ public class GameScreen {
 		boardLoader.configBoardController(boardController);
 		boardController.init();
 		
-		// Create a GifController to manage the gifs once the boar has been loaded.
+		// Create a GifController to manage the gifs once the board has been loaded.
 		GifController gifcontroller = new GifController(boardController);
 		
 		// Add the Gifcontroller to the gameEngine
