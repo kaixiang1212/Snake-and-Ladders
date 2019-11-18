@@ -10,31 +10,25 @@ import java.io.IOException;
 
 public class PlayerCustomizationScreen {
 
-	private static Stage stage;
-	private static FXMLLoader fxmlLoader;
 	private static String screenTitle;
 	private static int numPlayer;
     private static int boardNum;
 
-
-    public PlayerCustomizationScreen(Stage s, int nPlayer, int board){
-        stage = s;
+    public PlayerCustomizationScreen(int nPlayer, int board){
         screenTitle = "Player Customisation";
         numPlayer = nPlayer;
         boardNum = board;
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerCustomization.fxml"));
-
     }
 
-    public static void start(){
-        stage.setTitle(screenTitle);
+    public static void start(){	
         try {
-            Parent root = fxmlLoader.load();
-            PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
-            playerCustomizationController.setStage(stage);
+        	FXMLLoader fxmlLoader = new FXMLLoader(PlayerCustomizationScreen.class.getResource("fxml/PlayerCustomization.fxml"));
+        	Parent root = fxmlLoader.load();
+        	PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
             playerCustomizationController.setPlayers(numPlayer);
-            playerCustomizationController.setBoard(boardNum);
-
+            playerCustomizationController.setBoard(boardNum); 
+            Stage stage = StartGameScreen.getStage();
+            stage.setTitle(screenTitle);
             Scene sc = new Scene(root);
             stage.setScene(sc);
             stage.show();

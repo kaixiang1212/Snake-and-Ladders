@@ -30,7 +30,8 @@ public class Item extends Entity {
 		this.description = description;
 		this.frequency = frequency;
 		this.expiryCounter = expiry;
-		setImage();
+		image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + itemType.ordinal() + ".png"))));
+		image.setId("item" + itemType.ordinal());
 	}
 	
 	public void setItemType(ItemType itemType) {
@@ -55,17 +56,6 @@ public class Item extends Entity {
 	
 	public void decrementExpiry() {
 		expiryCounter--;
-	}
-	
-	private void setImage() {
-		image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + itemType.ordinal() + ".png"))));
-		image.setId("item" + itemType.ordinal());
-	}
-	
-	@Override
-	public void setImage(ImageView img) {
-		image = img;
-		image.setId("item" + itemType.ordinal());
 	}
 
 	public String getDescription() {

@@ -8,15 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class PlayerNumSelectionController {
-
-    private Stage stage;
-    
-    private int boardNum;
 
     @FXML
     private Label title;
@@ -36,7 +31,8 @@ public class PlayerNumSelectionController {
     private Button nextButton;
 
     private Toggle playerSelected;
-
+    private int boardNum;
+    
     public PlayerNumSelectionController(){
     	MusicController.initUI();
     }
@@ -52,10 +48,6 @@ public class PlayerNumSelectionController {
         playerSelected = playerNumber.getSelectedToggle();
     }
 
-    public void setStage(Stage stage){
-        this.stage = stage;
-    }
-    
     public void setBoard(int board) {
     	this.boardNum = board;
     }
@@ -76,16 +68,14 @@ public class PlayerNumSelectionController {
             return;
         }
 
-        new PlayerCustomizationScreen(stage, player, boardNum);
+        new PlayerCustomizationScreen(player, boardNum);
         PlayerCustomizationScreen.start();
 
     }
 
     @FXML
     private void backButtonClicked() throws IOException {
-
         MusicController.playBack();
-        new BoardSelectionScreen(stage);
         BoardSelectionScreen.start();
     }
 

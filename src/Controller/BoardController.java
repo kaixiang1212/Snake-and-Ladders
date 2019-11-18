@@ -68,7 +68,6 @@ public class BoardController {
 	private Button soundFXButton;
 	
 	private List<Pair<Entity, ImageView>> initialEntities;
-	private Stage stage;
 	
 	public BoardController() {
 		MusicController.initBoard();
@@ -78,11 +77,9 @@ public class BoardController {
      * Configuration for Board Controller and configure Dice Controller
      * @param engine Game Engine
      * @param initialEntities
-     * @param s Stage
      */
-	public void config(List<Pair<Entity, ImageView>> initialEntities, Stage s) {
+	public void config(List<Pair<Entity, ImageView>> initialEntities) {
 		this.initialEntities = new ArrayList<>(initialEntities);
-		stage = s;
 		diceController.config(this);
 		hideMenu();
 	}
@@ -186,7 +183,8 @@ public class BoardController {
     	hideMenu();
     	MusicController.clear();
     	MusicController.stopBGM();
-        new StartGameScreen(stage);
+    	StartGameScreen.getStage().close();
+    	new StartGameScreen(new Stage());
         StartGameScreen.start();
     }
     

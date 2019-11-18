@@ -206,8 +206,7 @@ public class DiceController {
      * Updates the current player's token to the correct player
      */
     private void setCurrentPlayerToken() {
-        int token = GameEngine.getCurrentPlayerToken();
-        playerToken.setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+        playerToken = GameEngine.getCurrentPlayer().getImage();
     }
 
     /**

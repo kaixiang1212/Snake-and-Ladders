@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.FileNotFoundException;
@@ -121,10 +120,9 @@ public abstract class BoardLoader {
     }
 
 	public static void onLoad(Player player) {
-		ImageView view = new ImageView(new Image(String.valueOf(BoardEntityLoader.class.getClassLoader().getResource("asset/token" + player.getPlayerToken() + ".png"))));
+		ImageView view = player.getImage();
 		view.setPreserveRatio(true);
 		view.setFitHeight(GameScreen.getSceneHeight()/(float)GameEngine.getBoard().getHeight()*0.75f);
-		view.setId("player");
 		BoardEntityLoader.addEntity(player, view);
 	}
 	
@@ -175,10 +173,9 @@ public abstract class BoardLoader {
 	}
 	
 	public static void onLoad(Item item) {
-		ImageView view = new ImageView(new Image(String.valueOf(BoardEntityLoader.class.getClassLoader().getResource("asset/items/item" + item.getItemType().ordinal() + ".png"))));
+		ImageView view = item.getImage();
 		view.setPreserveRatio(true);
-		view.setFitHeight(GameScreen.getSceneHeight()/(float)GameEngine.getBoard().getHeight()*0.75f);
-		view.setId("item" + item.getItemType().ordinal());
+		view.setFitHeight(GameScreen.getSceneHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
 		BoardEntityLoader.addEntity(item, view);
 	}
 
