@@ -23,13 +23,13 @@ public class Item extends Entity {
 	private String description;
 	private String name;
 	
-	public Item(int x, int y, ItemType itemType, String name, String description, int frequency, int exp) {
+	public Item(int x, int y, ItemType itemType, String name, String description, int frequency, int expiry) {
 		super(x, y, Type.ITEM);
 		this.itemType = itemType;
 		this.name = name;
 		this.description = description;
 		this.frequency = frequency;
-		this.expiryCounter = exp;
+		this.expiryCounter = expiry;
 		setImage();
 	}
 	
@@ -74,5 +74,9 @@ public class Item extends Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setExpiry(int expiry) {
+		expiryCounter = expiry;
 	}
 }

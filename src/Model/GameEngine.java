@@ -6,9 +6,10 @@ import Controller.GifController;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import java.util.ArrayList;
-import javafx.animation.PauseTransition;  
+import javafx.animation.PauseTransition;
 
 public class GameEngine {
+	private static final int pickedUpItemExpiry = -1000;
 
     private static ArrayList<Player> players;
     private static Player currentPlayer;
@@ -16,10 +17,8 @@ public class GameEngine {
     private static Board gameboard;
     private static boolean finished;
     private static StringBuilder console;
-    private static ArrayList<Item> spawnedItems;
-	private static int board;
-
-    
+    private static int board;
+	
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
      */
@@ -32,8 +31,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>();
-        spawnedItems.clear();
+
     }
 
     public GameEngine(int boardNum){
@@ -45,7 +43,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>(); 
+        spawnedItems = new ArrayList<Item>();
         spawnedItems.clear();
         board = boardNum;
     }
@@ -61,7 +59,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>();
+
     }
 
     /**
@@ -77,7 +75,7 @@ public class GameEngine {
         //updatePosition(player, gameboard.getMinPos());
         updateState();
     }
-    
+
     /**
      * Get the number of players in the game
      * @return number of players
@@ -85,7 +83,7 @@ public class GameEngine {
     public static int getPlayerNum(){
         return players.size();
     }
-    
+
     /**
      * Get the current position of player
      * @param player: Specify player object to find their position
@@ -98,7 +96,7 @@ public class GameEngine {
     	int position = gameboard.getPosition(x, y);
         return position;
     }
-    
+
     /**
      * Update player's position to pos
      * @param player: Player object to update their position
@@ -114,9 +112,15 @@ public class GameEngine {
 		player.setX(x);
 		player.setY(y);
 		MusicController.playMove();
+		Item item = gameboard.isItem(x, y);
+		if(item != null) {
+			player.pickupItem(item);
+			item.setExpiry(pickedUpItemExpiry);
+			System.out.println("[!] " + item.getName() + " item picked up by " + player.getPlayerName() + ".\n");
+		}
 		return pos;
 	}
-	
+
 	/**
      * Get current player
      * @return current player
@@ -124,23 +128,23 @@ public class GameEngine {
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
     /**
      * Get index of current player
      * @return current player index
      */
 	public static int getCurrentPlayerNum() {
-		return currentPlayerNum; 
+		return currentPlayerNum;
 	}
-	
+
 	public static ArrayList<Player> getPlayers(){
 		return players;
 	}
-	
+
 	public static void setBoard(Board board) {
 		gameboard = board;
 	}
-	
+
 	public static Board getBoard() {
 		return gameboard;
 	}
@@ -148,7 +152,7 @@ public class GameEngine {
 	public static int getBoardType() {
 		return board;
 	}
-	
+
 	/**
      * Set the next player in turn as current player, looping over the list of all players
      */
@@ -157,7 +161,7 @@ public class GameEngine {
         currentPlayer = players.get(currentPlayerNum);
         return currentPlayer;
     }
-	
+
 	/**
 	 * Checks whether the game is finished
 	 * @return true if finished, false otherwise
@@ -167,7 +171,7 @@ public class GameEngine {
 		if (finished) MusicController.playVictory();
 		return finished;
 	}
-	
+
 	/**
 	 * Updates the state of the game. This does:
 	 * - Checks if player lands on snake, and changes their position
@@ -204,7 +208,7 @@ public class GameEngine {
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				MusicController.playLadder();
-				
+
 				ImageView ladderGif = GifController.getGifView(currLadder.getId());
 				ImageView ladderImg = GifController.getImgView(currLadder.getId());
 				// Shake the ladder
@@ -216,8 +220,8 @@ public class GameEngine {
 					GifController.stopShakeLadder(ladderGif, ladderImg)
 				);
 				pause.play();
-				
-				
+
+
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
@@ -235,7 +239,7 @@ public class GameEngine {
 	public static void clearConsole(){
 		console.setLength(0);
 	}
-	
+
 	public static String printBoard() {
 		StringBuilder sb = new StringBuilder();
 		int width = gameboard.getWidth();
@@ -278,12 +282,12 @@ public class GameEngine {
 	public static int getCurrentPlayerToken(){
 		return getCurrentPlayer().getPlayerToken();
 	}
-	
+
 	/**
 	 * Spawns a random item in the board. Item spawns at position < top player position && position > last player position && position != any player or existing item position
 	 * @return spawned item object
 	 */
-	public static Item spawnRandomItem() {	
+	public static Item spawnRandomItem() {
 		// Set item position to be < top player's position
 		int maxPlayerPos = gameboard.getMinPos();
 		int minPlayerPos = gameboard.getMaxPos();
@@ -292,39 +296,34 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
-		
+		int itemX = gameboard.getCoords(itemPos).getX();
+		int itemY = gameboard.getCoords(itemPos).getY();
+
 		// Check that position != any player position
 		for(Player player : players) {
 			int playerPos = gameboard.getPosition(player.getX(), player.getY());
 			if(playerPos == itemPos)
 				return null;
 		}
-		
+
 		// Check that position != any existing item position
-		for(Item currItem : spawnedItems) {
-			int currItemPos = gameboard.getPosition(currItem.getX(), currItem.getY());
-			if(currItemPos == itemPos)
-				return null;
+		if(gameboard.isItem(itemX, itemY) != null) {
+			return null;
 		}
-		
+
 		// Obtain a random item from the pool of available items
 		ArrayList<Item> pool = gameboard.getItemPool();
 		int size = pool.size();
 		int index = (int) (Math.random()*size);
 		Item itemTemplate = pool.get(index);
-		
-		int itemX = gameboard.getCoords(itemPos).getX();
-		int itemY = gameboard.getCoords(itemPos).getY();
+
+
 		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getDescription(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
-		spawnedItems.add(item);
+		gameboard.addEntity(item);
 		return item;
 	}
-	
-	public static ArrayList<Item> getSpawnedItems() {
-		return spawnedItems;
-	}
-	
-	public static void setSpawnedItems(ArrayList<Item> items) {
-		spawnedItems = items;
+
+	public static int getPickedUpItemExpiry() {
+		return pickedUpItemExpiry;
 	}
 }
