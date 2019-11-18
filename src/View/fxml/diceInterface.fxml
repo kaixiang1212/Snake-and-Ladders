@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DiceController">
+<VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DiceController">
    <children>
       <Button fx:id="menuButton" alignment="CENTER" mnemonicParsing="false" onAction="#menuButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Menu" />
 	  <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="CENTER" wrappingWidth="200.0" />
@@ -18,7 +18,7 @@
 	        <Image url="@../../asset/dice1.png" />
 	     </image>
 	  </ImageView>
-	  <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" onAction="#rollButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Start Rolling" />
+	  <Button fx:id="rollButton" alignment="CENTER" mnemonicParsing="false" onAction="#rollButtonClicked" prefHeight="31.0" prefWidth="108.0" text="Start Rolling" />
 	     <Text disable="true" strokeType="OUTSIDE" strokeWidth="0.0">
 	        <font>
 	           <Font size="10.0" />

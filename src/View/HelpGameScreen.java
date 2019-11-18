@@ -10,17 +10,17 @@ import javafx.stage.Stage;
 
 public class HelpGameScreen {
 	
-	private String screenTitle;
-	private Stage stage;
-	private FXMLLoader fxmlLoader;
+	private static String screenTitle;
+	private static Stage stage;
+	private static FXMLLoader fxmlLoader;
 
-	public HelpGameScreen (Stage stage) {
-	      this.stage = stage;
-	      this.screenTitle = "help screen";
-	      this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Help.fxml"));
+	public HelpGameScreen (Stage s) {
+	      stage = s;
+	      screenTitle = "help screen";
+	      fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Help.fxml"));
 	}
 	
-    public void start() {
+    public static void start() {
         stage.setTitle(screenTitle);
         try {
             Parent root = fxmlLoader.load();

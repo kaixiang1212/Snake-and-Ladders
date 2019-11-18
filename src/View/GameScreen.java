@@ -14,39 +14,68 @@ import javafx.stage.Stage;
 
 
 public class GameScreen {
-	private final int HEIGHT = 800;
-	private final int WIDTH = 800;
+	private static final int HEIGHT = 800;
+	private static final int WIDTH = 800;
 
-	private final int diceWidth = 200;
+	private static final int diceWidth = 200;
 	
-	private Stage stage;
-	private String title;
-	private Scene scene;
-	private BoardController boardController;
-	private GameEngine engine;
+	private static Stage stage;
+	private static String title;
+	private static Scene scene;
+	private static BoardController boardController;
 
 	public GameScreen(Stage s) {
-		this.stage = s;
-		this.title = "Sneks & Ladders";
+		stage = s;
+		title = "Sneks & Ladders";
 	}
 
-	public void start() throws IOException, JSONException {
-		loadGameScreen(this.stage, this.engine);
+	public static void start() throws IOException, JSONException {
+		loadGameScreen();
 	}
 
-	public GameEngine getEngine() {
-		return engine;
+	public static void loadGameScreen() throws IOException, JSONException {
+		// Get the correct Json file for the current level.
+		loadJsonBoard();
+		String filename;
+		switch (GameEngine.getBoardType()) {
+		case 1:
+			filename = "fxml/altBoardView.fxml";
+			break;
+		case 2:
+			filename = "fxml/altBoardViewPlain.fxml";
+			break;
+		case 3:
+			filename = "fxml/altBoardViewSnakeless.fxml";
+			break;
+		case 4:
+			filename = "fxml/altBoardViewLadderless.fxml";
+			break;
+		default:
+			filename = "fxml/altBoardView.fxml";
+		}
+		FXMLLoader loader = new FXMLLoader(GameScreen.class.getResource(filename));
+		
+		Parent root = loader.load();
+		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
+		
+		// Configure Board Controller
+		boardController = loader.getController();
+		BoardEntityLoader.configBoardController(boardController);
+		boardController.init();
+
+		// Create a GifController to manage the gifs once the boar has been loaded.
+		new GifController(boardController);
+		
+		stage.setTitle(title);
+		stage.setScene(scene);
+		stage.show();
 	}
 	
-	public void setEngine(GameEngine engine) {
-		this.engine = engine;
-	}
-
-	// NOTE--> Probably the part where you choose the Board
-	public BoardEntityLoader loadJsonBoard(Stage stage, GameEngine game) throws IOException, JSONException {
+	// NOTE: Probably the part where you choose the Board
+	public static void loadJsonBoard() throws IOException, JSONException {
 		
 		String filename;
-		int currentBoard = game.getBoardType();
+		int currentBoard = GameEngine.getBoardType();
 		
 		switch (currentBoard) {
 			case 1:
@@ -66,15 +95,15 @@ public class GameScreen {
 		}
 		
 		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader(filename, stage, this, engine);
-		return loadedBoard;
 		
+		new BoardEntityLoader(filename, stage);
+
 	}
 		
-	
+	/*
 	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
 		// Get the correct Json file for the current level.
-		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
+		loadJsonBoard();
 		String filename;
 		switch (game.getBoardType()) {
 		case 1:
@@ -104,8 +133,7 @@ public class GameScreen {
 		// Create a GifController to manage the gifs once the board has been loaded.
 		GifController gifcontroller = new GifController(boardController);
 		
-		// Add the Gifcontroller to the gameEngine
-		game.setGifcontroller(gifcontroller);
+
 		
 		
 		//System.out.println("" + boardController.gifladder1);
@@ -119,21 +147,23 @@ public class GameScreen {
 //		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
 //		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
 //		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
-	}
+    }*/
+
 	
-	public int getWidth() {
+	
+	public static int getWidth() {
 		return WIDTH;
 	}
 	
-	public int getHeight() {
+	public static int getHeight() {
 		return HEIGHT;
 	}
 	
-	public double getSceneWidth() {
+	public static double getSceneWidth() {
 		return scene.getWidth();
 	}
 	
-	public double getSceneHeight() {
+	public static double getSceneHeight() {
 		return scene.getHeight();
 	}
 

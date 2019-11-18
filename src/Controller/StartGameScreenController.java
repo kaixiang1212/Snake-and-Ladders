@@ -16,46 +16,30 @@ public class StartGameScreenController {
 	
 	@FXML
 	private Button StartGameButton;
-	
 	@FXML
 	private Button ExitGameButton;
-
 	@FXML
 	private Button HelpGameButton;
 	
 	private Stage s;
-
-	private MusicController musicController;
 	
 	public StartGameScreenController(Stage s) {
 		this.s = s;
-		musicController = new MusicController();
-		musicController.initUI();
+		MusicController.initUI();
 	}
 	
 	@FXML
 	public void handleStartGameButton (ActionEvent event) {
-		musicController.playNext();
-		// We always start the game with level 0.
-		//Game game = new Game(0, null);
-		//LevelIntroScreen introScreen = new LevelIntroScreen(s, game);
-		//introScreen.start();
-		BoardSelectionScreen selectionScreen = new BoardSelectionScreen(s);
-		selectionScreen.start();
-//		GameScreen gameScreen = new GameScreen(s);
-//		try {
-//			gameScreen.start();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	}
+		MusicController.playNext();
+		new BoardSelectionScreen(s);
+		BoardSelectionScreen.start();
 
+	}
 	
 	@FXML
 	// Exits the Game Application
 	public void handleExitGameButton (ActionEvent event) {
-		musicController.playBack();
+		MusicController.playBack();
 		try {
 			Thread.sleep(300);
 		} catch (InterruptedException e) {
@@ -63,12 +47,13 @@ public class StartGameScreenController {
 		}
 		Platform.exit();
 	}
+	
 	@FXML
 	// goes to rules page
 	public void handleHelpButton (ActionEvent event) {
-		musicController.playNext();
-		HelpGameScreen selectionScreen = new HelpGameScreen(s);
-		selectionScreen.start();	
+		MusicController.playNext();
+		new HelpGameScreen(s);
+		HelpGameScreen.start();	
 	}
 
 }

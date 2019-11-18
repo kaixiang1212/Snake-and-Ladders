@@ -3,7 +3,6 @@ package Controller;
 
 import View.BoardSelectionScreen;
 import View.PlayerCustomizationScreen;
-import View.StartGameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,9 +15,8 @@ import java.io.IOException;
 public class PlayerNumSelectionController {
 
     private Stage stage;
-    
     private int boardNum;
-
+    
     @FXML
     private Label title;
     @FXML
@@ -35,25 +33,21 @@ public class PlayerNumSelectionController {
     private Button backButton;
     @FXML
     private Button nextButton;
-
+    @FXML
     private Toggle playerSelected;
 
-    private MusicController musicController;
-
-
     public PlayerNumSelectionController(){
-        musicController = new MusicController();
-        musicController.initUI();
+    	MusicController.initUI();
     }
 
     public void numberClicked(){
-        musicController.clear();
+    	MusicController.clear();
         nextButton.setDisable(false);
         if (playerNumber.getSelectedToggle() == null){
             nextButtonClicked();
             return;
         }
-        musicController.playSwitch();
+        MusicController.playSwitch();
         playerSelected = playerNumber.getSelectedToggle();
     }
 
@@ -67,7 +61,7 @@ public class PlayerNumSelectionController {
 
     @FXML
     private void nextButtonClicked(){
-        musicController.playNext();
+    	MusicController.playNext();
         int player = -1;
         if (player1 == playerSelected){
             player = 1;
@@ -80,15 +74,18 @@ public class PlayerNumSelectionController {
         } else {
             return;
         }
-        PlayerCustomizationScreen playerCustomizationScreen = new PlayerCustomizationScreen(stage, player, boardNum);
-        playerCustomizationScreen.start();
+
+        new PlayerCustomizationScreen(stage, player, boardNum);
+        PlayerCustomizationScreen.start();
+
     }
 
     @FXML
     private void backButtonClicked() throws IOException {
-        musicController.playBack();
-        BoardSelectionScreen boardSelectionScreen = new BoardSelectionScreen(stage);
-        boardSelectionScreen.start();
+
+        MusicController.playBack();
+        new BoardSelectionScreen(stage);
+        BoardSelectionScreen.start();
     }
 
 }

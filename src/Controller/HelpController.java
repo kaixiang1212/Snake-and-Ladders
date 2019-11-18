@@ -13,11 +13,9 @@ public class HelpController {
     private Button backButton;
 	
 	private Stage stage;
-    private MusicController musicController;
     
     public HelpController(){
-    	musicController = new MusicController();
-    	musicController.initUI();
+    	MusicController.initUI();
     }
     
     /**
@@ -26,9 +24,9 @@ public class HelpController {
      */
     @FXML
     private void backButtonClicked() throws IOException {
-    	musicController.playBack();
-    	StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
+    	MusicController.playBack();
+    	new StartGameScreen(stage);
+        StartGameScreen.start();
     }
     
     public void setStage(Stage stage){

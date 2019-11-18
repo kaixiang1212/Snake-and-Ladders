@@ -2,6 +2,7 @@ package Model;
 import java.util.*;
 
 import Model.Entity.Type;
+import Model.Item.ItemType;
 
 public class Board {
 	
@@ -12,6 +13,7 @@ public class Board {
 	
 	private int[][] grid;		
 	private ArrayList<Entity> entities;
+	private ArrayList<Item> itemPool;
 	
 	
 	/**
@@ -27,6 +29,7 @@ public class Board {
 		MINPOS = _getMinPos();
 		MAXPOS = _getMaxPos();
 		entities = new ArrayList<Entity>();
+		itemPool = new ArrayList<Item>();
 	}
 	
 	/**
@@ -43,6 +46,7 @@ public class Board {
 		MINPOS = _getMinPos();
 		MAXPOS = _getMaxPos();
 		entities = new ArrayList<Entity>();
+		itemPool = new ArrayList<Item>();
 	}
 	
 	/**
@@ -157,14 +161,49 @@ public class Board {
 			entities.add(entity);
 	}
 	
-//	public void addSnake(Snake snake) {
-//		snakes.add(snake);
-//	}
-//	
-//	public void addLadder(Ladder ladder) {
-//		ladders.add(ladder);
-//	}
-//	
+	/**
+	 * Include this item in the pool of spawnable items
+	 * @param item Item to include
+	 */
+	public void includeItem(Item item) {
+		int freq = item.getFrequency();
+		for(int i = 0; i < freq; i++) {
+			itemPool.add(item);
+		}
+	}
+	
+	/**
+	 * Get the list of spawnable items
+	 * @return item pool list
+	 */
+	public ArrayList<Item> getItemPool() {
+		return itemPool;
+	}
+	
+	/**
+	 * Populates the item pool with a list of available items
+	 */
+	public void fillItemPool() {
+		Item item = new Item(-1, -1, ItemType.SKIPTURN, 2, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.ANTIDOTE, 1, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.DOUBLE, 1, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.EXTRAROLL, 2, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.SHIELD, 1, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.REVERSE, 2, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.SWAP, 1, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.ROLLBACK, 1, 7);
+		includeItem(item);
+		item = new Item(-1, -1, ItemType.SLOWDOWN, 1, 7);
+		includeItem(item);
+		Collections.shuffle(itemPool);
+	}
 	
 	/**
 	 * Checks whether x,y is on the head of a snake
@@ -194,6 +233,18 @@ public class Board {
 				Ladder ladder = (Ladder) entity;
 				if(x == ladder.getX() && y == ladder.getY()) {
 					return ladder;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Item isItem(int x, int y) {
+		for(Entity entity : entities) {
+			if(entity.type == Type.ITEM && entity instanceof Item) {
+				Item item = (Item) entity;
+				if(x == item.getX() && y == item.getY()) {
+					return item;
 				}
 			}
 		}

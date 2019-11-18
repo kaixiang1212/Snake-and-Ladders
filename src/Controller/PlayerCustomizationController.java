@@ -29,17 +29,11 @@ public class PlayerCustomizationController {
     private FlowPane flowPane;
 
     private Stage stage;
-
     private int playerCount = 1;
-    
     private int board;
 
     private ArrayList<Integer> token;
-
     private ArrayList<Integer> availableToken;
-
-    private MusicController musicController;
-
 
     public PlayerCustomizationController(){
         token = new ArrayList<>();
@@ -48,8 +42,7 @@ public class PlayerCustomizationController {
         token.add(2,-1);
         token.add(3,-1);
         availableToken = new ArrayList<>();
-        musicController = new MusicController();
-        musicController.initUI();
+        MusicController.initUI();
     }
     
     public void setStage(Stage stage) { this.stage = stage; }
@@ -91,8 +84,7 @@ public class PlayerCustomizationController {
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
         FlowPane.setMargin(vBox, new Insets(10,10,0,10));
-        setPlayerToken(playerCount, playerNum);
-        
+        setPlayerToken(playerCount, playerNum);   
     }
 
     /**
@@ -130,7 +122,7 @@ public class PlayerCustomizationController {
 
     @FXML
     public void imageClicked1(){
-        musicController.clear();
+    	MusicController.clear();
         for(Node node : flowPane.getChildren()) {
 	        if (node instanceof VBox){
 	        	for (Node node1 : ((VBox) node).getChildren()){
@@ -139,7 +131,7 @@ public class PlayerCustomizationController {
 	        	        int next = nextToken();
 	        			((ImageView) node1).setImage(getImage(next));
 	                    setPlayerToken(0, next);
-	                    musicController.playSwitch();
+	                    MusicController.playSwitch();
 	                    return;
 	        		}
 	        	}
@@ -149,7 +141,7 @@ public class PlayerCustomizationController {
 
     @FXML
     private void imageClicked(ImageView imageView){
-    	musicController.clear();
+    	MusicController.clear();
         int index = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
@@ -161,7 +153,7 @@ public class PlayerCustomizationController {
                             int next = nextToken();
                             ((ImageView) node1).setImage(getImage(next));
                             setPlayerToken(index, next);
-                            musicController.playSwitch();
+                            MusicController.playSwitch();
                             return;
                         }
                     }
@@ -173,32 +165,34 @@ public class PlayerCustomizationController {
 
     @FXML
     public void backButtonClicked(){
-        musicController.playBack();
-        PlayerNumSelectionScreen playerNumSelectionScreen = new PlayerNumSelectionScreen(stage, board);
-        playerNumSelectionScreen.start();
+    	
+    	MusicController.playBack();
+        new PlayerNumSelectionScreen(stage, board);
+        PlayerNumSelectionScreen.start();
+
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
-        musicController.playNext();
+    	MusicController.playNext();
         
-        // Modify GameEngine to hold a gifController.
-        GameEngine engine = new GameEngine(board);
+        new GameEngine(board);
+
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof TextField) {
                         String playerName = ((TextField) node1).getText();
-                        engine.addPlayer(new Player(playerName, token.get(tokenIndex), 0, 0));
+                        GameEngine.addPlayer(new Player(playerName, token.get(tokenIndex), 0, 0));
                         tokenIndex++;
                     }
                 }
             }
         }
-        GameScreen game = new GameScreen(stage);
-        game.setEngine(engine);
-        game.start();
+        
+        new GameScreen(stage);
+        GameScreen.start();
     }
 
 }
