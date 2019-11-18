@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import Model.GameEngine;
 
 import java.io.IOException;
 
