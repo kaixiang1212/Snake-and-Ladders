@@ -1,7 +1,7 @@
 package Model;
 
 import Controller.MusicController;
-import Controller.GifController;
+import Controller.AnimationController;
 
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -207,15 +207,15 @@ public class GameEngine {
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				MusicController.playLadder();
 
-				ImageView ladderGif = GifController.getGifView(currLadder.getId());
-				ImageView ladderImg = GifController.getImgView(currLadder.getId());
+				ImageView ladderGif = AnimationController.getGifView(currLadder.getId());
+				ImageView ladderImg = AnimationController.getImgView(currLadder.getId());
 				// Shake the ladder
 				// Shake the ladder
-				GifController.shakeLadder(ladderGif, ladderImg);
+				AnimationController.shakeLadder(ladderGif, ladderImg);
 				// Stop laddershake after 1 second
 				PauseTransition pause = new PauseTransition(Duration.seconds(1));
 				pause.setOnFinished(event ->
-					GifController.stopShakeLadder(ladderGif, ladderImg)
+					AnimationController.stopShakeLadder(ladderGif, ladderImg)
 				);
 				pause.play();
 
