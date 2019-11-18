@@ -13,6 +13,7 @@ public class Player extends Entity {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
+        items = new ArrayList<Item>();
     }
 
     /**

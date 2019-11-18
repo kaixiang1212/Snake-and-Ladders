@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import javafx.animation.PauseTransition;  
 
 public class GameEngine {
-
+	private static final int pickedUpItemExpiry = -1000;
+	
     private static ArrayList<Player> players;
     private static Player currentPlayer;
     private static int currentPlayerNum;
     private static Board gameboard;
     private static boolean finished;
     private static StringBuilder console;
-    private static ArrayList<Item> spawnedItems;
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -30,8 +30,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>();
-        spawnedItems.clear();
+        
     }
     
     /**
@@ -45,7 +44,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new ArrayList<Item>();
+        
     }
 
     /**
@@ -98,6 +97,12 @@ public class GameEngine {
 		player.setX(x);
 		player.setY(y);
 		MusicController.playMove();
+		Item item = gameboard.isItem(x, y);
+		if(item != null) {
+			player.pickupItem(item);
+			item.setExpiry(pickedUpItemExpiry);
+			System.out.println("[!] " + item.getName() + " item picked up by " + player.getPlayerName() + ".\n");
+		}
 		return pos;
 	}
 	
@@ -271,6 +276,8 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
+		int itemX = gameboard.getCoords(itemPos).getX();
+		int itemY = gameboard.getCoords(itemPos).getY();
 		
 		// Check that position != any player position
 		for(Player player : players) {
@@ -280,10 +287,8 @@ public class GameEngine {
 		}
 		
 		// Check that position != any existing item position
-		for(Item currItem : spawnedItems) {
-			int currItemPos = gameboard.getPosition(currItem.getX(), currItem.getY());
-			if(currItemPos == itemPos)
-				return null;
+		if(gameboard.isItem(itemX, itemY) != null) {
+			return null;
 		}
 		
 		// Obtain a random item from the pool of available items
@@ -292,18 +297,13 @@ public class GameEngine {
 		int index = (int) (Math.random()*size);
 		Item itemTemplate = pool.get(index);
 		
-		int itemX = gameboard.getCoords(itemPos).getX();
-		int itemY = gameboard.getCoords(itemPos).getY();
+		
 		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getDescription(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
-		spawnedItems.add(item);
+		gameboard.addEntity(item);
 		return item;
 	}
 	
-	public static ArrayList<Item> getSpawnedItems() {
-		return spawnedItems;
-	}
-	
-	public static void setSpawnedItems(ArrayList<Item> items) {
-		spawnedItems = items;
+	public static int getPickedUpItemExpiry() {
+		return pickedUpItemExpiry;
 	}
 }

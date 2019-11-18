@@ -9,6 +9,7 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.geometry.*;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -244,9 +245,69 @@ public class BoardController {
         menuPane.setVisible(false);
     }
     
-    public GridPane getGridPane() {
-    	return squares;
+    public void cleanExpiredItems() {
+        ArrayList<Item> expired = new ArrayList<Item>();   
+    	for(Item item : GameEngine.getBoard().getSpawnedItems()) {
+        	ImageView itemView = item.getImage();
+    		if(item.getExpiry() == 0) {
+    			expired.add(item);
+    			for(Node node : squares.getChildren()) {
+    				if(node instanceof ImageView) {
+    					ImageView nodeView = (ImageView) node;
+    					if(nodeView.equals(itemView)) {
+    						squares.getChildren().remove(nodeView);
+    						break;
+    					}
+    				}
+    			}
+    			MusicController.playItemDisappear();
+    			System.out.println("[!] " + item.getName() + " item expired." + "\n");
+    		} else {
+    			item.decrementExpiry();
+    		}
+        }
+        GameEngine.getBoard().removeItems(expired);
     }
+    
+    public void cleanPickedUpItems() {
+    	ArrayList<Item> pickedup = new ArrayList<Item>();   
+    	for(Item item : GameEngine.getBoard().getSpawnedItems()) {
+        	ImageView itemView = item.getImage();
+    		if(item.getExpiry() == GameEngine.getPickedUpItemExpiry()) {
+    			pickedup.add(item);
+    			for(Node node : squares.getChildren()) {
+    				if(node instanceof ImageView) {
+    					ImageView nodeView = (ImageView) node;
+    					if(nodeView.equals(itemView)) {
+    						squares.getChildren().remove(nodeView);
+    						break;
+    					}
+    				}
+    			}
+    			MusicController.playItemDisappear();
+    		}
+        }
+        GameEngine.getBoard().removeItems(pickedup);
+    }
+    
+    public void spawnItem() {
+    	Item item = GameEngine.spawnRandomItem();
+    	if(item != null) {
+    		System.out.println("[!] Spawning item at position " + GameEngine.getBoard().getPosition(item.getX(), item.getY()) + ": " + item.getName());
+    		System.out.println("\t- " + item.getDescription() + "\n");
+    		ImageView view = item.getImage();
+    		view.setPreserveRatio(true);
+    		view.setFitHeight(GameScreen.getHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
+    		squares.getChildren().add(squares.getChildren().size()-GameEngine.getPlayerNum(), view);
+    		GridPane.setColumnIndex(view, item.getX());
+    		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
+			GridPane.setHalignment(view, HPos.CENTER);
+			MusicController.playItemAppear();
+    	} else {
+    		System.out.println("[!] Item spawn failed: space occupied." + "\n");
+    	}
+    }
+
     
 	/**
 	 * Used to render pipe and vine segments onto the gridpane (UNUSED)

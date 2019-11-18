@@ -12,8 +12,7 @@ public class Board {
 	
 	private int[][] grid;		
 	private ArrayList<Entity> entities;
-	private ArrayList<Item> itemPool;
-	
+	private ArrayList<Item> itemPool;	
 	
 	/**
 	 * Initialises a standard board with width*height dimensions
@@ -224,6 +223,25 @@ public class Board {
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<Item> getSpawnedItems() {
+		ArrayList<Item> spawnedItems = new ArrayList<Item>();
+		for(Entity entity : entities) {
+			if(entity instanceof Item) {
+				Item item = (Item) entity;
+				spawnedItems.add(item);
+			}
+		}
+		return spawnedItems;
+	}
+	
+	public void removeItem(Item item) {
+		entities.remove(item);
+	}
+	
+	public void removeItems(ArrayList<Item> items) {
+		entities.removeAll(items);
 	}
 	
 }

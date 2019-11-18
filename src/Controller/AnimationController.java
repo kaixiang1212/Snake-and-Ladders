@@ -14,13 +14,15 @@ public class AnimationController {
     private static long lastTime;
     
     private static DiceController diceController;
+    private static BoardController boardController;
     
-    public AnimationController(DiceController dc) {
+    public AnimationController(DiceController dc, BoardController bc) {
     	frame = 0;
     	isSpinning = false;
     	isPlayerMoving = false;
     	lastTime = 0;
     	diceController = dc;
+    	boardController = bc;
     }
     
     /**
@@ -49,6 +51,7 @@ public class AnimationController {
         			diceController.prepareNextTurn();
         		} else if (frame%animationFrames == 0 && currentPos <= destination) {
         			GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        			boardController.cleanPickedUpItems();
         		}		
         	}
         	frame++;
