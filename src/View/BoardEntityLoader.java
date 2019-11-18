@@ -14,19 +14,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
 public class BoardEntityLoader extends BoardLoader{
 
 	private static List<Pair<Entity,ImageView>> entities;
-	private static Stage stage;
 	    
-	public BoardEntityLoader(String filename, Stage s) throws FileNotFoundException, JSONException {
+	public BoardEntityLoader(String filename) throws FileNotFoundException, JSONException {
 		super(filename);
 		entities = new ArrayList<>();
-		stage = s;
 	}      
 	
 	public static void addEntity(Entity entity, ImageView view) {
@@ -115,7 +112,7 @@ public class BoardEntityLoader extends BoardLoader{
 	
 	public static void configBoardController(BoardController boardController) throws JSONException {
 		load();
-		boardController.config(entities, stage);
+		boardController.config(entities);
 	}      
 
 }

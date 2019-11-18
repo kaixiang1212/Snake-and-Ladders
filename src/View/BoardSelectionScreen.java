@@ -1,6 +1,5 @@
 package View;
 
-import Controller.BoardSelectionController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,22 +9,18 @@ import java.io.IOException;
 
 public class BoardSelectionScreen {
 
-    private static Stage stage;
     private static String screenTitle;
-    private static FXMLLoader fxmlLoader;
 
-    public BoardSelectionScreen(Stage stage) {
-        BoardSelectionScreen.stage = stage;
+    public BoardSelectionScreen() {
         screenTitle = "Board Selection";
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/boardSelection.fxml"));
     }
 
     public static void start() {
-        stage.setTitle(screenTitle);
         try {
-            Parent root = fxmlLoader.load();
-            ((BoardSelectionController)fxmlLoader.getController()).setStage(stage);
-            Scene sc = new Scene(root);
+        	Parent root = FXMLLoader.load(BoardSelectionScreen.class.getResource("fxml/boardSelection.fxml"));
+        	Scene sc = new Scene(root);
+            Stage stage = StartGameScreen.getStage();
+            stage.setTitle(screenTitle);
             stage.setScene(sc);
             stage.show();
             sc.getRoot().requestFocus();

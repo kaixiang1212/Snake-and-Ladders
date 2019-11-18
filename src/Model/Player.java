@@ -2,6 +2,9 @@ package Model;
 
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Player extends Entity {
 
     private String playerName;
@@ -18,6 +21,8 @@ public class Player extends Entity {
         items = new ArrayList<Item>();
         this.turnsPoisoned = 0;
         this.isPoisoned = false;
+        image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+		image.setId("player" + token);
     }
 
     /**

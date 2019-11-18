@@ -19,7 +19,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class PlayerCustomizationController {
 	
@@ -28,9 +27,8 @@ public class PlayerCustomizationController {
     @FXML
     private FlowPane flowPane;
 
-    private Stage stage;
     private int playerCount = 1;
-    private int board;
+    private int boardNum;
 
     private ArrayList<Integer> token;
     private ArrayList<Integer> availableToken;
@@ -44,8 +42,6 @@ public class PlayerCustomizationController {
         availableToken = new ArrayList<>();
         MusicController.initUI();
     }
-    
-    public void setStage(Stage stage) { this.stage = stage; }
 
     /**
      * Render a customisation screen for
@@ -59,7 +55,7 @@ public class PlayerCustomizationController {
         }
     }
     
-    public void setBoard(int board) { this.board = board; }
+    public void setBoard(int b) { boardNum = b; }
 
     /**
      * Add player
@@ -164,20 +160,15 @@ public class PlayerCustomizationController {
     }
 
     @FXML
-    public void backButtonClicked(){
-    	
+    public void backButtonClicked(){ 	
     	MusicController.playBack();
-        new PlayerNumSelectionScreen(stage, board);
         PlayerNumSelectionScreen.start();
-
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
-    	MusicController.playNext();
-        
-        new GameEngine(board);
-
+    	MusicController.playNext();  
+        new GameEngine(boardNum);
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
@@ -191,7 +182,7 @@ public class PlayerCustomizationController {
             }
         }
         
-        new GameScreen(stage);
+        new GameScreen();
         GameScreen.start();
     }
 

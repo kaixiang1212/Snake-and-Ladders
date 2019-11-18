@@ -2,6 +2,7 @@ package Controller;
 
 import Model.GameEngine;
 import javafx.animation.AnimationTimer;
+import javafx.scene.image.ImageView;
 
 public class AnimationController {
 	private static final int maxFrames = 300;
@@ -103,4 +104,36 @@ public class AnimationController {
     public static void setPoison(boolean status) {
     	poisoned = status;
     }
+    
+	public static ImageView getGifView (String id) {
+		// Call function from boardcontroller that returns the corresponding id String.
+		String ladderId = "gif" + id;
+		return boardController.getGif(ladderId);
+	}
+	
+	public static ImageView getImgView (String id) {
+		// Call function from boardcontroller that returns the corresponding id String.
+		return boardController.getImg(id);
+	}
+	
+	/**
+	 * This function will take in the ladderId of the ladder Entity in the current coordinate, and activate the corresponding gif of the stated Ladder.
+	 * @param ladderId
+	 */
+	public static void shakeLadder(ImageView ladderGif, ImageView ladderImg) {
+		boardController.shakeLadder(ladderGif, ladderImg);
+	}
+	
+	public static void stopShakeLadder(ImageView ladderGif, ImageView ladderImg) {
+		boardController.stopShakeLadder(ladderGif, ladderImg);
+	}
+	
+	/**
+	 * This function will take in the snakeId of the snake Entity in the current coordinate, and activate the corresponding gif of the stated Snake.
+	 * @param snakeId
+	 */
+	public static void wriggleSnake(String snakeId) {
+		
+	}
+
 }

@@ -5,7 +5,6 @@ import View.HelpGameScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.application.Platform;
 
 
@@ -20,19 +19,15 @@ public class StartGameScreenController {
 	@FXML
 	private Button HelpGameButton;
 	
-	private Stage s;
-	
-	public StartGameScreenController(Stage s) {
-		this.s = s;
+	public StartGameScreenController() {
 		MusicController.initUI();
 	}
-	
+
 	@FXML
 	public void handleStartGameButton (ActionEvent event) {
 		MusicController.playNext();
-		new BoardSelectionScreen(s);
+		new BoardSelectionScreen();
 		BoardSelectionScreen.start();
-
 	}
 	
 	@FXML
@@ -51,7 +46,7 @@ public class StartGameScreenController {
 	// goes to rules page
 	public void handleHelpButton (ActionEvent event) {
 		MusicController.playNext();
-		new HelpGameScreen(s);
+		new HelpGameScreen();
 		HelpGameScreen.start();	
 	}
 
