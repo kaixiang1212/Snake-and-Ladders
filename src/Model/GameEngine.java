@@ -1,16 +1,11 @@
 package Model;
 
 import Controller.MusicController;
-import View.GameScreen;
 import Controller.GifController;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import javafx.animation.PauseTransition;  
 
 public class GameEngine {
@@ -21,8 +16,9 @@ public class GameEngine {
     private static Board gameboard;
     private static boolean finished;
     private static StringBuilder console;
-    private static Map<Item, ImageView> spawnedItems;
-    private static int board;
+    private static ArrayList<Item> spawnedItems;
+	private static int board;
+
     
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -36,7 +32,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new HashMap<Item, ImageView>(); 
+        spawnedItems = new ArrayList<Item>();
         spawnedItems.clear();
     }
 
@@ -49,7 +45,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new HashMap<Item, ImageView>(); 
+        spawnedItems = new ArrayList<Item>(); 
         spawnedItems.clear();
         board = boardNum;
     }
@@ -65,7 +61,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        spawnedItems = new HashMap<Item, ImageView>();
+        spawnedItems = new ArrayList<Item>();
     }
 
     /**
@@ -287,10 +283,7 @@ public class GameEngine {
 	 * Spawns a random item in the board. Item spawns at position < top player position && position > last player position && position != any player or existing item position
 	 * @return spawned item object
 	 */
-	public static Item spawnRandomItem() {
-		if(gameboard.getItemPool().isEmpty())
-			gameboard.fillItemPool();
-		
+	public static Item spawnRandomItem() {	
 		// Set item position to be < top player's position
 		int maxPlayerPos = gameboard.getMinPos();
 		int minPlayerPos = gameboard.getMaxPos();
@@ -299,7 +292,6 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
-		System.out.println("Spawning item at position " + itemPos);
 		
 		// Check that position != any player position
 		for(Player player : players) {
@@ -309,8 +301,7 @@ public class GameEngine {
 		}
 		
 		// Check that position != any existing item position
-		for(Map.Entry<Item, ImageView> itemPair : spawnedItems.entrySet()) {
-			Item currItem = itemPair.getKey();
+		for(Item currItem : spawnedItems) {
 			int currItemPos = gameboard.getPosition(currItem.getX(), currItem.getY());
 			if(currItemPos == itemPos)
 				return null;
@@ -324,20 +315,16 @@ public class GameEngine {
 		
 		int itemX = gameboard.getCoords(itemPos).getX();
 		int itemY = gameboard.getCoords(itemPos).getY();
-		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
-		ImageView view = new ImageView(new Image(String.valueOf(GameEngine.class.getClassLoader().getResource("asset/items/item" + item.getItemType().ordinal() + ".png"))));
-		view.setPreserveRatio(true);
-		view.setFitHeight(GameScreen.getHeight()/(float)gameboard.getHeight()*0.65f);
-		view.setId("item" + item.getItemType().ordinal());
-		spawnedItems.put(item, view);
+		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getDescription(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
+		spawnedItems.add(item);
 		return item;
 	}
 	
-	public static Map<Item, ImageView> getSpawnedItems() {
+	public static ArrayList<Item> getSpawnedItems() {
 		return spawnedItems;
 	}
 	
-	public static void setSpawnedItems(Map<Item, ImageView> items) {
+	public static void setSpawnedItems(ArrayList<Item> items) {
 		spawnedItems = items;
 	}
 }

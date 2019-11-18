@@ -1,8 +1,11 @@
 package Model;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Item extends Entity {
 	
-	public enum ItemType {
+	public static enum ItemType {
 		  SKIPTURN,				// Skip next player's turn
 		  EXTRAROLL,			// Roll an extra dice (preserved if you roll a 6)
 		  SLOWDOWN,				// Slow down the next closest piece on the board for a few turns by halving their rolls
@@ -17,12 +20,17 @@ public class Item extends Entity {
 	private ItemType itemType;
 	private int frequency;		// Relative item frequency
 	private int expiryCounter;	// Number of turns until the item despawns. Set to -1 for no expiry
+	private String description;
+	private String name;
 	
-	public Item(int x, int y, ItemType itemType, int frequency, int exp) {
+	public Item(int x, int y, ItemType itemType, String name, String description, int frequency, int exp) {
 		super(x, y, Type.ITEM);
 		this.itemType = itemType;
+		this.name = name;
+		this.description = description;
 		this.frequency = frequency;
 		this.expiryCounter = exp;
+		setImage();
 	}
 	
 	public void setItemType(ItemType itemType) {
@@ -48,5 +56,23 @@ public class Item extends Entity {
 	public void decrementExpiry() {
 		expiryCounter--;
 	}
+	
+	private void setImage() {
+		image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + itemType.ordinal() + ".png"))));
+		image.setId("item" + itemType.ordinal());
+	}
+	
+	@Override
+	public void setImage(ImageView img) {
+		image = img;
+		image.setId("item" + itemType.ordinal());
+	}
 
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }
