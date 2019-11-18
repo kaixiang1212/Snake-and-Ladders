@@ -102,14 +102,15 @@ public class BoardEntityLoader extends BoardLoader{
 			}
 		});
 		
-	            
-		entity.getImage().addListener(new ChangeListener<String>() {
+	    /*        
+		entity.getImageString().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 				String oldValue, String newValue) {
 	        	System.out.println(entity.getEntityName() + " change to " + newValue);
 	        }
 		});
+ 		*/
 	}
 	
 	public static void configBoardController(BoardController boardController) throws JSONException {

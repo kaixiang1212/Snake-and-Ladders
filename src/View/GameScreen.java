@@ -1,7 +1,6 @@
 package View;
 
 import Controller.*;
-import Model.*;
 
 import java.io.IOException;
 

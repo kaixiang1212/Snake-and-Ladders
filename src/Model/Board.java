@@ -2,7 +2,6 @@ package Model;
 import java.util.*;
 
 import Model.Entity.Type;
-import Model.Item.ItemType;
 
 public class Board {
 	
@@ -170,6 +169,7 @@ public class Board {
 		for(int i = 0; i < freq; i++) {
 			itemPool.add(item);
 		}
+		Collections.shuffle(itemPool);
 	}
 	
 	/**
@@ -178,31 +178,6 @@ public class Board {
 	 */
 	public ArrayList<Item> getItemPool() {
 		return itemPool;
-	}
-	
-	/**
-	 * Populates the item pool with a list of available items
-	 */
-	public void fillItemPool() {
-		Item item = new Item(-1, -1, ItemType.SKIPTURN, 2, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.ANTIDOTE, 1, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.DOUBLE, 1, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.EXTRAROLL, 2, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.SHIELD, 1, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.REVERSE, 2, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.SWAP, 1, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.ROLLBACK, 1, 7);
-		includeItem(item);
-		item = new Item(-1, -1, ItemType.SLOWDOWN, 1, 7);
-		includeItem(item);
-		Collections.shuffle(itemPool);
 	}
 	
 	/**

@@ -55,10 +55,24 @@ public abstract class BoardLoader {
 			onLoad(player);
 		}
 		
+		JSONArray itemPool = json.getJSONArray("items");
+		for(int i = 0; i < itemPool.length(); i++) {
+			LoadItem(itemPool.getJSONObject(i), gameboard);
+		}
 	}
 
 
-    private static void loadEntity(JSONObject json) throws JSONException {
+    protected static void LoadItem(JSONObject jsonItem, Board gameboard) throws JSONException {
+    	String type = jsonItem.getString("type");
+    	String name = jsonItem.getString("name");
+    	String description = jsonItem.getString("description");
+    	int frequency = jsonItem.getInt("id");
+    	int expiry = jsonItem.getInt("id");
+    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, description, frequency, expiry);
+    	gameboard.includeItem(item);
+    }
+
+	private static void loadEntity(JSONObject json) throws JSONException {
         String type = json.getString("type");
         String id = json.getString("id");
         int x = json.getInt("x");
