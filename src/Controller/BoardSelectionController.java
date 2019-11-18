@@ -1,7 +1,6 @@
 
 package Controller;
 
-import View.PlayerCustomizationScreen;
 import View.PlayerNumSelectionScreen;
 import View.StartGameScreen;
 import javafx.fxml.FXML;
@@ -36,22 +35,19 @@ public class BoardSelectionController {
 
     private Toggle playerSelected;
 
-    private MusicController musicController;
-
 
     public BoardSelectionController(){
-        musicController = new MusicController();
-        musicController.initUI();
+        MusicController.initUI();
     }
 
     public void numberClicked(){
-        musicController.clear();
+        MusicController.clear();
         nextButton.setDisable(false);
         if (playerNumber.getSelectedToggle() == null){
             nextButtonClicked();
             return;
         }
-        musicController.playSwitch();
+        MusicController.playSwitch();
         playerSelected = playerNumber.getSelectedToggle();
     }
 
@@ -61,7 +57,7 @@ public class BoardSelectionController {
 
     @FXML
     private void nextButtonClicked(){
-        musicController.playNext();
+        MusicController.playNext();
         int board = -1;
         if (player1 == playerSelected){
             board = 1;
@@ -74,15 +70,15 @@ public class BoardSelectionController {
         } else {
             return;
         }
-        PlayerNumSelectionScreen playerNumSelectionScreen = new PlayerNumSelectionScreen(stage, board);
-        playerNumSelectionScreen.start();
+        new PlayerNumSelectionScreen(stage, board);
+        PlayerNumSelectionScreen.start();
     }
 
     @FXML
     private void backButtonClicked() throws IOException {
-        musicController.playBack();
-        StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
+    	MusicController.playBack();
+        new StartGameScreen(stage);
+        StartGameScreen.start();
     }
 
 }

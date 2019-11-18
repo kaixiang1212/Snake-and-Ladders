@@ -11,17 +11,17 @@ import java.io.IOException;
 
 public class BoardSelectionScreen {
 
-    private Stage stage;
-    private String screenTitle;
-    private FXMLLoader fxmlLoader;
+    private static Stage stage;
+    private static String screenTitle;
+    private static FXMLLoader fxmlLoader;
 
     public BoardSelectionScreen(Stage stage) {
-        this.stage = stage;
-        this.screenTitle = "Board Selection";
-        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/boardSelection.fxml"));
+        BoardSelectionScreen.stage = stage;
+        screenTitle = "Board Selection";
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/boardSelection.fxml"));
     }
 
-    public void start() {
+    public static void start() {
         stage.setTitle(screenTitle);
         try {
             Parent root = fxmlLoader.load();
