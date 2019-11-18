@@ -14,7 +14,7 @@ public class AnimationController {
     private static boolean isPlayerMoving;
     private static boolean poisoned;
     private static long lastTime;
-
+    private static int diceFrame = 1;
 
     private static DiceController diceController;
     private static BoardController boardController;
@@ -46,13 +46,17 @@ public class AnimationController {
         	int destination = diceController.getDestination();
 
         	if (isSpinning) {
-        		int diceFrame = 1;
-        		if (poisoned) {
-        			diceFrame = (int) (Math.random() * 3) + 1;
-        		}  else {
-        			diceFrame = (int) (Math.random() * 6) + 1;
-        		}
         		if (frame % 6 == 0) {
+        			int num;
+        			int maxNum = 6;
+        			if(poisoned)
+        				maxNum = 3;
+        			
+        			num = (int) (Math.random() * maxNum) + 1;
+        			while(diceFrame == num) {
+        				num = (int) (Math.random() * maxNum) + 1;
+        			}
+        			diceFrame = num;
         			diceController.draw(diceFrame);
         		}
 

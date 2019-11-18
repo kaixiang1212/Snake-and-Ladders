@@ -183,8 +183,6 @@ public class BoardController {
     	hideMenu();
     	MusicController.clear();
     	MusicController.stopBGM();
-    	StartGameScreen.getStage().close();
-    	new StartGameScreen(new Stage());
         StartGameScreen.start();
     }
     
@@ -282,7 +280,7 @@ public class BoardController {
     					}
     				}
     			}
-    			MusicController.playItemDisappear();
+    			MusicController.playItemPickup();
     		}
         }
         GameEngine.getBoard().removeItems(pickedup);
