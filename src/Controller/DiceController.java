@@ -4,10 +4,13 @@ import Model.GameEngine;
 import Model.Player;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.*;
 
 public class DiceController {
@@ -24,6 +27,8 @@ public class DiceController {
     private Text message;
     @FXML
     private ImageView playerToken;
+    @FXML
+    private HBox hbox;
     @FXML
     private Button menuButton;
 
@@ -63,6 +68,8 @@ public class DiceController {
     void config(BoardController boardController) {
         this.boardController = boardController;
         setCurrentPlayerToken();
+        setTurnTokens();
+        highlightCurrentPlayer();
         Player player = GameEngine.getCurrentPlayer();
         StringBuilder sb = new StringBuilder();
         message.setText((sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString()));
@@ -175,7 +182,8 @@ public class DiceController {
     	if(Math.random() < (float)spawnItemChance/100f)
     		boardController.spawnItem();
         
-        
+    	highlightCurrentPlayer();
+    	
         rollButton.setDisable(false);
         diceImage.setDisable(false);
     }
@@ -218,6 +226,30 @@ public class DiceController {
      */
     private void setCurrentPlayerToken() {
         playerToken.setImage(GameEngine.getCurrentPlayer().getImage().getImage());
+    }
+    
+    private void setTurnTokens() {
+    	int i = 0;
+    	for(Player player : GameEngine.getPlayers()) {
+    		ImageView token = (ImageView) hbox.getChildren().get(i);
+    		token.setImage(player.getImage().getImage());
+    		i++;
+    	}
+    }
+    
+    private void highlightCurrentPlayer() {
+    	int i = 0;
+    	for(Node node : hbox.getChildren()) {
+    		ImageView token = (ImageView) node;
+    		ColorAdjust saturation = new ColorAdjust();
+    		if(i == GameEngine.getCurrentPlayerNum()) {
+    			saturation.setSaturation(0.0);
+    		} else {
+    			saturation.setSaturation(-0.9);
+    		}
+    		token.setEffect(saturation);
+    		i++;
+    	}
     }
 
     /**
