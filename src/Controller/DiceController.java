@@ -140,6 +140,7 @@ public class DiceController {
 	public void menuButtonClicked() {
     	isPaused = !isPaused;
     	if (isPaused) {
+    		MusicController.playSwitch();
     		rollButton.setDisable(true);
             diceImage.setDisable(true);
             inventoryButton.setDisable(true);
@@ -147,6 +148,7 @@ public class DiceController {
             boardController.showMenu();
     	} else {
             boardController.hideMenu();
+            MusicController.playBack();
             if(!GameEngine.isFinished()) {
 	            diceImage.setDisable(false);
 	            rollButton.setDisable(false);
@@ -158,7 +160,7 @@ public class DiceController {
     
     @FXML
     public void inventoryButtonClicked() {
-    	
+    	MusicController.playSwitch();
     }
     
     

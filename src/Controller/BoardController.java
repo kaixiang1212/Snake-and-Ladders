@@ -184,6 +184,7 @@ public class BoardController {
     	hideMenu();
     	MusicController.clear();
     	MusicController.stopBGM();
+    	MusicController.playBack();
         StartGameScreen.start();
     }
     
@@ -199,6 +200,7 @@ public class BoardController {
     @FXML
     private void handleMusicButton() throws IOException {
     	MusicController.toggleMusic();
+    	MusicController.playSwitch();
     	if(MusicController.getMusicToggle()) {
     		musicButton.setText("Music: ON");
     	} else {
@@ -209,6 +211,7 @@ public class BoardController {
     @FXML
     private void handleSoundFXButton() throws IOException {
     	MusicController.togglefx();
+    	MusicController.playSwitch();
     	if(MusicController.getFxToggle() == true) {
     		soundFXButton.setText("Sound FX: ON");
     	} else {
@@ -222,6 +225,7 @@ public class BoardController {
     public void showMenu() {
     	menuPane.setManaged(true);
         menuPane.setVisible(true);
+        MusicController.pauseBGM();
         if(MusicController.getFxToggle() == true) {
     		soundFXButton.setText("Sound FX: ON");
     	} else {
@@ -240,6 +244,9 @@ public class BoardController {
     public void hideMenu() {
     	menuPane.setManaged(false);
         menuPane.setVisible(false);
+        if(MusicController.getMusicToggle()) {
+    		MusicController.playBGM();
+    	}
     }
     
     /**

@@ -265,17 +265,17 @@ public class MusicController {
         bgMusicPlayer.stop();
     }
     
+    public static void pauseBGM(){
+        if (!initBoard) return;
+        bgMusicPlayer.pause();
+    }
+    
     public static void togglefx() {
     	soundFxOn = !soundFxOn;
     }
     
     public static void toggleMusic() {
     	musicOn = !musicOn;
-    	if(musicOn) {
-    		playBGM();
-    	} else {
-    		stopBGM();
-    	}
     }
     
     public static boolean getFxToggle() {
