@@ -36,7 +36,7 @@ public class DiceController {
     private int diceResult;
     private boolean isPaused;
     private int spawnItemChance;		// Chance of an item spawning each turn in percentage
-
+    
     public DiceController() {
         this.diceFace = new Image[6];
         diceFace[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1.png")));

@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class AnimationController {
 	private static final int maxFrames = 300;
-	private static final int animationFrames = 10;
+	private static final int animationFrames = 5;
 	private static final long frametime = 8333333;
 
     private static int frame;
@@ -46,7 +46,7 @@ public class AnimationController {
         	int destination = diceController.getDestination();
 
         	if (isSpinning) {
-        		if (frame % 6 == 0) {
+        		if (frame % animationFrames == 0) {
         			int num;
         			int maxNum = 6;
         			if(poisoned)
@@ -64,10 +64,10 @@ public class AnimationController {
             		diceController.stopButtonClicked();
             	}
         	} else if (isPlayerMoving) {
-        		if (frame%animationFrames == 0 && currentPos == destination) {
+        		if (frame%(animationFrames*2) == 0 && currentPos == destination) {
         			diceController.prepareNextTurn();
         			GameEngine.getCurrentPlayer().updatePoison();
-        		} else if (frame%animationFrames == 0 && currentPos <= destination) {
+        		} else if (frame%(animationFrames*2) == 0 && currentPos <= destination) {
         			GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
         			boardController.cleanPickedUpItems();
         		}

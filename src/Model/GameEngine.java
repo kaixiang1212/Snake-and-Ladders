@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 
 public class GameEngine {
-	private static final int pickedUpItemExpiry = -1000;
+	private static final int pickedUpItemExpiry = -1000;	// Special expiry counter number for picked up items to remove on pickup
+    private static final int poisonChance = 90;				// Chance of being poisoned by a snake
 
     private static ArrayList<Player> players;
     private static Player currentPlayer;
@@ -197,7 +198,8 @@ public class GameEngine {
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
-				currPlayer.setPoison(2);
+				if(Math.random() < ((float) poisonChance/100f) )
+					currPlayer.setPoison(2);
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
