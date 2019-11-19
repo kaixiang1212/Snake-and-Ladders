@@ -206,21 +206,21 @@ public class MusicController {
     
     public static void playItemAppear() {
     	if (!initGame) return;
-        itemAppearPlayer.setVolume(1.0);
+        itemAppearPlayer.setVolume(0.4);
         if(soundFxOn)
         	itemAppearPlayer.play();
     }
     
     public static void playItemDisappear() {
     	if (!initGame) return;
-        itemDisappearPlayer.setVolume(1.0);
+        itemDisappearPlayer.setVolume(0.3);
         if(soundFxOn)
         	itemDisappearPlayer.play();
     }
     
     public static void playItemPickup() {
     	if (!initGame) return;
-        itemPickupPlayer.setVolume(1.0);
+        itemPickupPlayer.setVolume(0.7);
         clear();
         if(soundFxOn)
         	itemPickupPlayer.play();
