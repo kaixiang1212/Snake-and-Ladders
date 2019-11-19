@@ -30,6 +30,7 @@ public class DiceController {
     private BoardController boardController;
 
     private final Image[] diceFace;
+    private final Image[] diceFaceAlt;
     private int currentPos;
     private int destination;
     private int diceResult;
@@ -44,6 +45,10 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
+        this.diceFaceAlt = new Image[3];
+        diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
+        diceFaceAlt[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2alt.png")));
+        diceFaceAlt[2] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice3alt.png")));
         MusicController.initDice();
         new AnimationController(this, boardController);
         AnimationController.getAnimation().start();
@@ -197,8 +202,14 @@ public class DiceController {
      *
      * @param dieFace Number to be drawn
      */
-    public void draw(int dieFace) {
-        Image image = this.diceFace[dieFace - 1];
+    public void draw(int dieFace, boolean poisoned) {
+        Image image;
+    	if(poisoned) {
+        	image = this.diceFaceAlt[dieFace - 1];
+        } else {
+        	image = this.diceFace[dieFace - 1];
+        }
+    	
         diceImage.setImage(image);
     }
     
@@ -216,7 +227,11 @@ public class DiceController {
     private int getDiceRolled(){
         Image lastRolled = diceImage.getImage();
         for(int i = 0; i < 6; i++){
-            if (lastRolled == diceFace[i]) return i+1;
+            if (lastRolled == diceFace[i]) {
+            	return i+1;
+            } else if(i < 3 && lastRolled == diceFaceAlt[i]) {
+            	return i+1;
+            }
         }
         return -1;
     }

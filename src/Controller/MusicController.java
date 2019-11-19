@@ -41,7 +41,8 @@ public class MusicController {
      * Initialise UI component Sound (Next Button/Back Button)
      */
     public static void initUI(){
-        initUI = true;
+        if(initUI) return;
+    	initUI = true;
         Media backBtnSound = new Media(new File("src/asset/Sound/back.mp3").toURI().toString());
         Media switchBtnSound = new Media(new File("src/asset/Sound/switch.mp3").toURI().toString());
         Media nextBtnSound = new Media(new File("src/asset/Sound/next.mp3").toURI().toString());
@@ -55,6 +56,7 @@ public class MusicController {
      * Initialise Dice Sound
      */
     public static void initDice(){
+    	if(initDice) return;
         initDice = true;
         Media diceRoll = new Media(new File("src/asset/Sound/diceRoll.mp3").toURI().toString());
         Media diceThrow1 = new Media(new File("src/asset/Sound/diceThrow1.mp3").toURI().toString());
@@ -79,7 +81,8 @@ public class MusicController {
      * Initialise Game Sound (Movement/Snake/Ladders/Victory)
      */
     public static void initGame(){
-        initGame = true;
+        if(initGame) return;
+    	initGame = true;
         Media ascendSound = new Media(new File("src/asset/Sound/ascend.mp3").toURI().toString());
         Media descendSound = new Media(new File("src/asset/Sound/descend.mp3").toURI().toString());
         Media snakeSound1 = new Media(new File("src/asset/Sound/snake1.mp3").toURI().toString());
@@ -105,7 +108,8 @@ public class MusicController {
      * Initialise background sounds
      */
     public static void initBoard(){
-        initBoard = true;
+        if(initBoard) return;
+    	initBoard = true;
         Media bgMusic = new Media(new File("src/asset/Sound/bgMusic.mp3").toURI().toString());
         bgMusicPlayer = new MediaPlayer(bgMusic);
         bgMusicPlayer.setOnEndOfMedia(new Runnable() {

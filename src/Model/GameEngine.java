@@ -105,8 +105,8 @@ public class GameEngine {
 		pos = Math.min(pos, gameboard.getMaxPos());
 		pos = Math.max(pos, gameboard.getMinPos());
 		int x,y;
-		x = gameboard.getCoords(pos).getX();
-		y = gameboard.getCoords(pos).getY();
+		x = gameboard.getCoords(pos).getKey();
+		y = gameboard.getCoords(pos).getValue();
 		player.setX(x);
 		player.setY(y);
 		MusicController.playMove();
@@ -294,8 +294,8 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
-		int itemX = gameboard.getCoords(itemPos).getX();
-		int itemY = gameboard.getCoords(itemPos).getY();
+		int itemX = gameboard.getCoords(itemPos).getKey();
+		int itemY = gameboard.getCoords(itemPos).getValue();
 
 		// Check that position != any player position
 		for(Player player : players) {

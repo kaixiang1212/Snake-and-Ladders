@@ -15,7 +15,6 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class BoardController {
@@ -241,6 +240,30 @@ public class BoardController {
         menuPane.setVisible(false);
     }
     
+    /**
+     * Spawns a random item on the board
+     */
+    public void spawnItem() {
+    	Item item = GameEngine.spawnRandomItem();
+    	if(item != null) {
+    		System.out.println("[!] Spawning item at position " + GameEngine.getBoard().getPosition(item.getX(), item.getY()) + ": " + item.getName());
+    		System.out.println("\t- " + item.getDescription() + "\n");
+    		ImageView view = item.getImage();
+    		view.setPreserveRatio(true);
+    		view.setFitHeight(GameScreen.getHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
+    		squares.getChildren().add(squares.getChildren().size()-GameEngine.getPlayerNum(), view);
+    		GridPane.setColumnIndex(view, item.getX());
+    		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
+			GridPane.setHalignment(view, HPos.CENTER);
+			MusicController.playItemAppear();
+    	} else {
+    		System.out.println("[!] Item spawn failed: space occupied." + "\n");
+    	}
+    }
+    
+    /**
+     * Clears any expired items from the board (expiryCounter == 0)
+     */
     public void cleanExpiredItems() {
         ArrayList<Item> expired = new ArrayList<Item>();   
     	for(Item item : GameEngine.getBoard().getSpawnedItems()) {
@@ -265,6 +288,9 @@ public class BoardController {
         GameEngine.getBoard().removeItems(expired);
     }
     
+    /**
+     * Clears picked up items from the board as soon as they are picked up (expiryCounter == GameEngine.pickedUpItemExpiry == -1000)
+     */
     public void cleanPickedUpItems() {
     	ArrayList<Item> pickedup = new ArrayList<Item>();   
     	for(Item item : GameEngine.getBoard().getSpawnedItems()) {
@@ -285,102 +311,5 @@ public class BoardController {
         }
         GameEngine.getBoard().removeItems(pickedup);
     }
-    
-    public void spawnItem() {
-    	Item item = GameEngine.spawnRandomItem();
-    	if(item != null) {
-    		System.out.println("[!] Spawning item at position " + GameEngine.getBoard().getPosition(item.getX(), item.getY()) + ": " + item.getName());
-    		System.out.println("\t- " + item.getDescription() + "\n");
-    		ImageView view = item.getImage();
-    		view.setPreserveRatio(true);
-    		view.setFitHeight(GameScreen.getHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
-    		squares.getChildren().add(squares.getChildren().size()-GameEngine.getPlayerNum(), view);
-    		GridPane.setColumnIndex(view, item.getX());
-    		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
-			GridPane.setHalignment(view, HPos.CENTER);
-			MusicController.playItemAppear();
-    	} else {
-    		System.out.println("[!] Item spawn failed: space occupied." + "\n");
-    	}
-    }
-
-    
-	/**
-	 * Used to render pipe and vine segments onto the gridpane (UNUSED)
-	 */
-	/*
-	public void addSegments(Entity entity) {
-		int x, y, x_end, y_end, y_init, x_init;
-		String name;
-		if (entity instanceof Snake) {
-			x = entity.getX();
-			y = entity.getY();
-			x_end = ((Snake) entity).getTail().getKey();
-			y_end = ((Snake) entity).getTail().getValue();
-			name = "pipe";
-			y_init = y;
-			y--;
-		} else if (entity instanceof Ladder) {
-			entity = (Ladder) entity;
-			x_end = entity.getX();
-			y_end = entity.getY();
-			x = ((Ladder) entity).getTop().getKey();
-			y = ((Ladder) entity).getTop().getValue();
-			name = "vine";
-			y_init = y;
-
-		} else {
-			return;
-		}
-		x_init = x;
-		ImageView image = null;
-
-		while (x != x_end || y != y_end) {
-			if (x == x_init) {
-				if (x > x_end) {
-					image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_c_lefttop.png"))));
-				} else if (x < x_end) {
-					image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_c_righttop.png"))));
-				} else {
-					image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_v.png"))));
-				}
-			} else {
-				if (x > x_end) {
-					image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_l.png"))));
-				} else if (x < x_end) {
-					image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_r.png"))));
-				} else {
-					if ((y == y_init && entity instanceof Ladder) || (y == y_init - 1 && entity instanceof Snake)) {
-						if (x < x_init) {
-							image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_c_rightbottom.png"))));
-						} else {
-							image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_c_leftbottom.png"))));
-						}
-					} else {
-						image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_v.png"))));
-					}
-				}
-			}
-			image.setFitHeight(gamescreen.getHeight() / (float) engine.getBoard().getHeight() * 1.0f);
-			image.setPreserveRatio(true);
-			squares.add(image, x, engine.getBoard().getHeight() - 1 - y);
-			if (x > x_end) {
-				x--;
-			} else if (x < x_end) {
-				x++;
-			} else {
-				y--;
-			}
-
-		}
-		if (entity instanceof Snake) {
-			image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/" + name + "_end.png"))));
-			image.setFitHeight(gamescreen.getHeight() / (float) engine.getBoard().getHeight() * 1.0f);
-			image.setPreserveRatio(true);
-			squares.add(image, x, engine.getBoard().getHeight() - 1 - y);
-		}
-
-	}
-	*/
 
 }

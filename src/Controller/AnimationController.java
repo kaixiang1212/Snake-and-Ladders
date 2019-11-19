@@ -57,7 +57,7 @@ public class AnimationController {
         				num = (int) (Math.random() * maxNum) + 1;
         			}
         			diceFrame = num;
-        			diceController.draw(diceFrame);
+        			diceController.draw(diceFrame, poisoned);
         		}
 
             	if(frame == maxFrames) {
