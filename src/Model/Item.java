@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,17 +19,19 @@ public class Item extends Entity {
 		  REVERSE				// Reverse the order of play
 	}
 	
+	public static String[] descriptions = new String[10];
+	
 	private ItemType itemType;
 	private int frequency;		// Relative item frequency
 	private int expiryCounter;	// Number of turns until the item despawns. Set to -1 for no expiry
 	private String description;
 	private String name;
 	
-	public Item(int x, int y, ItemType itemType, String name, String description, int frequency, int expiry) {
+	public Item(int x, int y, ItemType itemType, String name, int frequency, int expiry) {
 		super(x, y, Type.ITEM);
 		this.itemType = itemType;
 		this.name = name;
-		this.description = description;
+		this.description = descriptions[itemType.ordinal()];
 		this.frequency = frequency;
 		this.expiryCounter = expiry;
 		image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item" + itemType.ordinal() + ".png"))));
@@ -69,4 +73,15 @@ public class Item extends Entity {
 	public void setExpiry(int expiry) {
 		expiryCounter = expiry;
 	}
+	
+	public static void setDescription(int index, String desc){
+		if(index >= descriptions.length)
+			return;
+		descriptions[index] = desc;
+	}
+	
+	public static String[] getDescriptions() {
+		return descriptions;
+	}
+
 }

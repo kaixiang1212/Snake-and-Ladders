@@ -1,15 +1,18 @@
 package Controller;
 
 import Model.GameEngine;
+import Model.Item;
 import Model.Player;
-
+import Model.Item.ItemType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.*;
 
@@ -31,6 +34,12 @@ public class DiceController {
     private HBox hbox;
     @FXML
     private Button menuButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private GridPane effects;
+    @FXML
+    private Text description;
 
     private BoardController boardController;
 
@@ -77,6 +86,8 @@ public class DiceController {
         isPaused = false;
         rollButton.setDefaultButton(true);
         new AnimationController(this, this.boardController);
+        description.setText("\n\n");
+        setActiveEffects();
     }
     
     /**
@@ -131,14 +142,23 @@ public class DiceController {
     	if (isPaused) {
     		rollButton.setDisable(true);
             diceImage.setDisable(true);
+            inventoryButton.setDisable(true);
+            effects.setDisable(true);
             boardController.showMenu();
     	} else {
             boardController.hideMenu();
             if(!GameEngine.isFinished()) {
 	            diceImage.setDisable(false);
 	            rollButton.setDisable(false);
+	            inventoryButton.setDisable(false);
+	            effects.setDisable(false);
             }
     	}
+    }
+    
+    @FXML
+    public void inventoryButtonClicked() {
+    	
     }
     
     
@@ -183,6 +203,7 @@ public class DiceController {
     		boardController.spawnItem();
         
     	highlightCurrentPlayer();
+    	setActiveEffects();
     	
         rollButton.setDisable(false);
         diceImage.setDisable(false);
@@ -266,6 +287,66 @@ public class DiceController {
             }
         }
         return -1;
+    }
+    
+    @FXML
+    private void setEffectDescription(MouseEvent e) {
+    	Node node = (Node) e.getSource();
+    	if(!node.isVisible())
+    		return;
+    	int i = effects.getChildren().indexOf(node);
+    	String text = "";
+    	switch(i) {
+	    	case 0:
+	    		text = Item.getDescriptions()[ItemType.EXTRAROLL.ordinal()];
+	    		text += "\n";
+	    		break;
+	    	case 1:
+	    		text = "You are poisoned. Your rolls are halved.\n";
+	    		break;
+	    	case 2:
+	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()];
+	    		text += "\n";
+	    		break;
+	    	case 3:
+	    		text = Item.getDescriptions()[ItemType.ROLLBACK.ordinal()];
+	    		text += "\n";
+	    		break;
+	    	case 4:
+	    		text = Item.getDescriptions()[ItemType.DOUBLE.ordinal()];
+	    		text += "\n\n";
+	    		break;
+	    	case 5:
+	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()];
+	    		break;
+	    	default:
+	    		text = "\n\n";
+    	}
+    	description.setText(text);
+    }
+    
+    @FXML
+    private void clearItemDescription() {
+    	description.setText("\n\n");
+    }
+    
+    private void setActiveEffects() {
+    	Player currPlayer = GameEngine.getCurrentPlayer();
+    	for(Node node : effects.getChildren()) {
+    		node.setVisible(false);
+    	}
+    	if(currPlayer.isExtraRoll())
+    		effects.getChildren().get(0).setVisible(true);
+    	if(currPlayer.getPoisonStatus())
+    		effects.getChildren().get(1).setVisible(true);
+    	if(currPlayer.isShield())
+    		effects.getChildren().get(2).setVisible(true);
+    	if(currPlayer.isRollBack())
+    		effects.getChildren().get(3).setVisible(true);
+    	if(currPlayer.isDoubleRoll())
+    		effects.getChildren().get(4).setVisible(true);
+    	if(currPlayer.isSnakeImmunity())
+    		effects.getChildren().get(5).setVisible(true);
     }
     
     

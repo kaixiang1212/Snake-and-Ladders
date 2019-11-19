@@ -318,7 +318,7 @@ public class GameEngine {
 		Item itemTemplate = pool.get(index);
 
 
-		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getDescription(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
+		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
 		gameboard.addEntity(item);
 		return item;
 	}

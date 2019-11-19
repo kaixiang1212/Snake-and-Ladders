@@ -68,9 +68,10 @@ public abstract class BoardLoader {
     	String type = jsonItem.getString("type");
     	String name = jsonItem.getString("name");
     	String description = jsonItem.getString("description");
+    	Item.setDescription(Item.ItemType.valueOf(type).ordinal(), description);
     	int frequency = jsonItem.getInt("frequency");
     	int expiry = jsonItem.getInt("expiry");
-    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, description, frequency, expiry);
+    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, frequency, expiry);
     	gameboard.includeItem(item);
     }
 

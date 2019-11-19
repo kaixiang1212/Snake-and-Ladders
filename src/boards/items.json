@@ -28,7 +28,7 @@
         "id": 3,
 		"type": "SHIELD",
 		"name": "Shield",
-        "description": "Get temporary protection against power-ups",
+        "description": "Temporary protection against power-ups",
 		"frequency": 1,
 		"expiry": 7
     },
