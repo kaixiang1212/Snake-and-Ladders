@@ -7,10 +7,10 @@ import Model.Item.ItemType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,11 +35,9 @@ public class DiceController {
     @FXML
     private Button menuButton;
     @FXML
-    private Button inventoryButton;
+    private GridPane inventory;
     @FXML
     private GridPane effects;
-    @FXML
-    private Text description;
 
     private BoardController boardController;
 
@@ -59,10 +57,13 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
-        this.diceFaceAlt = new Image[3];
+        this.diceFaceAlt = new Image[6];
         diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
         diceFaceAlt[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2alt.png")));
         diceFaceAlt[2] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice3alt.png")));
+        diceFaceAlt[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4alt.png")));
+        diceFaceAlt[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5alt.png")));
+        diceFaceAlt[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6alt.png")));
         MusicController.initDice();
         new AnimationController(this, boardController);
         AnimationController.getAnimation().start();
@@ -86,7 +87,7 @@ public class DiceController {
         isPaused = false;
         rollButton.setDefaultButton(true);
         new AnimationController(this, this.boardController);
-        description.setText("\n\n");
+        configEffectsTooltip();
         setActiveEffects();
     }
     
@@ -99,6 +100,7 @@ public class DiceController {
         text.setText("");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
+        inventory.setDisable(true);
         rollButton.setText("Stop");
         rollButton.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
@@ -112,6 +114,7 @@ public class DiceController {
     	MusicController.clear();
     	AnimationController.setSpinning(false);
     	rollButton.setDisable(true);
+    	inventory.setDisable(true);
         diceImage.setDisable(true);  
         menuButton.setDisable(false);
 
@@ -143,7 +146,7 @@ public class DiceController {
     		MusicController.playSwitch();
     		rollButton.setDisable(true);
             diceImage.setDisable(true);
-            inventoryButton.setDisable(true);
+            inventory.setDisable(true);
             effects.setDisable(true);
             boardController.showMenu();
     	} else {
@@ -152,7 +155,7 @@ public class DiceController {
             if(!GameEngine.isFinished()) {
 	            diceImage.setDisable(false);
 	            rollButton.setDisable(false);
-	            inventoryButton.setDisable(false);
+	            inventory.setDisable(false);
 	            effects.setDisable(false);
             }
     	}
@@ -183,6 +186,7 @@ public class DiceController {
             sb.append(GameEngine.getCurrentPlayer().getPlayerName().concat(" roll again"));
         } else {
         	GameEngine.nextPlayer();
+        	draw(diceResult, GameEngine.getCurrentPlayer().getPoisonStatus());
         }
     	
     	sb.append("\n");
@@ -209,6 +213,7 @@ public class DiceController {
     	
         rollButton.setDisable(false);
         diceImage.setDisable(false);
+        inventory.setDisable(false);
     }
     
     /**
@@ -291,45 +296,37 @@ public class DiceController {
         return -1;
     }
     
-    @FXML
-    private void setEffectDescription(MouseEvent e) {
-    	Node node = (Node) e.getSource();
-    	if(!node.isVisible())
-    		return;
-    	int i = effects.getChildren().indexOf(node);
-    	String text = "";
-    	switch(i) {
-	    	case 0:
-	    		text = Item.getDescriptions()[ItemType.EXTRAROLL.ordinal()];
-	    		text += "\n";
-	    		break;
-	    	case 1:
-	    		text = "You are poisoned. Your rolls are halved.\n";
-	    		break;
-	    	case 2:
-	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()];
-	    		text += "\n";
-	    		break;
-	    	case 3:
-	    		text = Item.getDescriptions()[ItemType.ROLLBACK.ordinal()];
-	    		text += "\n";
-	    		break;
-	    	case 4:
-	    		text = Item.getDescriptions()[ItemType.DOUBLE.ordinal()];
-	    		text += "\n\n";
-	    		break;
-	    	case 5:
-	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()];
-	    		break;
-	    	default:
-	    		text = "\n\n";
+    private void configEffectsTooltip() {
+    	for(Node node : effects.getChildren()) {
+    		if(!node.isVisible())
+        		continue;
+    		ImageView image = (ImageView) node;
+        	int i = effects.getChildren().indexOf(node);
+        	String text;
+        	switch(i) {
+    	    	case 0:
+    	    		text = Item.getDescriptions()[ItemType.EXTRAROLL.ordinal()];
+    	    		break;
+    	    	case 1:
+    	    		text = "You are poisoned. Your rolls are halved.";
+    	    		break;
+    	    	case 2:
+    	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()];
+    	    		break;
+    	    	case 3:
+    	    		text = Item.getDescriptions()[ItemType.ROLLBACK.ordinal()];
+    	    		break;
+    	    	case 4:
+    	    		text = Item.getDescriptions()[ItemType.DOUBLE.ordinal()];
+    	    		break;
+    	    	case 5:
+    	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()];
+    	    		break;
+    	    	default:
+    	    		text = "";
+        	}
+        	Tooltip.install(image, new Tooltip(text));
     	}
-    	description.setText(text);
-    }
-    
-    @FXML
-    private void clearItemDescription() {
-    	description.setText("\n\n");
     }
     
     private void setActiveEffects() {
@@ -349,7 +346,6 @@ public class DiceController {
     		effects.getChildren().get(4).setVisible(true);
     	if(currPlayer.isSnakeImmunity())
     		effects.getChildren().get(5).setVisible(true);
-    }
-    
+    }   
     
 }

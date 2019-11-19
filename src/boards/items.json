@@ -12,7 +12,7 @@
         "id": 1,
 		"type": "EXTRAROLL",
 		"name": "Extra Roll",
-        "description": "Roll an extra dice (preserved if you roll a 6)",
+        "description": "Roll an extra dice\n(preserved if you roll a 6)",
 		"frequency": 4,
 		"expiry": 7
     },
@@ -60,7 +60,7 @@
         "id": 7,
 		"type": "ANTIDOTE",
 		"name": "Antidote",
-        "description": "Heals poison and gives temporary snake immunity (still vulnerable to player poison)",
+        "description": "Heals poison and gives temporary snake immunity\n(still vulnerable to player poison)",
 		"frequency": 1,
 		"expiry": 7
     },
