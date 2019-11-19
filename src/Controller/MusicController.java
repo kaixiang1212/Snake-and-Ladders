@@ -119,11 +119,6 @@ public class MusicController {
                 bgMusicPlayer.play();
             }
         });
-        if(musicOn) {
-        	playBGM();
-        } else {
-        	stopBGM();
-        }
     }
 
     /**
@@ -261,7 +256,8 @@ public class MusicController {
     public static void playBGM(){
         if (!initBoard) return;
         bgMusicPlayer.setVolume(0.1);
-        bgMusicPlayer.play();
+        if(musicOn)
+        	bgMusicPlayer.play();
     }
     
     public static void stopBGM(){

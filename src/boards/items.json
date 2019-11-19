@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+		"id": 0,
+		"type": "SKIPTURN",
+		"name": "Skip Turn",
+        "description": "Skip the next player turn",
+		"frequency": 3,
+		"expiry": 7
+    },
+    {
+        "id": 1,
+		"type": "EXTRAROLL",
+		"name": "Extra Roll",
+        "description": "Roll an extra dice (preserved if you roll a 6)",
+		"frequency": 2,
+		"expiry": 7
+    },
+	{
+        "id": 2,
+		"type": "POISON",
+		"name": "Poison",
+        "description": "Slow down the next closest piece on the board for a few turns by halving their rolls",
+		"frequency": 1,
+		"expiry": 7
+    },
+	{
+        "id": 3,
+		"type": "SHIELD",
+		"name": "Shield",
+        "description": "Get temporary protection against power-ups",
+		"frequency": 1,
+		"expiry": 7
+    },
+	{
+        "id": 4,
+		"type": "ROLLBACK",
+		"name": "Roll Back",
+        "description": "Roll a dice to move the first player on the board backwards",
+		"frequency": 2,
+		"expiry": 7
+    },
+	{
+        "id": 5,
+		"type": "DOUBLE",
+		"name": "Double Up",
+        "description": "Double the result of your next roll",
+		"frequency": 2,
+		"expiry": 7
+    },
+	{
+        "id": 6,
+		"type": "SWAP",
+		"name": "Swap",
+        "description": "Swap positions with the first player on the board",
+		"frequency": 1,
+		"expiry": 7
+    },
+	{
+        "id": 7,
+		"type": "ANTIDOTE",
+		"name": "Antidote",
+        "description": "Heals poison and gives temporary snake immunity (still vulnerable to player poison)",
+		"frequency": 1,
+		"expiry": 7
+    },
+	{
+        "id": 8,
+		"type": "REVERSE",
+		"name": "Reverse",
+        "description": "Reverses the order of play",
+		"frequency": 2,
+		"expiry": 7
+    }
+  ]
+}

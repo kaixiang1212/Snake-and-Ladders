@@ -69,7 +69,6 @@ public class BoardController {
 	private List<Pair<Entity, ImageView>> initialEntities;
 	
 	public BoardController() {
-		MusicController.initBoard();
 	}
 
     /**
@@ -118,6 +117,9 @@ public class BoardController {
 			GridPane.setHalignment(entityImage, HPos.CENTER);
 		}
 		
+		// Play BGM
+		MusicController.initBoard();
+		MusicController.playBGM();
 	}
 	
 	public ImageView getGif(String id) {

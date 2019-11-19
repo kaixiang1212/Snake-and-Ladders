@@ -8,21 +8,32 @@ import javafx.scene.image.ImageView;
 public class Player extends Entity {
 
     private String playerName;
-    // private int position;
     private int token;
     private int turnsPoisoned;
-    private boolean isPoisoned;
     private ArrayList<Item> items;
-
+    
+    // Player effects
+    private boolean isPoisoned;
+	private boolean extraRoll;
+    private boolean shield;
+    private boolean rollBack;
+    private boolean doubleRoll;
+    private boolean snakeImmunity;
+    
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
+        image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
+		image.setId("player" + token);
         items = new ArrayList<Item>();
         this.turnsPoisoned = 0;
         this.isPoisoned = false;
-        image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
-		image.setId("player" + token);
+        extraRoll = false;
+        shield = false;
+        rollBack = false;
+        doubleRoll = false;
+        snakeImmunity = false;
     }
 
     /**
@@ -32,14 +43,6 @@ public class Player extends Entity {
     public String getPlayerName(){
         return playerName;
     }
-
-    /**
-     * Get player's position
-     * @return player's current position
-     */
-//    public int getPosition(){
-//        return position;
-//    }
 
     /**
      * Get the player's token
@@ -56,14 +59,6 @@ public class Player extends Entity {
     public void setName(String playerName) {
     	this.playerName = playerName;
     }
-
-    /**
-     * Set player's absolute position
-     * @param position player's absolute position
-     */
-//    public void setPosition(int position) {
-//        this.position = position;
-//    }
 
     /**
      * Set the player's token
@@ -105,5 +100,44 @@ public class Player extends Entity {
     	items.remove(index);
     }
 
+    public boolean isExtraRoll() {
+		return extraRoll;
+	}
+
+	public void setExtraRoll(boolean extraRoll) {
+		this.extraRoll = extraRoll;
+	}
+
+	public boolean isShield() {
+		return shield;
+	}
+
+	public void setShield(boolean shield) {
+		this.shield = shield;
+	}
+
+	public boolean isRollBack() {
+		return rollBack;
+	}
+
+	public void setRollBack(boolean rollBack) {
+		this.rollBack = rollBack;
+	}
+
+	public boolean isDoubleRoll() {
+		return doubleRoll;
+	}
+
+	public void setDoubleRoll(boolean doubleRoll) {
+		this.doubleRoll = doubleRoll;
+	}
+
+	public boolean isSnakeImmunity() {
+		return snakeImmunity;
+	}
+
+	public void setSnakeImmunity(boolean snakeImmunity) {
+		this.snakeImmunity = snakeImmunity;
+	}
 
 }

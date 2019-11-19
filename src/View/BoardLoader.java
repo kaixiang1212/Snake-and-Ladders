@@ -23,12 +23,16 @@ import org.json.JSONTokener;
 
 public abstract class BoardLoader {
 	
-	private static JSONObject json;
+	private static JSONObject boardJson;
+	private static JSONObject itemsJson;
 
     public BoardLoader(String filename) throws FileNotFoundException, JSONException {
     	String path = getClass().getClassLoader().getResource("boards/" + filename).getPath().replaceAll("%20", " ");
     	assert(!path.isEmpty());
-        json = new JSONObject(new JSONTokener(new FileReader(path)));
+        boardJson = new JSONObject(new JSONTokener(new FileReader(path)));
+        path = getClass().getClassLoader().getResource("boards/items.json").getPath().replaceAll("%20", " ");
+        assert(!path.isEmpty());
+        itemsJson = new JSONObject(new JSONTokener(new FileReader(path)));
     }
 
     /**
@@ -37,13 +41,13 @@ public abstract class BoardLoader {
      * @throws JSONException 
      */
 	public static void load() throws JSONException {
-		int width = json.getInt("width");
-		int height = json.getInt("height");
+		int width = boardJson.getInt("width");
+		int height = boardJson.getInt("height");
 	        
 		Board gameboard = new Board(width, height);
 		GameEngine.setBoard(gameboard);
 		
-		JSONArray jsonEntities = json.getJSONArray("entities");
+		JSONArray jsonEntities = boardJson.getJSONArray("entities");
 		
 		for (int i = 0; i < jsonEntities.length(); i++) {
 			loadEntity(jsonEntities.getJSONObject(i));
@@ -54,12 +58,11 @@ public abstract class BoardLoader {
 			onLoad(player);
 		}
 		
-		JSONArray itemPool = json.getJSONArray("items");
+		JSONArray itemPool = itemsJson.getJSONArray("items");
 		for(int i = 0; i < itemPool.length(); i++) {
 			LoadItem(itemPool.getJSONObject(i), gameboard);
 		}
 	}
-
 
     protected static void LoadItem(JSONObject jsonItem, Board gameboard) throws JSONException {
     	String type = jsonItem.getString("type");

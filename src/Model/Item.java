@@ -8,7 +8,7 @@ public class Item extends Entity {
 	public static enum ItemType {
 		  SKIPTURN,				// Skip next player's turn
 		  EXTRAROLL,			// Roll an extra dice (preserved if you roll a 6)
-		  SLOWDOWN,				// Slow down the next closest piece on the board for a few turns by halving their rolls
+		  POISON,				// Slow down the next closest piece on the board for a few turns by halving their rolls
 		  SHIELD,				// Temporarily protects against power-ups
 		  ROLLBACK,				// Roll a dice to move the first player on the board backwards
 		  DOUBLE,				// Double the result of the next roll
