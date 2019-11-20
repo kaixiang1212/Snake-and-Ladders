@@ -17,7 +17,8 @@ public class AnimationController {
     private static long lastTime;
     private static int diceFrame = 1;
     private static Player targetPlayer;
-
+    private static int currentPos;
+    private static int destination;
     private static DiceController diceController;
     private static BoardController boardController;
 
@@ -29,6 +30,9 @@ public class AnimationController {
     	frame = 0;
     	diceController = dc;
     	boardController = bc;
+    	targetPlayer = null;
+    	currentPos = -1;
+    	destination = -1;
     }
 
 
@@ -44,8 +48,7 @@ public class AnimationController {
         	if((time - lastTime) < frametime) {
         		return;
         	}
-        	int currentPos = diceController.getCurrentPos();
-        	int destination = diceController.getDestination();
+        	
         	poisoned = GameEngine.getCurrentPlayer().getPoisonStatus();
         	
         	if (isSpinning) {
@@ -67,18 +70,25 @@ public class AnimationController {
             		diceController.stopButtonClicked();
             	}
         	} else if (isPlayerMoving) {
+        		if(currentPos < 0)
+            		currentPos = diceController.getCurrentPos();
+            	if(destination < 0)
+            		destination = diceController.getDestination();
+            	
         		if (frame%(animationFrames*2) == 0 && currentPos == destination) {
-        			if(GameEngine.getCurrentPlayer().isRollBack()) {
-        				targetPlayer = null;
-        			}
+        			targetPlayer = null;
+        			currentPos = -1;
+        			destination = -1;
         			diceController.prepareNextTurn();
         		} else if (frame%(animationFrames*2) == 0 && currentPos != destination) {
         			if(GameEngine.getCurrentPlayer().isRollBack()) {
         				if(targetPlayer == null)
         					targetPlayer = GameEngine.getLeadingPlayer();
         				GameEngine.updatePosition(targetPlayer, currentPos - 1);
+        				currentPos--;
         			} else {
         				GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        				currentPos++;
         			}
         			boardController.cleanPickedUpItems();
         		}

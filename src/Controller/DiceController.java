@@ -236,6 +236,7 @@ public class DiceController {
     	if(Math.random() < (float)spawnItemChance/100f)
     		boardController.spawnItem();
         
+    	GameEngine.updateState();
     	highlightCurrentPlayer();
     	setActiveEffects();
     	setInventory();
@@ -339,10 +340,10 @@ public class DiceController {
     	    		text = Item.getDescriptions()[ItemType.EXTRAROLL.ordinal()];
     	    		break;
     	    	case 1:
-    	    		text = "You are poisoned. Your rolls are halved." + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsPoisoned() + ")";
+    	    		text = "You are poisoned. Your rolls are halved." + "\n(Turns remaining: " + (GameEngine.getCurrentPlayer().getTurnsPoisoned()-1) + ")";
     	    		break;
     	    	case 2:
-    	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()] + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsShielded() + ")";
+    	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()] + "\n(Turns remaining: " + (GameEngine.getCurrentPlayer().getTurnsShielded()-1) + ")";
     	    		break;
     	    	case 3:
     	    		text = Item.getDescriptions()[ItemType.ROLLBACK.ordinal()];
@@ -351,7 +352,7 @@ public class DiceController {
     	    		text = Item.getDescriptions()[ItemType.DOUBLE.ordinal()];
     	    		break;
     	    	case 5:
-    	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()] + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsImmune() + ")";
+    	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()] + "\n(Turns remaining: " + (GameEngine.getCurrentPlayer().getTurnsImmune()-1) + ")";
     	    		break;
     	    	default:
     	    		text = "";
@@ -427,9 +428,13 @@ public class DiceController {
 				}
 				break;
 			case EXTRAROLL:
-				player.setExtraRoll(true);
-				player.useItem(item);
-				text.setText(item.getName() + " activated!\n");
+				if(player.isExtraRoll()) {
+					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+				} else {
+					player.setExtraRoll(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!\n");
+				}
 				break;
 			case POISON:
 				ArrayList<Player> targetPlayers = GameEngine.getNextNearestPlayers();
@@ -464,9 +469,13 @@ public class DiceController {
 				}
 				break;
 			case DOUBLE:
-				player.setDoubleRoll(true);
-				player.useItem(item);
-				text.setText(item.getName() + " activated!\n");
+				if(player.isDoubleRoll()) {
+					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+				} else {
+					player.setDoubleRoll(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!\n");
+				}
 				break;
 			case SWAP:
 				targetPlayer = GameEngine.getLeadingPlayer();
@@ -479,7 +488,7 @@ public class DiceController {
 				}
 				break;
 			case ANTIDOTE:
-				player.setSnakeImmunity(1);
+				player.setSnakeImmunity(2);
 				player.useItem(item);
 				text.setText(item.getName() + " activated!\n");
 				if(player.getPoisonStatus())
