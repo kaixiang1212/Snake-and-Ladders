@@ -242,10 +242,24 @@ public class GameEngine {
 				return;
 			} else if ((gameboard.isSnake(currX, currY) != null) && !currPlayer.isSnakeImmunity()) {
 				int newX, newY;
+				Snake currSnake = gameboard.isSnake(currX, currY);
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				MusicController.playSnake();
+				
+				// Get snake ImageViews and wriggle snake
+				ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
+				ImageView snakeImg = AnimationController.getImgView(currSnake.getId());
+				
+				AnimationController.wriggleSnake(snakeGif, snakeImg);
+				// Stop wriggling snake after 2 secs
+				PauseTransition pause = new PauseTransition(Duration.seconds(2));
+				pause.setOnFinished(event ->
+					AnimationController.stopwriggleSnake(snakeGif, snakeImg)
+				);
+				pause.play();
+				
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
@@ -261,9 +275,9 @@ public class GameEngine {
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
 				MusicController.playLadder();
 
+				// Get ladder ImageViews and shake Ladder
 				ImageView ladderGif = AnimationController.getGifView(currLadder.getId());
 				ImageView ladderImg = AnimationController.getImgView(currLadder.getId());
-				// Shake the ladder
 				// Shake the ladder
 				AnimationController.shakeLadder(ladderGif, ladderImg);
 				// Stop laddershake after 1 second

@@ -27,6 +27,8 @@ public class BoardController {
 	private VBox dice;
 	@FXML
 	private DiceController diceController;
+	
+	// All Ladder ImageViews
 	@FXML
 	private ImageView Ladder1;
 	@FXML
@@ -55,6 +57,38 @@ public class BoardController {
 	private ImageView Ladder7;
 	@FXML
 	private ImageView gifLadder7;
+	
+	// All Snake ImageViews
+	@FXML
+	private ImageView Snake1;
+	@FXML
+	private ImageView gifSnake1;
+	@FXML
+	private ImageView Snake2;
+	@FXML
+	private ImageView gifSnake2;
+	@FXML
+	private ImageView Snake3;
+	@FXML
+	private ImageView gifSnake3;
+	@FXML
+	private ImageView Snake4;
+	@FXML
+	private ImageView gifSnake4;
+	@FXML
+	private ImageView Snake5;
+	@FXML
+	private ImageView gifSnake5;
+	@FXML
+	private ImageView Snake6;
+	@FXML
+	private ImageView gifSnake6;
+	@FXML
+	private ImageView Snake7;
+	@FXML
+	private ImageView gifSnake7;
+	
+	
 	@FXML
 	private AnchorPane menuPane;
 	@FXML
@@ -122,8 +156,9 @@ public class BoardController {
 		MusicController.playBGM();
 	}
 	
+	// Ladder Business
 	public ImageView getGif(String id) {
-		// currently only returns the gifLadder1. once tested, make getter for all imageviews based on string id.
+		// currently only returns the gifLadder1. once tested, make getter for all ImageViews based on string id.
 		ImageView view = null;
 		if (id.equals("gifLadder1")) {
 			view = gifLadder1;
@@ -139,6 +174,20 @@ public class BoardController {
 			view = gifLadder6;
 		} else if(id.equals("gifLadder7")) {
 			view = gifLadder7;
+		} else if(id.equals("gifSnake1")) {
+			view = gifSnake1;
+		} else if(id.equals("gifSnake2")) {
+			view = gifSnake2;
+		} else if(id.equals("gifSnake3")) {
+			view = gifSnake3;
+		} else if(id.equals("gifSnake4")) {
+			view = gifSnake4;
+		} else if(id.equals("gifSnake5")) {
+			view = gifSnake5;
+		} else if(id.equals("gifSnake6")) {
+			view = gifSnake6;
+		} else if(id.equals("gifSnake7")) {
+			view = gifSnake7;
 		}
 		return view;
 	}
@@ -160,6 +209,20 @@ public class BoardController {
 			img = Ladder6;
 		} else if(id.equals("Ladder7")) {
 			img = Ladder7;
+		} else if(id.equals("Snake1")) {
+			img = Snake1;
+		} else if(id.equals("Snake2")) {
+			img = Snake2;
+		} else if(id.equals("Snake3")) {
+			img = Snake3;
+		} else if(id.equals("Snake4")) {
+			img = Snake4;
+		} else if(id.equals("Snake5")) {
+			img = Snake5;
+		} else if(id.equals("Snake6")) {
+			img = Snake6;
+		} else if(id.equals("Snake7")) {
+			img = Snake7;
 		}
 		return img;
 	}
@@ -175,6 +238,28 @@ public class BoardController {
 		ladderGif.setVisible(false);
 		ladderImg.setVisible(true);
 	}
+	
+	
+	// Snake business
+	public void wriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		snakeImg.setVisible(false);
+		snakeGif.setVisible(true);
+	}
+	
+	public void stopwriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		snakeGif.setVisible(false);
+		snakeImg.setVisible(true);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Called when the exit button is clicked from the pause menu
 	 * @throws IOException

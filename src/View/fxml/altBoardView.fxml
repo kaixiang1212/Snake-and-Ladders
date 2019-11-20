@@ -38,12 +38,12 @@
             <Image url="@../../../../../../Desktop/Screen%20Shot%202019-11-05%20at%2012.06.58%20am.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="Ladder1" fitHeight="325.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" x="230.0" y="60.0">
+      <ImageView fx:id="Ladder1" fitHeight="286.0" fitWidth="218.0" layoutX="-1.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" x="230.0" y="60.0">
          <image>
             <Image url="@../../asset/Ladders/Ladder1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="gifLadder1" fitHeight="325.0" fitWidth="400.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="230.0" y="60.0">
+      <ImageView fx:id="gifLadder1" fitHeight="286.0" fitWidth="211.0" layoutX="1.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" visible="false" x="230.0" y="60.0">
          <image>
             <Image url="@../../asset/gifs/gifLadder1.gif" />
          </image>
@@ -184,7 +184,7 @@
             <Image url="@../../asset/gifs/gifLadder7.gif" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="menuPane" layoutX="150.0" layoutY="150.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;">
+      <AnchorPane fx:id="menuPane" layoutX="150.0" layoutY="150.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="500.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
             <Label fx:id="title" alignment="CENTER" layoutX="110.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">

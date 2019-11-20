@@ -91,28 +91,12 @@ public abstract class BoardLoader {
             	GameEngine.addPlayer(player);
             }
             break;
-        // All Snake Entities:
         case "snake":
-            Snake snake = new Snake(x, y, x2, y2, type);
+            Snake snake = new Snake(x, y, x2, y2, id);
             onLoad(snake);
             if (snake != null) {
             	GameEngine.getBoard().addEntity(snake);
             }
-            break;
-        case "bluesnake":
-            Snake bsnake = new Snake(x, y, x2, y2, type);
-            onLoad(bsnake);
-            if (bsnake != null) {
-            	GameEngine.getBoard().addEntity(bsnake);
-            }
-            break;
-        case "pinksnake":
-            Snake psnake = new Snake(x, y, x2, y2, type);
-            onLoad(psnake);
-            if (psnake != null) {
-            	GameEngine.getBoard().addEntity(psnake);
-            }
-            break;
         case "ladder":
         	Ladder ladder = new Ladder(x, y, x2, y2, id);
         	onLoad(ladder);

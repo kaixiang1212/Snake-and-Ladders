@@ -118,8 +118,8 @@ public class AnimationController {
     
 	public static ImageView getGifView (String id) {
 		// Call function from boardcontroller that returns the corresponding id String.
-		String ladderId = "gif" + id;
-		return boardController.getGif(ladderId);
+		String gifId = "gif" + id;
+		return boardController.getGif(gifId);
 	}
 	
 	public static ImageView getImgView (String id) {
@@ -143,8 +143,12 @@ public class AnimationController {
 	 * This function will take in the snakeId of the snake Entity in the current coordinate, and activate the corresponding gif of the stated Snake.
 	 * @param snakeId
 	 */
-	public static void wriggleSnake(String snakeId) {
-		
+	public static void wriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardController.wriggleSnake(snakeGif, snakeImg);
+	}
+	
+	public static void stopwriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardController.stopwriggleSnake(snakeGif, snakeImg);
 	}
 
 }

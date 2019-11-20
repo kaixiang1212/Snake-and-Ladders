@@ -13,6 +13,7 @@ public class Snake extends Entity {
 	
 	private int x2, y2;
 	protected SnakeType snaketype;
+	private String id;
 	
 	
 	/**
@@ -22,24 +23,25 @@ public class Snake extends Entity {
 	 * @param x2 x-pos of snake tail
 	 * @param y2 y-pos of snake tail
 	 */
-	public Snake(int x, int y, int x2, int y2, String type) {
+	public Snake(int x, int y, int x2, int y2, String id) {
         super(x, y, Type.SNAKE);
         this.x2 = x2;
         this.y2 = y2;
-
-        if (type.equals("snake")) {
-			this.snaketype = SnakeType.SNAKE;
-		} else if (type.equals("bluesnake")) {
-			this.snaketype = SnakeType.BLUESNAKE;
-		} else if (type.equals("pinksnake")) {
-			this.snaketype = SnakeType.PINKSNAKE;
-		}
-       
+        this.id = id;
     }
 	
-	public SnakeType getSnaketype() {
-		return snaketype;
+	
+
+	public String getId() {
+		return id;
 	}
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 
 
 	public Pair<Integer, Integer> getTail() {
