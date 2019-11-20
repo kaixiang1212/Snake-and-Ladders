@@ -4,7 +4,7 @@
 		"id": 0,
 		"type": "SKIPTURN",
 		"name": "Skip Turn",
-        "description": "Skip the next player turn",
+        "description": "Skip the next player's turn",
 		"frequency": 5,
 		"expiry": 7
     },
@@ -12,7 +12,7 @@
         "id": 1,
 		"type": "EXTRAROLL",
 		"name": "Extra Roll",
-        "description": "Roll an extra dice\n(preserved if you roll a 6)",
+        "description": "Roll an additional dice",
 		"frequency": 4,
 		"expiry": 7
     },
@@ -20,8 +20,8 @@
         "id": 2,
 		"type": "POISON",
 		"name": "Poison",
-        "description": "Slow down the next closest piece on the board for a few turns by halving their rolls",
-		"frequency": 2,
+        "description": "Slow down the next closest piece(s) on the board for a few turns by halving their rolls",
+		"frequency": 3,
 		"expiry": 7
     },
 	{
@@ -29,14 +29,14 @@
 		"type": "SHIELD",
 		"name": "Shield",
         "description": "Temporary protection against power-ups",
-		"frequency": 1,
+		"frequency": 3,
 		"expiry": 7
     },
 	{
         "id": 4,
 		"type": "ROLLBACK",
 		"name": "Roll Back",
-        "description": "Roll a dice to move the first player on the board backwards",
+        "description": "Roll a dice to move the first player(s) on the board backwards",
 		"frequency": 3,
 		"expiry": 7
     },
@@ -53,7 +53,7 @@
 		"type": "SWAP",
 		"name": "Swap",
         "description": "Swap positions with the first player on the board",
-		"frequency": 2,
+		"frequency": 3,
 		"expiry": 7
     },
 	{
@@ -61,7 +61,7 @@
 		"type": "ANTIDOTE",
 		"name": "Antidote",
         "description": "Heals poison and gives temporary snake immunity\n(still vulnerable to player poison)",
-		"frequency": 1,
+		"frequency": 2,
 		"expiry": 7
     },
 	{

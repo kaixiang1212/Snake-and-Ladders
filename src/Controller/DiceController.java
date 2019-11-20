@@ -1,9 +1,12 @@
 package Controller;
 
+import java.util.ArrayList;
+
 import Model.GameEngine;
 import Model.Item;
 import Model.Player;
 import Model.Item.ItemType;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,6 +14,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -83,12 +87,14 @@ public class DiceController {
         Player player = GameEngine.getCurrentPlayer();
         StringBuilder sb = new StringBuilder();
         message.setText((sb.append("\n").append(player.getPlayerName()).append("'s turn:\n").toString()));
+        text.setText("\n");
         spawnItemChance = GameEngine.getPlayerNum()*10;
         isPaused = false;
         rollButton.setDefaultButton(true);
         new AnimationController(this, this.boardController);
         configEffectsTooltip();
         setActiveEffects();
+        setInventory();
     }
     
     /**
@@ -97,7 +103,7 @@ public class DiceController {
     @FXML
     private void rollButtonClicked() {
     	MusicController.playRollDice();
-        text.setText("");
+        text.setText("\n");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
         inventory.setDisable(true);
@@ -120,8 +126,14 @@ public class DiceController {
 
 
         Player currentPlayer = GameEngine.getCurrentPlayer();
-        diceResult = getDiceRolled();
-        text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult);
+        diceResult = getDiceRolled(); 
+        if(currentPlayer.isDoubleRoll()) {
+        	diceResult *= 2;
+        }
+        text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult + "\n");
+        if(currentPlayer.isRollBack()) {
+        	diceResult *= -1;
+        }
         MusicController.playThrowDice();
         
     	if(!GameEngine.isFinished()) {
@@ -180,12 +192,29 @@ public class DiceController {
             message.setText((sb.toString()));
             return;
         }
-
+    	
+    	if(GameEngine.getCurrentPlayer().isDoubleRoll()) {
+    		GameEngine.getCurrentPlayer().setDoubleRoll(false);
+    		diceResult /= 2;
+    	}
+		if(GameEngine.getCurrentPlayer().isRollBack()) {
+			GameEngine.getCurrentPlayer().setRollBack(false);
+			diceResult *= -1;
+		}
+    	
     	if (diceResult == 6) {
     		MusicController.playRolled6();
             sb.append(GameEngine.getCurrentPlayer().getPlayerName().concat(" roll again"));
+        } else if(GameEngine.getCurrentPlayer().isExtraRoll()) {
+        	MusicController.playRolled6();
+        	sb.append(GameEngine.getCurrentPlayer().getPlayerName().concat(" roll again"));
+        	GameEngine.getCurrentPlayer().setExtraRoll(false);
         } else {
-        	GameEngine.nextPlayer();
+        	GameEngine.getCurrentPlayer().updatePoison();
+			GameEngine.getCurrentPlayer().updateShield();
+			GameEngine.getCurrentPlayer().updateSnakeImmunity();
+			GameEngine.decrementExpiry();
+        	GameEngine.setNextPlayer();
         	draw(diceResult, GameEngine.getCurrentPlayer().getPoisonStatus());
         }
     	
@@ -198,8 +227,7 @@ public class DiceController {
         rollButton.setOnAction(event -> rollButtonClicked());
         GameEngine.clearConsole();
         setCurrentPlayerToken();
-        text.setText("");
-        AnimationController.setPoison(GameEngine.getCurrentPlayer().getPoisonStatus());
+        text.setText("\n");
         
         // Clean up expired items
         boardController.cleanExpiredItems();
@@ -210,7 +238,7 @@ public class DiceController {
         
     	highlightCurrentPlayer();
     	setActiveEffects();
-    	
+    	setInventory();
         rollButton.setDisable(false);
         diceImage.setDisable(false);
         inventory.setDisable(false);
@@ -222,6 +250,8 @@ public class DiceController {
      */
     public int getCurrentPos() {
     	Player currentPlayer = GameEngine.getCurrentPlayer();
+    	if(currentPlayer.isRollBack())
+    		currentPlayer = GameEngine.getLeadingPlayer();
     	return GameEngine.getBoard().getPosition(currentPlayer.getX(), currentPlayer.getY());
     }
     
@@ -261,6 +291,9 @@ public class DiceController {
     	for(Player player : GameEngine.getPlayers()) {
     		ImageView token = (ImageView) hbox.getChildren().get(i);
     		token.setImage(player.getImage().getImage());
+    		Tooltip tooltip = new Tooltip(player.getPlayerName());
+    		tooltip.setStyle("-fx-font-size: 16");
+    		Tooltip.install(token, tooltip);
     		i++;
     	}
     }
@@ -287,9 +320,7 @@ public class DiceController {
     private int getDiceRolled(){
         Image lastRolled = diceImage.getImage();
         for(int i = 0; i < 6; i++){
-            if (lastRolled == diceFace[i]) {
-            	return i+1;
-            } else if(i < 3 && lastRolled == diceFaceAlt[i]) {
+            if (lastRolled == diceFace[i] || lastRolled == diceFaceAlt[i]) {
             	return i+1;
             }
         }
@@ -308,10 +339,10 @@ public class DiceController {
     	    		text = Item.getDescriptions()[ItemType.EXTRAROLL.ordinal()];
     	    		break;
     	    	case 1:
-    	    		text = "You are poisoned. Your rolls are halved.";
+    	    		text = "You are poisoned. Your rolls are halved." + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsPoisoned() + ")";
     	    		break;
     	    	case 2:
-    	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()];
+    	    		text = Item.getDescriptions()[ItemType.SHIELD.ordinal()] + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsShielded() + ")";
     	    		break;
     	    	case 3:
     	    		text = Item.getDescriptions()[ItemType.ROLLBACK.ordinal()];
@@ -320,12 +351,14 @@ public class DiceController {
     	    		text = Item.getDescriptions()[ItemType.DOUBLE.ordinal()];
     	    		break;
     	    	case 5:
-    	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()];
+    	    		text = Item.getDescriptions()[ItemType.ANTIDOTE.ordinal()] + "\n(Turns remaining: " + GameEngine.getCurrentPlayer().getTurnsImmune() + ")";
     	    		break;
     	    	default:
     	    		text = "";
         	}
-        	Tooltip.install(image, new Tooltip(text));
+    		Tooltip tooltip = new Tooltip(text);
+    		tooltip.setStyle("-fx-font-size: 16");
+        	Tooltip.install(image, tooltip);
     	}
     }
     
@@ -346,6 +379,122 @@ public class DiceController {
     		effects.getChildren().get(4).setVisible(true);
     	if(currPlayer.isSnakeImmunity())
     		effects.getChildren().get(5).setVisible(true);
-    }   
+    	configEffectsTooltip();
+    }
+    
+    public void setInventory() {
+    	inventory.getChildren().clear();
+    	Player currPlayer = GameEngine.getCurrentPlayer();
+    	int i = 0;
+    	int x = 0;
+    	int y = 0;
+    	for(Item item : currPlayer.getItems()) {
+    		ImageView view = item.getImage();
+    		view.setPreserveRatio(true);
+    		view.setFitHeight(45);
+    		view.setOnMouseClicked(new EventHandler<MouseEvent>()
+            {
+                @Override
+                public void handle(MouseEvent e) {
+                	itemClicked(item);
+                }
+            });
+    		inventory.add(view, x, y);
+    		String message = item.getName() + ":\n" + item.getDescription();
+    		Tooltip tooltip = new Tooltip(message);
+    		tooltip.setStyle("-fx-font-size: 16");
+    		Tooltip.install(view, tooltip);
+    		i++;
+    		x = i%4;
+    		y = i/4;
+    	}
+    }
+    
+    private void itemClicked(Item item) {
+    	Player targetPlayer;
+    	Player player = GameEngine.getCurrentPlayer();
+		switch(item.getItemType()) {
+			case SKIPTURN:
+				targetPlayer = GameEngine.getNextPlayer();
+				if(targetPlayer != null && targetPlayer.isSkipped()) {
+					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+				} else if(targetPlayer != null && !targetPlayer.isShield()) {
+					targetPlayer.setSkipped(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!" + "\n" + targetPlayer.getPlayerName() + " skipped.");
+				} else {
+					text.setText("Could not use item! Target player is shielded or it's you.");
+				}
+				break;
+			case EXTRAROLL:
+				player.setExtraRoll(true);
+				player.useItem(item);
+				text.setText(item.getName() + " activated!\n");
+				break;
+			case POISON:
+				ArrayList<Player> targetPlayers = GameEngine.getNextNearestPlayers();
+				int i = 0;
+				for(Player target : targetPlayers) {
+					if(!target.isShield()) {
+						target.setPoison(3);
+						player.useItem(item);
+						text.setText(item.getName() + " activated!"  + "\n" + target.getPlayerName() + " poisoned.");
+						i++;
+					}
+				}
+				if(i == 0)
+					text.setText("Could not use item! Target player is shielded or it's you.");
+				break;
+			case SHIELD:
+				player.setShield(3);
+				player.useItem(item);
+				text.setText(item.getName() + " activated!\n");
+				break;
+			case ROLLBACK:
+				targetPlayer = GameEngine.getLeadingPlayer();
+				if(targetPlayer != null && targetPlayer != player && !targetPlayer.isShield()) {
+					player.setRollBack(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!" + "\nRolling " + targetPlayer.getPlayerName() + " back.");
+				} else if (targetPlayer != null && player.isRollBack()) {
+					text.setText("Could not use item!\n" + item.getName()+ " is already activated.");
+				}
+				else {
+					text.setText("Could not use item! Target player is shielded or it's you.");
+				}
+				break;
+			case DOUBLE:
+				player.setDoubleRoll(true);
+				player.useItem(item);
+				text.setText(item.getName() + " activated!\n");
+				break;
+			case SWAP:
+				targetPlayer = GameEngine.getLeadingPlayer();
+				if(targetPlayer != null && targetPlayer != player && !targetPlayer.isShield()) {
+					GameEngine.swapPlayers(player, targetPlayer);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!" + "\nSwapped positions with " + targetPlayer.getPlayerName());
+				} else {
+					text.setText("Could not use item! Target player is shielded or it's you.");
+				}
+				break;
+			case ANTIDOTE:
+				player.setSnakeImmunity(1);
+				player.useItem(item);
+				text.setText(item.getName() + " activated!\n");
+				if(player.getPoisonStatus())
+					text.setText(item.getName() + " activated!\nYou have been healed.");
+				player.setPoison(0);
+				break;
+			case REVERSE:
+				GameEngine.setReverse(!GameEngine.isReverse());
+				player.useItem(item);
+				text.setText(item.getName() + " activated!\n");
+				break;
+		}
+    	setInventory();
+    	setActiveEffects();
+    	draw(getDiceRolled(), GameEngine.getCurrentPlayer().getPoisonStatus());
+    }
     
 }

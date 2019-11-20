@@ -1,7 +1,5 @@
 package View;
 
-import Controller.*;
-
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;

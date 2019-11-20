@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.GameEngine;
+import Model.Player;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 
@@ -15,6 +16,7 @@ public class AnimationController {
     private static boolean poisoned;
     private static long lastTime;
     private static int diceFrame = 1;
+    private static Player targetPlayer;
 
     private static DiceController diceController;
     private static BoardController boardController;
@@ -44,7 +46,8 @@ public class AnimationController {
         	}
         	int currentPos = diceController.getCurrentPos();
         	int destination = diceController.getDestination();
-
+        	poisoned = GameEngine.getCurrentPlayer().getPoisonStatus();
+        	
         	if (isSpinning) {
         		if (frame % animationFrames == 0) {
         			int num;
@@ -65,10 +68,18 @@ public class AnimationController {
             	}
         	} else if (isPlayerMoving) {
         		if (frame%(animationFrames*2) == 0 && currentPos == destination) {
+        			if(GameEngine.getCurrentPlayer().isRollBack()) {
+        				targetPlayer = null;
+        			}
         			diceController.prepareNextTurn();
-        			GameEngine.getCurrentPlayer().updatePoison();
-        		} else if (frame%(animationFrames*2) == 0 && currentPos <= destination) {
-        			GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        		} else if (frame%(animationFrames*2) == 0 && currentPos != destination) {
+        			if(GameEngine.getCurrentPlayer().isRollBack()) {
+        				if(targetPlayer == null)
+        					targetPlayer = GameEngine.getLeadingPlayer();
+        				GameEngine.updatePosition(targetPlayer, currentPos - 1);
+        			} else {
+        				GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        			}
         			boardController.cleanPickedUpItems();
         		}
         	}
@@ -103,10 +114,6 @@ public class AnimationController {
     public static void setPlayerMoving(boolean value) {
     	frame = 0;
     	isPlayerMoving = value;
-    }
-
-    public static void setPoison(boolean status) {
-    	poisoned = status;
     }
     
 	public static ImageView getGifView (String id) {

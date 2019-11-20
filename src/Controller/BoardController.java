@@ -265,6 +265,7 @@ public class BoardController {
     		GridPane.setRowIndex(view, GameEngine.getBoard().getHeight() - 1 - item.getY());
 			GridPane.setHalignment(view, HPos.CENTER);
 			MusicController.playItemAppear();
+    		
     	} else {
     		System.out.println("[!] Item spawn failed: space occupied." + "\n");
     	}
@@ -290,8 +291,6 @@ public class BoardController {
     			}
     			MusicController.playItemDisappear();
     			System.out.println("[!] " + item.getName() + " item expired." + "\n");
-    		} else {
-    			item.decrementExpiry();
     		}
         }
         GameEngine.getBoard().removeItems(expired);
@@ -319,6 +318,7 @@ public class BoardController {
     		}
         }
         GameEngine.getBoard().removeItems(pickedup);
+        diceController.setInventory();
     }
 
 }

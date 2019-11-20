@@ -19,6 +19,7 @@ public class GameEngine {
     private static boolean finished;
     private static StringBuilder console;
     private static int board;
+    private static boolean reverse;
 	
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -32,7 +33,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-
+        reverse = false;
     }
 
     public GameEngine(int boardNum){
@@ -45,6 +46,7 @@ public class GameEngine {
         console.setLength(0);
         MusicController.initGame();
         board = boardNum;
+        reverse = false;
     }
 
     /**
@@ -58,7 +60,7 @@ public class GameEngine {
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-
+        reverse = false;
     }
 
     /**
@@ -81,19 +83,6 @@ public class GameEngine {
      */
     public static int getPlayerNum(){
         return players.size();
-    }
-
-    /**
-     * Get the current position of player
-     * @param player: Specify player object to find their position
-     * @return player's position
-     */
-    public static int getPosition(Player player){
-    	int x,y;
-    	x = player.getX();
-    	y = player.getY();
-    	int position = gameboard.getPosition(x, y);
-        return position;
     }
 
     /**
@@ -155,10 +144,73 @@ public class GameEngine {
 	/**
      * Set the next player in turn as current player, looping over the list of all players
      */
-    public static Player nextPlayer(){
-        currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    public static Player setNextPlayer(){
+    	if(!isReverse()) {
+    		currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		currentPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+        
         currentPlayer = players.get(currentPlayerNum);
+        if(currentPlayer.isSkipped()) {
+        	currentPlayer.setSkipped(false);
+        	setNextPlayer();
+        }
         return currentPlayer;
+    }
+    
+    public static Player getNextPlayer(){
+    	int nextPlayerNum;
+    	if(!isReverse()) {
+    		nextPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		nextPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+        Player nextPlayer = players.get(nextPlayerNum);
+        return nextPlayer;
+    }
+    
+    public static ArrayList<Player> getNextNearestPlayers() {
+    	ArrayList<Player> targetPlayers = new ArrayList<Player>();
+    	int dist = gameboard.getMaxPos() - gameboard.getMinPos();
+    	for(Player player : players) {
+    		if(player == getCurrentPlayer())
+    			continue;
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 < dist)) {
+    			targetPlayers.clear();
+    			dist = pos2-pos1;
+    			targetPlayers.add(player);
+    		} else if ((pos2-pos1 >= 0) && (pos2-pos1 == dist)) {
+    			targetPlayers.add(player);
+    		}
+    	}
+    	return targetPlayers;
+    }
+    
+    public static Player getLeadingPlayer() {
+    	Player targetPlayer = null;
+    	int dist = 0;
+    	for(Player player : players) {
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 >= dist)) {
+    			dist = pos2-pos1;
+    			targetPlayer = player;
+    		}
+    	}
+    	return targetPlayer;
+    }
+    
+    public static void swapPlayers(Player player1, Player player2) {
+    	int x1, y1;
+    	x1 = player1.getX();
+    	y1 = player1.getY();
+    	player1.setX(player2.getX());
+    	player1.setY(player2.getY());
+    	player2.setX(x1);
+    	player2.setY(y1);
     }
 
 	/**
@@ -188,7 +240,7 @@ public class GameEngine {
 			if(currPos == gameboard.getMaxPos()) {
 				finished = true;
 				return;
-			} else if (gameboard.isSnake(currX, currY) != null) {
+			} else if ((gameboard.isSnake(currX, currY) != null) && !currPlayer.isSnakeImmunity()) {
 				int newX, newY;
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
@@ -199,7 +251,7 @@ public class GameEngine {
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
 				if(Math.random() < ((float) poisonChance/100f) )
-					currPlayer.setPoison(2);
+					currPlayer.setPoison(3);
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
@@ -325,5 +377,19 @@ public class GameEngine {
 
 	public static int getPickedUpItemExpiry() {
 		return pickedUpItemExpiry;
+	}
+	
+	public static boolean isReverse() {
+		return reverse;
+	}
+	
+	public static void setReverse(boolean reverse) {
+		GameEngine.reverse = reverse;
+	}
+
+	public static void decrementExpiry() {
+		for(Item item : gameboard.getSpawnedItems()) {
+			item.decrementExpiry();
+		}
 	}
 }

@@ -9,11 +9,14 @@ public class Player extends Entity {
 
     private String playerName;
     private int token;
-    private int turnsPoisoned;
+	private int turnsPoisoned;
+    private int turnsShielded;
+    private int turnsImmune;
     private ArrayList<Item> items;
     
     // Player effects
     private boolean isPoisoned;
+    private boolean skipped;
 	private boolean extraRoll;
     private boolean shield;
     private boolean rollBack;
@@ -29,6 +32,8 @@ public class Player extends Entity {
         items = new ArrayList<Item>();
         this.turnsPoisoned = 0;
         this.isPoisoned = false;
+        turnsShielded = 0;
+        turnsImmune = 0;
         extraRoll = false;
         shield = false;
         rollBack = false;
@@ -69,15 +74,21 @@ public class Player extends Entity {
     }
 
     public void setPoison(int turns) {
+    	if(turns > 0) {
+    		this.isPoisoned = true;
+    	} else {
+    		isPoisoned = false;
+    		turns = 0;
+    	}
     	this.turnsPoisoned = turns;
-    	this.isPoisoned = true;
     }
 
     public void updatePoison() {
     	if (this.isPoisoned) {
     		if (turnsPoisoned > 0) {
     			turnsPoisoned--;
-    		} else {
+    		}
+    		if (turnsPoisoned <= 0){
     			this.isPoisoned = false;
     			turnsPoisoned = 0;
     		}
@@ -87,11 +98,15 @@ public class Player extends Entity {
     public boolean getPoisonStatus() {
     	return this.isPoisoned;
     }
-
+    
+    public ArrayList<Item> getItems() {
+    	return items;
+    }
+    
     public void pickupItem(Item item) {
     	items.add(item);
     }
-
+    
     public void useItem(Item item) {
     	items.remove(item);
     }
@@ -99,7 +114,15 @@ public class Player extends Entity {
     public void useItem(int index) {
     	items.remove(index);
     }
-
+    
+    public boolean isSkipped() {
+    	return skipped;
+    }
+    
+    public void setSkipped(boolean skipped) {
+    	this.skipped = skipped;
+    }
+    
     public boolean isExtraRoll() {
 		return extraRoll;
 	}
@@ -112,10 +135,28 @@ public class Player extends Entity {
 		return shield;
 	}
 
-	public void setShield(boolean shield) {
-		this.shield = shield;
-	}
-
+    public void setShield(int turns) {
+    	if(turns < 0) turns = 0;
+    	if(turns > 0) {
+    		shield = true;
+    	} else {
+    		shield = false;
+    	}
+    	turnsShielded = turns;
+    }
+    
+    public void updateShield() {
+    	if (shield) {
+    		if (turnsShielded > 0) {
+    			turnsShielded--;
+    		}
+    		if (turnsShielded <= 0) {
+    			shield = false;
+    			turnsShielded = 0;
+    		}
+    	}
+    }
+    
 	public boolean isRollBack() {
 		return rollBack;
 	}
@@ -136,8 +177,48 @@ public class Player extends Entity {
 		return snakeImmunity;
 	}
 
-	public void setSnakeImmunity(boolean snakeImmunity) {
-		this.snakeImmunity = snakeImmunity;
+	public void setSnakeImmunity(int turns) {
+    	if(turns < 0) turns = 0;
+    	if(turns > 0) {
+    		snakeImmunity = true;
+    	} else {
+    		snakeImmunity = false;
+    	}
+    	turnsImmune = turns;
+    }
+	
+	public void updateSnakeImmunity() {
+    	if (snakeImmunity) {
+    		if (turnsImmune > 0) {
+    			turnsImmune--;
+    		}
+    		if(turnsImmune <= 0){
+    			snakeImmunity = false;
+    			turnsImmune = 0;
+    		}
+    	}
+    }
+	
+	public void clearEffects() {
+		isPoisoned = false;
+	    skipped = false;
+		extraRoll = false;
+	    shield = false;
+	    rollBack = false;
+	    doubleRoll = false;
+	    snakeImmunity = false;
+	}
+	
+    public int getTurnsPoisoned() {
+		return turnsPoisoned;
 	}
 
+	public int getTurnsShielded() {
+		return turnsShielded;
+	}
+
+	public int getTurnsImmune() {
+		return turnsImmune;
+	}
+	
 }
