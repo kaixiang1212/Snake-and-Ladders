@@ -1,90 +1,73 @@
-/**
- * @author Kai, Abdullah
- */
-
 package Model;
 
 import Controller.MusicController;
-import Controller.GifController;
-import javafx.scene.image.ImageView;
+import Controller.AnimationController;
 
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import java.util.ArrayList;
-import javafx.animation.PauseTransition;  
-
+import javafx.animation.PauseTransition;
 
 public class GameEngine {
+	private static final int pickedUpItemExpiry = -1000;	// Special expiry counter number for picked up items to remove on pickup
+    private static final int poisonChance = 90;				// Chance of being poisoned by a snake
 
-    private ArrayList<Player> players;
-    private Player currentPlayer;
-    private int currentPlayerNum;
-    private Board gameboard;
-    private boolean finished;
-    private StringBuilder console;
-
-	private MusicController musicController;
+    private static ArrayList<Player> players;
+    private static Player currentPlayer;
+    private static int currentPlayerNum;
+    private static Board gameboard;
+    private static boolean finished;
+    private static StringBuilder console;
+    private static int board;
+    private static boolean reverse;
 	
-	// GameEngine now carries a gifController instance that allows methods from boardController to be used when updating the game state.
-	private GifController gifcontroller;
-	
-    
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
      */
     public GameEngine(){
         players = new ArrayList<>();
+        currentPlayer = null;
+        currentPlayerNum = 0;
         gameboard = new Board(10, 10);
-//        gameboard.addEntity(new Snake(27, 5));
-//        gameboard.addSnake(new Snake(40, 3));
-//        gameboard.addSnake(new Snake(43, 18));
-//        gameboard.addSnake(new Snake(54, 31));
-//        gameboard.addSnake(new Snake(66, 45));
-//        gameboard.addSnake(new Snake(76, 58));
-//        gameboard.addSnake(new Snake(89, 53));
-//        gameboard.addSnake(new Snake(99, 41));
-//        gameboard.addLadder(new Ladder(4, 25));
-//        gameboard.addLadder(new Ladder(33, 49));
-//        gameboard.addLadder(new Ladder(42, 63));
-//        gameboard.addLadder(new Ladder(50, 69));
-//        gameboard.addLadder(new Ladder(62, 81));
-//        gameboard.addLadder(new Ladder(74, 92));
-	    /**gameboard.addEntity(new Snake(6, 2, 4, 0, "snake"));
-	    gameboard.addEntity(new Snake(0, 3, 2, 0, "snake"));
-	    gameboard.addEntity(new Snake(2, 4, 2, 1, "snake"));
-	    gameboard.addEntity(new Snake(6, 7, 9, 3, "snake"));
-	    gameboard.addEntity(new Snake(5, 6, 4, 4, "pinksnake"));
-	    gameboard.addEntity(new Snake(4, 7, 2, 5, "snake"));
-	    gameboard.addEntity(new Snake(8, 8, 7, 5, "snake"));
-	    gameboard.addEntity(new Snake(1, 9, 0, 4, "bluesnake"));
-	    gameboard.addEntity(new Ladder(3, 0, 4, 2));
-	    gameboard.addEntity(new Ladder(7, 1, 5, 4));
-	    gameboard.addEntity(new Ladder(1, 4, 2, 6));
-	    gameboard.addEntity(new Ladder(9, 4, 8, 6));
-	    gameboard.addEntity(new Ladder(1, 6, 0, 8));
-	    gameboard.addEntity(new Ladder(6, 7, 8, 9));
-	    */
+        finished = false;
         console = new StringBuilder();
         console.setLength(0);
-        musicController = new MusicController();
-        musicController.initGame();
+        MusicController.initGame();
+        reverse = false;
     }
+
+    public GameEngine(int boardNum){
+    	players = new ArrayList<>();
+        currentPlayer = null;
+        currentPlayerNum = 0;
+        gameboard = new Board(10, 10);
+        finished = false;
+        console = new StringBuilder();
+        console.setLength(0);
+        MusicController.initGame();
+        board = boardNum;
+        reverse = false;
+    }
+
     /**
      * This constructor is used to pass in a pre-made gameboard
      * @param gameboard: pre-made gameboard
      */
-    public GameEngine(Board gameboard, GifController gifcontroller){
+    public GameEngine(Board board){
         players = new ArrayList<>();
-        this.gameboard = gameboard;
-        this.gifcontroller = gifcontroller;
+        gameboard = board;
+        finished = false;
         console = new StringBuilder();
         console.setLength(0);
+        MusicController.initGame();
+        reverse = false;
     }
 
     /**
      * Add a player into the game
      * @param player: A player object to be added into the game
      */
-    public void addPlayer(Player player){
+    public static void addPlayer(Player player){
         if (currentPlayer == null) {
             currentPlayerNum = 0;
             currentPlayer = player;
@@ -93,106 +76,160 @@ public class GameEngine {
         //updatePosition(player, gameboard.getMinPos());
         updateState();
     }
-    
+
     /**
      * Get the number of players in the game
      * @return number of players
      */
-    public int getPlayerNum(){
+    public static int getPlayerNum(){
         return players.size();
     }
-    
-    /**
-     * Get the current position of player
-     * @param player: Specify player object to find their position
-     * @return player's position
-     */
-    public int getPosition(Player player){
-    	int x,y;
-    	x = player.getX();
-    	y = player.getY();
-    	int position = gameboard.getPosition(x, y);
-        return position;
-    }
-    
+
     /**
      * Update player's position to pos
      * @param player: Player object to update their position
      * @param pos: player's new position
      * @return updated player position
      */
-	public int updatePosition(Player player, int pos) {
+	public static int updatePosition(Player player, int pos) {
 		pos = Math.min(pos, gameboard.getMaxPos());
 		pos = Math.max(pos, gameboard.getMinPos());
 		int x,y;
-		x = gameboard.getCoords(pos).getX();
-		y = gameboard.getCoords(pos).getY();
+		x = gameboard.getCoords(pos).getKey();
+		y = gameboard.getCoords(pos).getValue();
 		player.setX(x);
 		player.setY(y);
-		musicController.playMove();
+		MusicController.playMove();
+		Item item = gameboard.isItem(x, y);
+		if(item != null) {
+			player.pickupItem(item);
+			item.setExpiry(pickedUpItemExpiry);
+			System.out.println("[!] " + item.getName() + " item picked up by " + player.getPlayerName() + ".\n");
+		}
 		return pos;
 	}
-	
+
 	/**
      * Get current player
      * @return current player
      */
-    public Player getCurrentPlayer() {
+    public static Player getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
     /**
      * Get index of current player
      * @return current player index
      */
-	public int getCurrentPlayerNum() {
-		return currentPlayerNum; 
+	public static int getCurrentPlayerNum() {
+		return currentPlayerNum;
 	}
-	
-	public ArrayList<Player> getPlayers(){
+
+	public static ArrayList<Player> getPlayers(){
 		return players;
 	}
-	
-	public void setBoard(Board gameboard) {
-		this.gameboard = gameboard;
+
+	public static void setBoard(Board board) {
+		gameboard = board;
 	}
-	
-	public Board getBoard() {
+
+	public static Board getBoard() {
 		return gameboard;
 	}
-	
-    public GifController getGifcontroller() {
-		return gifcontroller;
+
+	public static int getBoardType() {
+		return board;
 	}
-	public void setGifcontroller(GifController gifcontroller) {
-		this.gifcontroller = gifcontroller;
-	}
+
 	/**
      * Set the next player in turn as current player, looping over the list of all players
      */
-    public Player nextPlayer(){
-        currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    public static Player setNextPlayer(){
+    	if(!isReverse()) {
+    		currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		currentPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+        
         currentPlayer = players.get(currentPlayerNum);
+        if(currentPlayer.isSkipped()) {
+        	currentPlayer.setSkipped(false);
+        	setNextPlayer();
+        }
         return currentPlayer;
     }
-	
+    
+    public static Player getNextPlayer(){
+    	int nextPlayerNum;
+    	if(!isReverse()) {
+    		nextPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		nextPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+        Player nextPlayer = players.get(nextPlayerNum);
+        return nextPlayer;
+    }
+    
+    public static ArrayList<Player> getNextNearestPlayers() {
+    	ArrayList<Player> targetPlayers = new ArrayList<Player>();
+    	int dist = gameboard.getMaxPos() - gameboard.getMinPos();
+    	for(Player player : players) {
+    		if(player == getCurrentPlayer())
+    			continue;
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 < dist)) {
+    			targetPlayers.clear();
+    			dist = pos2-pos1;
+    			targetPlayers.add(player);
+    		} else if ((pos2-pos1 >= 0) && (pos2-pos1 == dist)) {
+    			targetPlayers.add(player);
+    		}
+    	}
+    	return targetPlayers;
+    }
+    
+    public static Player getLeadingPlayer() {
+    	Player targetPlayer = null;
+    	int dist = 0;
+    	for(Player player : players) {
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 >= dist)) {
+    			dist = pos2-pos1;
+    			targetPlayer = player;
+    		}
+    	}
+    	return targetPlayer;
+    }
+    
+    public static void swapPlayers(Player player1, Player player2) {
+    	int x1, y1;
+    	x1 = player1.getX();
+    	y1 = player1.getY();
+    	player1.setX(player2.getX());
+    	player1.setY(player2.getY());
+    	player2.setX(x1);
+    	player2.setY(y1);
+    }
+
 	/**
 	 * Checks whether the game is finished
 	 * @return true if finished, false otherwise
 	 */
-	public boolean isFinished() {
+	public static boolean isFinished() {
 		updateState();
-		if (finished) musicController.playVictory();
+		if (finished) MusicController.playVictory();
 		return finished;
 	}
-	
+
 	/**
 	 * Updates the state of the game. This does:
 	 * - Checks if player lands on snake, and changes their position
 	 * - Checks if player lands on ladder, and changes their position
 	 * - Checks if player lands on end position, and updates finished flag
 	 */
-	public void updateState() {
+	public static void updateState() {
 		for(Player currPlayer : players) {
 			int currX, currY;
 			currX = currPlayer.getX();
@@ -203,16 +240,18 @@ public class GameEngine {
 			if(currPos == gameboard.getMaxPos()) {
 				finished = true;
 				return;
-			} else if (gameboard.isSnake(currX, currY) != null) {
+			} else if ((gameboard.isSnake(currX, currY) != null) && !currPlayer.isSnakeImmunity()) {
 				int newX, newY;
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
-				musicController.playSnake();
+				MusicController.playSnake();
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
+				if(Math.random() < ((float) poisonChance/100f) )
+					currPlayer.setPoison(3);
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
@@ -220,40 +259,40 @@ public class GameEngine {
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
-				musicController.playLadder();
-				
-				ImageView ladderGif = this.gifcontroller.getGifView(currLadder.getId());
-				ImageView ladderImg = this.gifcontroller.getImgView(currLadder.getId());
+				MusicController.playLadder();
+
+				ImageView ladderGif = AnimationController.getGifView(currLadder.getId());
+				ImageView ladderImg = AnimationController.getImgView(currLadder.getId());
 				// Shake the ladder
 				// Shake the ladder
-				this.gifcontroller.shakeLadder(ladderGif, ladderImg);
+				AnimationController.shakeLadder(ladderGif, ladderImg);
 				// Stop laddershake after 1 second
 				PauseTransition pause = new PauseTransition(Duration.seconds(1));
 				pause.setOnFinished(event ->
-					this.gifcontroller.stopShakeLadder(ladderGif, ladderImg)
+					AnimationController.stopShakeLadder(ladderGif, ladderImg)
 				);
 				pause.play();
-				
-				
+
+
 				console.append(currPlayer.getPlayerName())
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
-				updateState();
+				//updateState();
 			}
 		}
 		finished = false;
 	}
 
-	public String getConsole(){
+	public static String getConsole(){
 		return console.toString();
 	}
 
-	public void clearConsole(){
+	public static void clearConsole(){
 		console.setLength(0);
 	}
-	
-	public String printBoard() {
+
+	public static String printBoard() {
 		StringBuilder sb = new StringBuilder();
 		int width = gameboard.getWidth();
 		int height = gameboard.getHeight();
@@ -292,8 +331,65 @@ public class GameEngine {
 		return sb.toString();
 	}
 
-	public int getCurrentPlayerToken(){
+	public static int getCurrentPlayerToken(){
 		return getCurrentPlayer().getPlayerToken();
 	}
 
+	/**
+	 * Spawns a random item in the board. Item spawns at position < top player position && position > last player position && position != any player or existing item position
+	 * @return spawned item object
+	 */
+	public static Item spawnRandomItem() {
+		// Set item position to be < top player's position
+		int maxPlayerPos = gameboard.getMinPos();
+		int minPlayerPos = gameboard.getMaxPos();
+		for(Player player : players) {
+			maxPlayerPos = Math.max(maxPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
+			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
+		}
+		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
+		int itemX = gameboard.getCoords(itemPos).getKey();
+		int itemY = gameboard.getCoords(itemPos).getValue();
+
+		// Check that position != any player position
+		for(Player player : players) {
+			int playerPos = gameboard.getPosition(player.getX(), player.getY());
+			if(playerPos == itemPos)
+				return null;
+		}
+
+		// Check that position != any existing item position
+		if(gameboard.isItem(itemX, itemY) != null) {
+			return null;
+		}
+
+		// Obtain a random item from the pool of available items
+		ArrayList<Item> pool = gameboard.getItemPool();
+		int size = pool.size();
+		int index = (int) (Math.random()*size);
+		Item itemTemplate = pool.get(index);
+
+
+		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
+		gameboard.addEntity(item);
+		return item;
+	}
+
+	public static int getPickedUpItemExpiry() {
+		return pickedUpItemExpiry;
+	}
+	
+	public static boolean isReverse() {
+		return reverse;
+	}
+	
+	public static void setReverse(boolean reverse) {
+		GameEngine.reverse = reverse;
+	}
+
+	public static void decrementExpiry() {
+		for(Item item : gameboard.getSpawnedItems()) {
+			item.decrementExpiry();
+		}
+	}
 }

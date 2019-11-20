@@ -1,0 +1,63 @@
+{
+  "width": 10,
+  "height": 10,
+  "entities": [
+    {
+      "x": 5,
+      "y": 2,
+      "x2": 3,
+      "y2": 0,
+      "type": "snake",
+      "id": "Snake1"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "x2": 7,
+      "y2": 0,
+      "type": "snake",
+      "id": "Snake2"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "x2": 3,
+      "y2": 2,
+      "type": "snake",
+      "id": "Snake3"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "x2": 4,
+      "y2": 4,
+      "type": "snake",
+      "id": "Snake4"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "x2": 8,
+      "y2": 6,
+      "type": "snake",
+      "id": "Snake5"
+
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "x2": 6,
+      "y2": 7,
+      "type": "snake",
+      "id": "Snake6"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "x2": 3,
+      "y2": 6,
+      "type": "snake",
+      "id": "Snake7"
+    }
+  ]
+}

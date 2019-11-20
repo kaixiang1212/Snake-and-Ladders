@@ -1,6 +1,7 @@
 package View;
 
 import Model.*;
+import javafx.scene.image.ImageView;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,12 +23,16 @@ import org.json.JSONTokener;
 
 public abstract class BoardLoader {
 	
-	private JSONObject json;
+	private static JSONObject boardJson;
+	private static JSONObject itemsJson;
 
     public BoardLoader(String filename) throws FileNotFoundException, JSONException {
     	String path = getClass().getClassLoader().getResource("boards/" + filename).getPath().replaceAll("%20", " ");
     	assert(!path.isEmpty());
-        json = new JSONObject(new JSONTokener(new FileReader(path)));
+        boardJson = new JSONObject(new JSONTokener(new FileReader(path)));
+        path = getClass().getClassLoader().getResource("boards/items.json").getPath().replaceAll("%20", " ");
+        assert(!path.isEmpty());
+        itemsJson = new JSONObject(new JSONTokener(new FileReader(path)));
     }
 
     /**
@@ -35,30 +40,42 @@ public abstract class BoardLoader {
      * @return
      * @throws JSONException 
      */
-	public GameEngine load (GameEngine engine) throws JSONException {
-		int width = json.getInt("width");
-		int height = json.getInt("height");
+	public static void load() throws JSONException {
+		int width = boardJson.getInt("width");
+		int height = boardJson.getInt("height");
 	        
 		Board gameboard = new Board(width, height);
-		engine.setBoard(gameboard);
+		GameEngine.setBoard(gameboard);
 		
-		JSONArray jsonEntities = json.getJSONArray("entities");
+		JSONArray jsonEntities = boardJson.getJSONArray("entities");
 		
 		for (int i = 0; i < jsonEntities.length(); i++) {
-			loadEntity(engine, jsonEntities.getJSONObject(i));
+			loadEntity(jsonEntities.getJSONObject(i));
 		}
 		
-		for(int i = engine.getPlayers().size()-1; i >= 0; i--) {
-			Player player = engine.getPlayers().get(i);
+		for(int i = GameEngine.getPlayers().size()-1; i >= 0; i--) {
+			Player player = GameEngine.getPlayers().get(i);
 			onLoad(player);
 		}
 		
-		return engine;
-		
+		JSONArray itemPool = itemsJson.getJSONArray("items");
+		for(int i = 0; i < itemPool.length(); i++) {
+			LoadItem(itemPool.getJSONObject(i), gameboard);
+		}
 	}
 
+    protected static void LoadItem(JSONObject jsonItem, Board gameboard) throws JSONException {
+    	String type = jsonItem.getString("type");
+    	String name = jsonItem.getString("name");
+    	String description = jsonItem.getString("description");
+    	Item.setDescription(Item.ItemType.valueOf(type).ordinal(), description);
+    	int frequency = jsonItem.getInt("frequency");
+    	int expiry = jsonItem.getInt("expiry");
+    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, frequency, expiry);
+    	gameboard.includeItem(item);
+    }
 
-    private void loadEntity(GameEngine engine, JSONObject json) throws JSONException {
+	private static void loadEntity(JSONObject json) throws JSONException {
         String type = json.getString("type");
         String id = json.getString("id");
         int x = json.getInt("x");
@@ -67,13 +84,11 @@ public abstract class BoardLoader {
         int y2 = json.getInt("y2");
         switch (type) {
         case "player":
-        	int nextTokenNum = engine.getPlayerNum();
+        	int nextTokenNum = GameEngine.getPlayerNum();
             Player player = new Player("Player " + nextTokenNum+1, nextTokenNum, x, y);
-            //Player player = new Player(gameboard, x, y, "player");
-            //gameboard.setPlayer(player);
             onLoad(player);
             if (player != null) {
-            	engine.addPlayer(player);
+            	GameEngine.addPlayer(player);
             }
             break;
         // All Snake Entities:
@@ -81,37 +96,92 @@ public abstract class BoardLoader {
             Snake snake = new Snake(x, y, x2, y2, type);
             onLoad(snake);
             if (snake != null) {
-            	engine.getBoard().addEntity(snake);
+            	GameEngine.getBoard().addEntity(snake);
             }
             break;
         case "bluesnake":
             Snake bsnake = new Snake(x, y, x2, y2, type);
             onLoad(bsnake);
             if (bsnake != null) {
-            	engine.getBoard().addEntity(bsnake);
+            	GameEngine.getBoard().addEntity(bsnake);
             }
             break;
         case "pinksnake":
             Snake psnake = new Snake(x, y, x2, y2, type);
             onLoad(psnake);
             if (psnake != null) {
-            	engine.getBoard().addEntity(psnake);
+            	GameEngine.getBoard().addEntity(psnake);
             }
             break;
         case "ladder":
         	Ladder ladder = new Ladder(x, y, x2, y2, id);
         	onLoad(ladder);
             if (ladder != null) {
-            	engine.getBoard().addEntity(ladder);
+            	GameEngine.getBoard().addEntity(ladder);
             }
         	break;
         }
     }
 
-    public abstract void onLoad(Player player);
-    public abstract void onLoad(Snake snake);
-    public abstract void onLoad(Ladder ladder);
-    public abstract void changeImage(Entity entity, String string);
-    // TODO Create additional abstract methods for the other entities
+	public static void onLoad(Player player) {
+		ImageView view = player.getImage();
+		view.setPreserveRatio(true);
+		view.setFitHeight(GameScreen.getSceneHeight()/(float)GameEngine.getBoard().getHeight()*0.75f);
+		BoardEntityLoader.addEntity(player, view);
+	}
+	
+	// No longer using ImageViews internally through code: all fed directly into fxml
+	public static void onLoad(Snake snake) {
+		/**if (snake.getSnaketype() == SnakeType.SNAKE) {
+			ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/pipe_top.png"))));
+			view.setPreserveRatio(true);
+			view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*1.0f);
+			view.setFitHeight(800);
+			view.setFitWidth(300);
+			view.setId("snake");
+			addEntity(snake, view);
+		} else if (snake.getSnaketype() == SnakeType.BLUESNAKE) {
+			Image snakeimg = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/1.png")), 2600, 2141, true, true);
+			ImageView view = new ImageView(snakeimg);
+			view.setFitHeight(210);
+			view.setFitWidth(260);
+			//view.setPreserveRatio(true);
+			view.setId("snake");
+			addEntity(snake, view);
+		} else if (snake.getSnaketype() == SnakeType.PINKSNAKE) {
+			/**Image snakeimg = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/coralsnake.png")), 463, 572, true, false);
+			snakeimg.getRequestedHeight();
+			ImageView view = new ImageView(snakeimg);
+			*/
+		/**
+			Image snakeimg = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/coralsnake.png")), 463, 572, true, true);
+			ImageView view = new ImageView();
+			view.setFitWidth(332);
+			view.setFitHeight(386);
+			//view.setPreserveRatio(true);
+			view.setImage(snakeimg);
+			view.setId("coralsnake");
+			addEntity(snake, view);
+		}
+		
+		*/
+	}
+
+	public static void onLoad(Ladder ladder) {
+		/**ImageView view = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/vine_start.png"))));
+		view.setPreserveRatio(true);
+		view.setFitHeight(gamescreen.getSceneHeight()/(float)engine.getBoard().getHeight()*1.0f);
+		view.setId("ladder");
+		addEntity(ladder, view);
+		*/
+	}
+	
+	public static void onLoad(Item item) {
+		ImageView view = item.getImage();
+		view.setPreserveRatio(true);
+		view.setFitHeight(GameScreen.getSceneHeight()/(float)GameEngine.getBoard().getHeight()*0.65f);
+		BoardEntityLoader.addEntity(item, view);
+	}
+
   
 }

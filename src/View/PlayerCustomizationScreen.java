@@ -9,26 +9,26 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class PlayerCustomizationScreen {
-    private Stage stage;
-    private FXMLLoader fxmlLoader;
-    private String screenTitle;
-    private int numPlayer;
 
-    public PlayerCustomizationScreen(Stage stage, int numPlayer){
-        this.stage = stage;
-        this.screenTitle = "Player Customisation";
-        this.numPlayer = numPlayer;
-        this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/PlayerCustomization.fxml"));
+	private static String screenTitle;
+	private static int numPlayer;
+    private static int boardNum;
+
+    public PlayerCustomizationScreen(int nPlayer, int board){
+        screenTitle = "Player Customisation";
+        numPlayer = nPlayer;
+        boardNum = board;
     }
 
-    public void start(){
-        stage.setTitle(screenTitle);
+    public static void start(){	
         try {
-            Parent root = fxmlLoader.load();
-            PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
-            playerCustomizationController.setStage(stage);
+        	FXMLLoader fxmlLoader = new FXMLLoader(PlayerCustomizationScreen.class.getResource("fxml/PlayerCustomization.fxml"));
+        	Parent root = fxmlLoader.load();
+        	PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
             playerCustomizationController.setPlayers(numPlayer);
-
+            playerCustomizationController.setBoard(boardNum); 
+            Stage stage = StartGameScreen.getStage();
+            stage.setTitle(screenTitle);
             Scene sc = new Scene(root);
             stage.setScene(sc);
             stage.show();

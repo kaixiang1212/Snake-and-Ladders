@@ -5,19 +5,15 @@ import java.io.IOException;
 import View.StartGameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
 public class HelpController {
     
 	@FXML
     private Button backButton;
-	
-	private Stage stage;
-    private MusicController musicController;
-    
+
     public HelpController(){
-    	musicController = new MusicController();
-    	musicController.initUI();
+    	MusicController.initUI();
     }
     
     /**
@@ -25,14 +21,9 @@ public class HelpController {
      * @throws IOException
      */
     @FXML
-    private void backButtonClicked() throws IOException {
-    	musicController.playBack();
-    	StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
-    }
-    
-    public void setStage(Stage stage){
-        this.stage = stage;
+    public void backButtonClicked(ActionEvent event) throws IOException {
+    	MusicController.playBack();
+        StartGameScreen.start();
     }
     
 }

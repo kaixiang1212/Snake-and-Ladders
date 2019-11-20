@@ -1,7 +1,7 @@
 package View;
 
 import Controller.*;
-import Model.*;
+import Model.GameEngine;
 
 import java.io.IOException;
 
@@ -14,110 +14,95 @@ import javafx.stage.Stage;
 
 
 public class GameScreen {
-	private final int HEIGHT = 800;
-	private final int WIDTH = 800;
+	private static final int HEIGHT = 800;
+	private static final int WIDTH = 800;
+	private static final int diceWidth = 200;
 
-	private final int diceWidth = 200;
-	
-	private Stage stage;
-	private String title;
-	private Scene scene;
-	private BoardController boardController;
-	private GameEngine engine;
+	private static String title;
 
-	public GameScreen(Stage s) {
-		this.stage = s;
-		this.title = "Sneks & Ladders";
+	public GameScreen() {
+		title = "Sneks & Ladders";
 	}
 
-	public void start() throws IOException, JSONException {
-		loadGameScreen(this.stage, this.engine);
+	public static void start() throws IOException, JSONException {
+		loadGameScreen();
 	}
 
-	public GameEngine getEngine() {
-		return engine;
-	}
-	
-	public void setEngine(GameEngine engine) {
-		this.engine = engine;
-	}
-
-	// NOTE--> Probably the part where you choose the Board
-	public BoardEntityLoader loadJsonBoard(Stage stage, GameEngine game) throws IOException, JSONException {
-		
-		//String filename;
-		//int currentBoard = game.getcurrentBoard();
-		
-		/**
-		switch (currentBoard) {
-		case 0:
-			filename = "simpleboard.json";
+	public static void loadGameScreen() throws IOException, JSONException {
+		// Get the correct Json file for the current level.
+		loadJsonBoard();
+		String filename;
+		switch (GameEngine.getBoardType()) {
+		case 1:
+			filename = "fxml/altBoardView.fxml";
+			break;
+		case 2:
+			filename = "fxml/altBoardViewPlain.fxml";
+			break;
+		case 3:
+			filename = "fxml/altBoardViewSnakeless.fxml";
+			break;
+		case 4:
+			filename = "fxml/altBoardViewLadderless.fxml";
 			break;
 		default:
-			filename = "simpleboard.json";
+			filename = "fxml/altBoardView.fxml";
 		}
-		*/
-		
-		// Load the BoardEntityLoader.
-		BoardEntityLoader loadedBoard = new BoardEntityLoader("animatedBoard.json", stage, this, engine);
-		return loadedBoard;
-		
-	}
-		
-	
-	public void loadGameScreen (Stage stage, GameEngine game) throws IOException, JSONException {
-		// Get the correct Json file for the current level.
-		BoardEntityLoader boardLoader = loadJsonBoard(stage, game);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/altBoardView.fxml"));
-		
-		Parent root = loader.load();
-		scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
 		// Configure Board Controller
-		boardController = loader.getController();
-		boardLoader.configBoardController(boardController);
+		FXMLLoader loader = new FXMLLoader(GameScreen.class.getResource(filename));
+		Parent root = loader.load();
+		BoardController boardController = loader.getController();
+		BoardEntityLoader.configBoardController(boardController);
 		boardController.init();
 		
-		// Create a GifController to manage the gifs once the boar has been loaded.
-		GifController gifcontroller = new GifController(boardController);
-		
-		// Add the Gifcontroller to the gameEngine
-		game.setGifcontroller(gifcontroller);
-		
-		
-		//System.out.println("" + boardController.gifladder1);
-		
-		
-		//scene.getStylesheets().add(getClass().getResource("StartScreenStyleSheet.css").toExternalForm());
-		//stage.setResizable(true);
+		Scene scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
+		Stage stage = StartGameScreen.getStage();
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
-//		double ratio = scene.getWindow().getHeight()/scene.getWindow().getWidth();
-//		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
-//		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
 	}
 	
-	public int getWidth() {
+	// NOTE: Probably the part where you choose the Board
+	public static void loadJsonBoard() throws IOException, JSONException {		
+		String filename;
+		int currentBoard = GameEngine.getBoardType();
+		
+		switch (currentBoard) {
+			case 1:
+				filename = "animatedBoard.json";
+				break;
+			case 2:
+				filename = "animatedBoardPlain.json";
+				break;
+			case 3:
+				filename = "animatedBoardSnakeless.json";
+				break;
+			case 4:
+				filename = "animatedBoardLadderless.json";
+				break;
+			default:
+				filename = "animatedBoard.json";
+		}
+		
+		// Load the BoardEntityLoader.	
+		new BoardEntityLoader(filename);
+
+	}
+
+	public static int getWidth() {
 		return WIDTH;
 	}
 	
-	public int getHeight() {
+	public static int getHeight() {
 		return HEIGHT;
 	}
 	
-	public double getSceneWidth() {
-		return scene.getWidth();
+	public static double getSceneWidth() {
+		return StartGameScreen.getStage().getScene().getWidth();
 	}
 	
-	public double getSceneHeight() {
-		return scene.getHeight();
+	public static double getSceneHeight() {
+		return StartGameScreen.getStage().getScene().getHeight();
 	}
-
-
-
-
-
-
-	
 	
 }

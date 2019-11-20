@@ -1,20 +1,17 @@
 
 package Controller;
 
+import View.BoardSelectionScreen;
 import View.PlayerCustomizationScreen;
-import View.StartGameScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class PlayerNumSelectionController {
-
-    private Stage stage;
 
     @FXML
     private Label title;
@@ -34,33 +31,30 @@ public class PlayerNumSelectionController {
     private Button nextButton;
 
     private Toggle playerSelected;
-
-    private MusicController musicController;
-
-
+    private int boardNum;
+    
     public PlayerNumSelectionController(){
-        musicController = new MusicController();
-        musicController.initUI();
+    	MusicController.initUI();
     }
 
     public void numberClicked(){
-        musicController.clear();
+    	MusicController.clear();
         nextButton.setDisable(false);
         if (playerNumber.getSelectedToggle() == null){
             nextButtonClicked();
             return;
         }
-        musicController.playSwitch();
+        MusicController.playSwitch();
         playerSelected = playerNumber.getSelectedToggle();
     }
 
-    public void setStage(Stage stage){
-        this.stage = stage;
+    public void setBoard(int board) {
+    	this.boardNum = board;
     }
 
     @FXML
     private void nextButtonClicked(){
-        musicController.playNext();
+    	MusicController.playNext();
         int player = -1;
         if (player1 == playerSelected){
             player = 1;
@@ -73,15 +67,16 @@ public class PlayerNumSelectionController {
         } else {
             return;
         }
-        PlayerCustomizationScreen playerCustomizationScreen = new PlayerCustomizationScreen(stage, player);
-        playerCustomizationScreen.start();
+
+        new PlayerCustomizationScreen(player, boardNum);
+        PlayerCustomizationScreen.start();
+
     }
 
     @FXML
     private void backButtonClicked() throws IOException {
-        musicController.playBack();
-        StartGameScreen startGameScreen = new StartGameScreen(stage);
-        startGameScreen.start();
+        MusicController.playBack();
+        BoardSelectionScreen.start();
     }
 
 }

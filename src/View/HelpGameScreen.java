@@ -2,7 +2,6 @@ package View;
 
 import java.io.IOException;
 
-import Controller.HelpController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,23 +9,18 @@ import javafx.stage.Stage;
 
 public class HelpGameScreen {
 	
-	private String screenTitle;
-	private Stage stage;
-	private FXMLLoader fxmlLoader;
+	private static String screenTitle;
 
-	public HelpGameScreen (Stage stage) {
-	      this.stage = stage;
-	      this.screenTitle = "help screen";
-	      this.fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Help.fxml"));
+	public HelpGameScreen () {
+	      screenTitle = "Help Screen";
 	}
 	
-    public void start() {
-        stage.setTitle(screenTitle);
+    public static void start() {
         try {
-            Parent root = fxmlLoader.load();
-            ((HelpController)fxmlLoader.getController()).setStage(stage);
-
-            Scene sc = new Scene(root);
+        	Parent root = FXMLLoader.load(HelpGameScreen.class.getResource("fxml/Help.fxml"));
+        	Scene sc = new Scene(root);
+            Stage stage = StartGameScreen.getStage();
+            stage.setTitle(screenTitle);
             stage.setScene(sc);
             stage.show();
             sc.getRoot().requestFocus();

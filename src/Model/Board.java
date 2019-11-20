@@ -3,6 +3,8 @@ import java.util.*;
 
 import Model.Entity.Type;
 
+import javafx.util.Pair;
+
 public class Board {
 	
 	private final int WIDTH;
@@ -12,7 +14,7 @@ public class Board {
 	
 	private int[][] grid;		
 	private ArrayList<Entity> entities;
-	
+	private ArrayList<Item> itemPool;	
 	
 	/**
 	 * Initialises a standard board with width*height dimensions
@@ -27,6 +29,7 @@ public class Board {
 		MINPOS = _getMinPos();
 		MAXPOS = _getMaxPos();
 		entities = new ArrayList<Entity>();
+		itemPool = new ArrayList<Item>();
 	}
 	
 	/**
@@ -43,6 +46,7 @@ public class Board {
 		MINPOS = _getMinPos();
 		MAXPOS = _getMaxPos();
 		entities = new ArrayList<Entity>();
+		itemPool = new ArrayList<Item>();
 	}
 	
 	/**
@@ -71,13 +75,13 @@ public class Board {
 	 * @param position on board
 	 * @return x-y coordinates
 	 */
-	public Coords getCoords(int pos) {
-		for (int i = 0 ; i < WIDTH; i++) {
-		    for(int j = 0 ; j < HEIGHT ; j++)
+	public Pair<Integer, Integer> getCoords(int pos) {
+		for (int x = 0 ; x < WIDTH; x++) {
+		    for(int y = 0 ; y < HEIGHT ; y++)
 		    {
-		         if ( grid[i][j] == pos)
+		         if ( grid[x][y] == pos)
 		         {
-		        	 return new Coords(i,j); 
+		        	 return new Pair<Integer, Integer>(x,y); 
 		         }
 		    }
 		}
@@ -157,14 +161,25 @@ public class Board {
 			entities.add(entity);
 	}
 	
-//	public void addSnake(Snake snake) {
-//		snakes.add(snake);
-//	}
-//	
-//	public void addLadder(Ladder ladder) {
-//		ladders.add(ladder);
-//	}
-//	
+	/**
+	 * Include this item in the pool of spawnable items
+	 * @param item Item to include
+	 */
+	public void includeItem(Item item) {
+		int freq = item.getFrequency();
+		for(int i = 0; i < freq; i++) {
+			itemPool.add(item);
+		}
+		Collections.shuffle(itemPool);
+	}
+	
+	/**
+	 * Get the list of spawnable items
+	 * @return item pool list
+	 */
+	public ArrayList<Item> getItemPool() {
+		return itemPool;
+	}
 	
 	/**
 	 * Checks whether x,y is on the head of a snake
@@ -198,6 +213,37 @@ public class Board {
 			}
 		}
 		return null;
+	}
+	
+	public Item isItem(int x, int y) {
+		for(Entity entity : entities) {
+			if(entity.type == Type.ITEM && entity instanceof Item) {
+				Item item = (Item) entity;
+				if(x == item.getX() && y == item.getY()) {
+					return item;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Item> getSpawnedItems() {
+		ArrayList<Item> spawnedItems = new ArrayList<Item>();
+		for(Entity entity : entities) {
+			if(entity instanceof Item) {
+				Item item = (Item) entity;
+				spawnedItems.add(item);
+			}
+		}
+		return spawnedItems;
+	}
+	
+	public void removeItem(Item item) {
+		entities.remove(item);
+	}
+	
+	public void removeItems(ArrayList<Item> items) {
+		entities.removeAll(items);
 	}
 	
 }
