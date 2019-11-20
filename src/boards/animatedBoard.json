@@ -64,7 +64,7 @@
       "x2": 3,
       "y2": 0,
       "type": "snake",
-      "id": "Snake1"
+      "id": "Snake3"
     },
     {
       "x": 8,
@@ -72,15 +72,15 @@
       "x2": 7,
       "y2": 0,
       "type": "snake",
-      "id": "Snake2"
+      "id": "Snake4"
     },
     {
       "x": 1,
       "y": 4,
-      "x2": 3,
-      "y2": 2,
+      "x2": 1,
+      "y2": 1,
       "type": "snake",
-      "id": "Snake3"
+      "id": "Snake2"
     },
     {
       "x": 6,
@@ -88,24 +88,23 @@
       "x2": 4,
       "y2": 4,
       "type": "snake",
-      "id": "Snake4"
+      "id": "Snake5"
     },
     {
       "x": 7,
       "y": 8,
-      "x2": 8,
+      "x2": 7,
       "y2": 6,
       "type": "snake",
-      "id": "Snake5"
-
+      "id": "Snake6"
     },
     {
-      "x": 7,
+      "x": 6,
       "y": 9,
-      "x2": 6,
+      "x2": 5,
       "y2": 7,
       "type": "snake",
-      "id": "Snake6"
+      "id": "Snake7"
     },
     {
       "x": 1,
@@ -113,7 +112,7 @@
       "x2": 3,
       "y2": 6,
       "type": "snake",
-      "id": "Snake7"
+      "id": "Snake1"
     }
   ]
 }
