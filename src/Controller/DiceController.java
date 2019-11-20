@@ -428,9 +428,13 @@ public class DiceController {
 				}
 				break;
 			case EXTRAROLL:
-				player.setExtraRoll(true);
-				player.useItem(item);
-				text.setText(item.getName() + " activated!\n");
+				if(player.isExtraRoll()) {
+					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+				} else {
+					player.setExtraRoll(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!\n");
+				}
 				break;
 			case POISON:
 				ArrayList<Player> targetPlayers = GameEngine.getNextNearestPlayers();
@@ -465,9 +469,13 @@ public class DiceController {
 				}
 				break;
 			case DOUBLE:
-				player.setDoubleRoll(true);
-				player.useItem(item);
-				text.setText(item.getName() + " activated!\n");
+				if(player.isDoubleRoll()) {
+					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+				} else {
+					player.setDoubleRoll(true);
+					player.useItem(item);
+					text.setText(item.getName() + " activated!\n");
+				}
 				break;
 			case SWAP:
 				targetPlayer = GameEngine.getLeadingPlayer();
