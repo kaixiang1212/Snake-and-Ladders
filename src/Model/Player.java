@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
+import Controller.MusicController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -13,7 +14,7 @@ public class Player extends Entity {
     private int turnsShielded;
     private int turnsImmune;
     private ArrayList<Item> items;
-    
+
     // Player effects
     private boolean isPoisoned;
     private boolean skipped;
@@ -22,7 +23,7 @@ public class Player extends Entity {
     private boolean rollBack;
     private boolean doubleRoll;
     private boolean snakeImmunity;
-    
+
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
@@ -98,31 +99,33 @@ public class Player extends Entity {
     public boolean getPoisonStatus() {
     	return this.isPoisoned;
     }
-    
+
     public ArrayList<Item> getItems() {
     	return items;
     }
-    
+
     public void pickupItem(Item item) {
     	items.add(item);
     }
-    
+
     public void useItem(Item item) {
     	items.remove(item);
+        MusicController.playItemActivate();
     }
 
     public void useItem(int index) {
     	items.remove(index);
+        MusicController.playItemActivate();
     }
-    
+
     public boolean isSkipped() {
     	return skipped;
     }
-    
+
     public void setSkipped(boolean skipped) {
     	this.skipped = skipped;
     }
-    
+
     public boolean isExtraRoll() {
 		return extraRoll;
 	}
@@ -144,7 +147,7 @@ public class Player extends Entity {
     	}
     	turnsShielded = turns;
     }
-    
+
     public void updateShield() {
     	if (shield) {
     		if (turnsShielded > 0) {
@@ -156,7 +159,7 @@ public class Player extends Entity {
     		}
     	}
     }
-    
+
 	public boolean isRollBack() {
 		return rollBack;
 	}
@@ -186,7 +189,7 @@ public class Player extends Entity {
     	}
     	turnsImmune = turns;
     }
-	
+
 	public void updateSnakeImmunity() {
     	if (snakeImmunity) {
     		if (turnsImmune > 0) {
@@ -198,7 +201,7 @@ public class Player extends Entity {
     		}
     	}
     }
-	
+
 	public void clearEffects() {
 		isPoisoned = false;
 	    skipped = false;
@@ -208,7 +211,7 @@ public class Player extends Entity {
 	    doubleRoll = false;
 	    snakeImmunity = false;
 	}
-	
+
     public int getTurnsPoisoned() {
 		return turnsPoisoned;
 	}
@@ -220,5 +223,5 @@ public class Player extends Entity {
 	public int getTurnsImmune() {
 		return turnsImmune;
 	}
-	
+
 }

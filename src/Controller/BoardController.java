@@ -105,7 +105,9 @@ public class BoardController {
 	private Button soundFXButton;
 	
 	private List<Pair<Entity, ImageView>> initialEntities;
-	
+	private TimerTask timeTask;
+    private Timer timer;
+    
 	public BoardController() {
 	}
 
@@ -164,7 +166,7 @@ public class BoardController {
 		ImageView greenSnakeGif = getGif("gifSnake6");
 		ImageView greenSnakeImg = getImg("Snake6");
 		
-		TimerTask timeTask = new TimerTask(){
+		timeTask = new TimerTask() {
 			 
             @Override
             public void run() {
@@ -177,12 +179,10 @@ public class BoardController {
             }
              
         };
-         
-        Timer timer = new Timer();
+
+        timer = new Timer();
          
         timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
-		
-		
 	}
 	
 	// Ladder Business
@@ -280,15 +280,6 @@ public class BoardController {
 		snakeImg.setVisible(true);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Called when the exit button is clicked from the pause menu
 	 * @throws IOException
@@ -299,6 +290,9 @@ public class BoardController {
     	MusicController.clear();
     	MusicController.stopBGM();
     	MusicController.playBack();
+    	timeTask.cancel();
+		timer.cancel();
+		timer.purge();
         StartGameScreen.start();
     }
     

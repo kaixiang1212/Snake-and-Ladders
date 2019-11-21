@@ -91,6 +91,9 @@ public class DiceController {
         spawnItemChance = GameEngine.getPlayerNum()*10;
         isPaused = false;
         rollButton.setDefaultButton(true);
+        Tooltip t = new Tooltip("Click to roll");
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(diceImage, t);
         new AnimationController(this, this.boardController);
         configEffectsTooltip();
         setActiveEffects();
@@ -110,6 +113,9 @@ public class DiceController {
         rollButton.setText("Stop");
         rollButton.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
+        Tooltip t = new Tooltip("Click to stop");
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(diceImage, t);
     }
     
     /**
@@ -225,6 +231,9 @@ public class DiceController {
     	rollButton.setText("Start Rolling");
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
         rollButton.setOnAction(event -> rollButtonClicked());
+        Tooltip t = new Tooltip("Click to roll");
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(diceImage, t);
         GameEngine.clearConsole();
         setCurrentPlayerToken();
         text.setText("\n");
@@ -285,6 +294,9 @@ public class DiceController {
      */
     private void setCurrentPlayerToken() {
         playerToken.setImage(GameEngine.getCurrentPlayer().getImage().getImage());
+        Tooltip t = new Tooltip(GameEngine.getCurrentPlayer().getPlayerName());
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(playerToken, t);
     }
     
     private void setTurnTokens() {
@@ -293,7 +305,7 @@ public class DiceController {
     		ImageView token = (ImageView) hbox.getChildren().get(i);
     		token.setImage(player.getImage().getImage());
     		Tooltip tooltip = new Tooltip(player.getPlayerName());
-    		tooltip.setStyle("-fx-font-size: 16");
+    		tooltip.setStyle("-fx-font-size: 14");
     		Tooltip.install(token, tooltip);
     		i++;
     	}

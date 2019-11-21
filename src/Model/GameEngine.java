@@ -264,8 +264,10 @@ public class GameEngine {
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
+				
 				if(Math.random() < ((float) poisonChance/100f) )
 					currPlayer.setPoison(3);
+				
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
