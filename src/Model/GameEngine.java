@@ -254,7 +254,7 @@ public class GameEngine {
 				
 				AnimationController.wriggleSnake(snakeGif, snakeImg);
 				// Stop wriggling snake after 2 secs
-				PauseTransition pause = new PauseTransition(Duration.seconds(2));
+				PauseTransition pause = new PauseTransition(Duration.seconds(1));
 				pause.setOnFinished(event ->
 					AnimationController.stopwriggleSnake(snakeGif, snakeImg)
 				);

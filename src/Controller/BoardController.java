@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.scene.Node;
@@ -15,7 +16,10 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.util.Duration;
 import javafx.util.Pair;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BoardController {
 	
@@ -154,6 +158,31 @@ public class BoardController {
 		// Play BGM
 		MusicController.initBoard();
 		MusicController.playBGM();
+		
+
+		// Wriggle Green snake periodically
+		ImageView greenSnakeGif = getGif("gifSnake6");
+		ImageView greenSnakeImg = getImg("Snake6");
+		
+		TimerTask timeTask = new TimerTask(){
+			 
+            @Override
+            public void run() {
+            	wriggleSnake(greenSnakeGif, greenSnakeImg);
+        		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        		pause.setOnFinished(event ->
+        		AnimationController.stopwriggleSnake(greenSnakeGif, greenSnakeImg)
+        		);
+        		pause.play();
+            }
+             
+        };
+         
+        Timer timer = new Timer();
+         
+        timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
+		
+		
 	}
 	
 	// Ladder Business
