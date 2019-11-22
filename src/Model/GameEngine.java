@@ -10,6 +10,8 @@ import Controller.Networking.Server;
 import javafx.scene.image.ImageView;
 
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.PauseTransition;  
 
@@ -305,4 +307,8 @@ public class GameEngine {
 	public Server getServer(){
 		return this.server;
 	}
+
+    public void killServer() throws IOException {
+		server.kill();
+    }
 }

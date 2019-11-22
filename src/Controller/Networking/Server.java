@@ -7,10 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class Server extends Thread {
 	boolean playerCustomiseScreen;
 	private DiceController diceController;
 	boolean diceScreen;
+	private ServerSocket serverSocket;
 
 	public Server() {
 		diceScreen = false;
@@ -54,64 +55,46 @@ public class Server extends Thread {
 	private void addPlayer(int slot, Socket clientSocket) throws IOException {
 		player[slot - 1] = 1;
 		playersCount++;
-		Client newClient = new Client(clientSocket , this, slot - 1);
+        Client newClient = new Client(this, slot - 1, clientSocket);
 		newClient.start();
+        clientList.add(newClient);
 		onPlayerConnected(slot);
 	}
-/*
-	void removePlayer(Client clientHandler) throws IOException {
-		int i = clientHandler.getPlayerNo();
+
+	void removePlayer(Client client) throws IOException {
+		int i = client.getPlayerNo();
 		player[i - 1] = 0;
-		clientList.remove(clientHandler);
+		clientList.remove(client);
 
 		onPlayerDisconnect(i);
 	}
-*/
+
+
 	@Override
 	public void run() {
-		int port = 5001;
+
+		int port = 8000;
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 			while (true) {
-				Socket clientSocket = serverSocket.accept();
-				
-				PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
-				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-				BufferedReader br1 = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				InputStream input = clientSocket.getInputStream();
-				// String str[20];
-				// String msg[20];
-				System.out.println("Client connected..");
-				
+                Socket clientSocket = serverSocket.accept();
 
-				String line = br1.readLine();
-				//System.out.println(line + "line is");
-				/*
-				 * while ((line = br1.readLine()) != null) { System.out.println(line); }
-				 */
-				/*
-				 * System.out.println(line); if ("roll".equalsIgnoreCase(line)) {
-				 * System.out.println("entered"); if (!this.diceScreen) return; this.diceRoll();
-				 * }
-				 */
-				// System.out.println("Enter command:");
-				// System.out.println(in);
-				// System.out.println(input.read());
+			    PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
+			    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			    BufferedReader br1 = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			    InputStream input = clientSocket.getInputStream();
+                System.out.println("Client connected..");
 
-				// OutputStream outputstream = clientSocket.getOutputStream();
-				// outputstream.write("helo world\n".getBytes());
-				
-				 int slot = getNextSlot(); 
-				 if (slot != -1) { 
-					 addPlayer(slot, clientSocket);
-			     }
-				 else {
-					 clientSocket.getOutputStream().write("Maximum player exceeded\n".getBytes());
-					 clientSocket.close();
-				 }
-				 
-				
+				int slot = getNextSlot();
+				if (slot != -1) {
+				    addPlayer(slot, clientSocket);
+			    } else {
+				    clientSocket.getOutputStream().write("Maximum player exceeded\n".getBytes());
+				    clientSocket.close();
+				}
 			}
+
+		} catch (SocketException se){
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -153,7 +136,7 @@ public class Server extends Thread {
 		for (Client client : clientList) {
 			client.send(msg);
 		}
-		System.out.println(msg);
+		System.out.print(msg);
 	}
 
 	private void onPlayerConnected(int player) throws IOException {
@@ -183,5 +166,9 @@ public class Server extends Thread {
 
 	void setPlayerName(int player, String name) {
 		playerCustomizationController.playerChangeName(player, name);
+	}
+
+	public void kill() throws IOException {
+		serverSocket.close();
 	}
 }

@@ -205,6 +205,7 @@ public class BoardController {
         musicController.stopBGM();
         StartGameScreen startGameScreen = new StartGameScreen(stage);
         startGameScreen.start();
+        engine.killServer();
     }
     
     /**

@@ -1,87 +1,98 @@
 package Controller.Networking;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
-import Controller.DiceController;
-import Model.Player;
+public class Client extends Thread {
 
-public class Client extends Thread 
-{
-	   protected Socket socket;
-	   private final Server server;
-	   private int player;
-	   private OutputStream outputStream;
+    private final Socket clientSocket;
+    private final Server server;
+    private OutputStream outputStream;
+    private int player;
 
-	   public Client(Socket clientSocket, Server server, int player) {
-	        this.socket = clientSocket;
-	        System.out.println("creating socket");
-	        this.server = server;
-	        this.player = player;
-	   }
-	   public void run() {
-		   System.out.println("running");
-	        InputStream inp = null;
-	        BufferedReader brinp = null;
-	        DataOutputStream out = null;
-	        try {
-	            inp = socket.getInputStream();
-	            brinp = new BufferedReader(new InputStreamReader(inp));
-	            out = new DataOutputStream(socket.getOutputStream());
-	        } catch (IOException e) {
-	            return;
-	        }
-	        String line;
-	        while (true) {
-	            try {
-	            	System.out.println("client is runnign");
-	                line = brinp.readLine();
- 	                if (line.equals("roll")) {
-		            	System.out.println("number of player is " + server.getCurrentPlayer());
-		            	System.out.println("this player num is actually" + player);
-		            	// make sure other players can't roll when it is player's turn
-		            	if (server.getCurrentPlayer() == player) {
-		                	handleRoll();
-		            	}
- 	                } else if (line.equals("stop")) {
-		            	if (server.getCurrentPlayer() == player) {
-	                	handleStop();
-		            	}
-	                }
-	                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
-	                    socket.close();
-	                    System.out.println("closing");
-	                    return;
-	                } else {
-	                    System.out.println("enttered here");
-	                    out.writeBytes(line + "\n\r");
-	                    out.flush();
-	                }
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	                return;
-	            }
-	        }
+    Client(Server server, int player, Socket clientSocket) throws IOException {
+        this.player = player+1;
+        this.server = server;
+        this.clientSocket = clientSocket;
+        outputStream = clientSocket.getOutputStream();
+    }
 
-	   }
+    @Override
+    public void run() {
+        try {
+            handleClientSocket();
+        } catch (IOException e) {
+            try {
+                closeSocket();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void handleClientSocket() throws IOException {
+        InputStream inputStream = clientSocket.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String msg = "You are player " + player + "\n";
+        msg = msg + "Current players " + server.getNumClient() + "/" + server.getNumPlayer() + "\n";
+        send(msg);
+
+        String line;
+        while ( (line = reader.readLine()) != null ) {
+            String[] token = line.split(" ");
+            String cmd = token[0];
+            if ("quit".equalsIgnoreCase(cmd) || "exit".equals(cmd)) break;
+            else if ("roll".equalsIgnoreCase(cmd)) {
+                handleRoll();
+            } else if ("stop".equalsIgnoreCase(cmd)) {
+                handleStop();
+            } else if ("next".equalsIgnoreCase(cmd)) {
+                handleNextToken();
+            } else if ("change".equalsIgnoreCase(cmd)) {
+                handleNameChange(token);
+            }else if ("".equals(cmd)) {
+            } else {
+                msg = "Unknown command: " + cmd + "\n";
+                send(msg);
+            }
+        }
+        closeSocket();
+    }
+
+    private void handleNextToken() {
+        if (!server.playerCustomiseScreen) return;
+        server.nextToken(player);
+    }
 
     private void handleRoll() {
-        if (!server.diceScreen) return;
-        //if (server.getCurrentPlayer() != player - 1) return;
+        if (!server.diceScreen || server.getCurrentPlayer() != player-1) return;
         server.diceRoll();
     }
+
     private void handleStop() {
-        if (!server.diceScreen) return;
-       // if (server.getCurrentPlayer() != player - 1) return;
+        if (!server.diceScreen || server.getCurrentPlayer() != player-1) return;
         server.diceStop();
     }
+
+    private void handleNameChange(String[] token){
+        if (!server.playerCustomiseScreen) return;
+        StringBuilder sb = new StringBuilder();
+        for (int i=1;i < token.length;i++){
+            sb.append(token[i]);
+        }
+        server.setPlayerName(player, sb.toString());
+    }
+
     void send(String msg) throws IOException {
         outputStream.write(msg.getBytes());
     }
+
+    private void closeSocket() throws IOException {
+        server.removePlayer(this);
+        clientSocket.close();
+    }
+
+    int getPlayerNo(){ return player; }
 
 }
