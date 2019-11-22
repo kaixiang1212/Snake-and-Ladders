@@ -75,8 +75,7 @@ public class BoardController {
 
     /**
      * Configuration for Board Controller and configure Dice Controller
-     * @param engine Game Engine
-     * @param initialEntities
+     * @param initialEntities .
      */
 	public void config(List<Pair<Entity, ImageView>> initialEntities) {
 		this.initialEntities = new ArrayList<>(initialEntities);
@@ -184,6 +183,7 @@ public class BoardController {
     	MusicController.clear();
     	MusicController.stopBGM();
         StartGameScreen.start();
+		GameEngine.killServer();
     }
     
     /**

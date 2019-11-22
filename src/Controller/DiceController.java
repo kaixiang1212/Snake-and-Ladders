@@ -3,6 +3,7 @@ package Controller;
 import Model.GameEngine;
 import Model.Player;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -53,7 +54,6 @@ public class DiceController {
      * Configuration for Dice Controller
      * called by BoardController to communicate with board
      *
-     * @param engine Game Engine
      */
     void config(BoardController boardController) {
         this.boardController = boardController;
@@ -65,18 +65,19 @@ public class DiceController {
         isPaused = false;
         rollButton.setDefaultButton(true);
         new AnimationController(this, this.boardController);
+        GameEngine.getServer().setDiceController(this);
     }
     
     /**
      * Called when the 'roll' button is clicked
      */
     @FXML
-    private void rollButtonClicked() {
+    public void rollButtonClicked() {
     	MusicController.playRollDice();
         text.setText("");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
-        rollButton.setText("Stop");
+        Platform.runLater(() -> rollButton.setText("Stop"));
         rollButton.setOnAction(event -> stopButtonClicked());
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
     }
@@ -84,7 +85,6 @@ public class DiceController {
     /**
      * Called when the 'stop' button is clicked
      */
-    @FXML
 	public void stopButtonClicked() {
     	MusicController.clear();
     	AnimationController.setSpinning(false);
@@ -220,6 +220,9 @@ public class DiceController {
         }
         return -1;
     }
-    
-    
+
+    public int getCurrentPlayerNum(){
+        return GameEngine.getCurrentPlayerNum();
+    }
+
 }

@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -33,6 +34,9 @@ public class PlayerCustomizationController {
     private ArrayList<Integer> token;
     private ArrayList<Integer> availableToken;
 
+    private Server server;
+
+
     public PlayerCustomizationController(){
         token = new ArrayList<>();
         token.add(0,0);
@@ -41,6 +45,10 @@ public class PlayerCustomizationController {
         token.add(3,-1);
         availableToken = new ArrayList<>();
         MusicController.initUI();
+        server = new Server();
+        server.setCustomisableController(this);
+        server.start();
+        server.onPlayerSelection();
     }
 
     /**
@@ -53,6 +61,7 @@ public class PlayerCustomizationController {
             addPlayer();
             playerCount++;
         }
+        server.setPlayers(numPlayer);
     }
     
     public void setBoard(int b) { boardNum = b; }
@@ -71,7 +80,6 @@ public class PlayerCustomizationController {
         textField.setText("Player " + (playerCount+1));
         vBox.getChildren().add(textField);
         this.flowPane.getChildren().add(vBox);
-
         textField.setAlignment(Pos.CENTER);
         textField.setFont(new Font(16));
         vBox.setAlignment(Pos.CENTER);
@@ -160,15 +168,20 @@ public class PlayerCustomizationController {
     }
 
     @FXML
-    public void backButtonClicked(){ 	
+    public void backButtonClicked() throws IOException {
     	MusicController.playBack();
         PlayerNumSelectionScreen.start();
+        server.kill();
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
+
     	MusicController.playNext();  
         new GameEngine(boardNum);
+
+        GameEngine.setServer(server);
+
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
@@ -184,6 +197,22 @@ public class PlayerCustomizationController {
         
         new GameScreen();
         GameScreen.start();
+    }
+
+    public void playerChangeToken(int player) {
+        MusicController.clear();
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        ImageView img = (ImageView) vbox.getChildren().get(0);
+        MusicController.playSwitch();
+        int nextToken = nextToken();
+        img.setImage(getImage(nextToken));
+        setPlayerToken(player - 1, nextToken);
+    }
+
+    public void playerChangeName(int player, String playerName){
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        TextField nameField = (TextField) vbox.getChildren().get(1);
+        nameField.setText(playerName);
     }
 
 }

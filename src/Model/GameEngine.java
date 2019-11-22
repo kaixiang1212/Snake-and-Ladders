@@ -2,9 +2,12 @@ package Model;
 
 import Controller.MusicController;
 import Controller.AnimationController;
-
+import Controller.Networking.Server;
 import javafx.scene.image.ImageView;
+
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 
@@ -18,10 +21,8 @@ public class GameEngine {
     private static boolean finished;
     private static StringBuilder console;
     private static int board;
-	
-    /**
-     * Default constructor generates a 10x10 board with some snakes and ladders
-     */
+    private static Server server;
+
     public GameEngine(){
         players = new ArrayList<>();
         currentPlayer = null;
@@ -48,7 +49,7 @@ public class GameEngine {
 
     /**
      * This constructor is used to pass in a pre-made gameboard
-     * @param gameboard: pre-made gameboard
+     * @param board: pre-made gameboard
      */
     public GameEngine(Board board){
         players = new ArrayList<>();
@@ -324,4 +325,10 @@ public class GameEngine {
 	public static int getPickedUpItemExpiry() {
 		return pickedUpItemExpiry;
 	}
+
+	public static void setServer(Server Server) { server = Server; }
+
+	public static Server getServer(){ return server; }
+
+    public static void killServer() throws IOException { server.kill(); }
 }

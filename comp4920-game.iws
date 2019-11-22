@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef592113-7df6-4b68-961d-0d1222d775a9" name="Default Changelist" comment="" />
+    <list default="true" id="ef592113-7df6-4b68-961d-0d1222d775a9" name="Default Changelist" comment="Merge branch 'networking2'&#10;&#10;# Conflicts:&#10;#&#9;src/Controller/BoardController.java&#10;#&#9;src/Controller/DiceController.java&#10;#&#9;src/Controller/PlayerCustomizationController.java&#10;#&#9;src/Model/GameEngine.java">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Networking/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Networking/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Networking/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/run.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/server.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/maximum_player.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/player_selection.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web_server/templates/server_error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comp4920-game.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/comp4920-game.ipr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comp4920-game.iws" beforeDir="false" afterPath="$PROJECT_DIR$/comp4920-game.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4920-game/Controller/BoardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4920-game/Controller/BoardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4920-game/Controller/PlayerNumSelectionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4920-game/Controller/PlayerNumSelectionController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PlayerCustomizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PlayerCustomizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/GameEngine.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +38,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1SuC8Xzo7bPpaqoLXfDPzVwCbyI" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -70,7 +100,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
