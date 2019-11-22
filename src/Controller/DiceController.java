@@ -36,6 +36,7 @@ public class DiceController {
     private int diceResult;
     private boolean isPaused;
     private int spawnItemChance;		// Chance of an item spawning each turn in percentage
+    private boolean rolling;
 
     public DiceController() {
         this.diceFace = new Image[6];
@@ -45,6 +46,7 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
+        rolling = false;
         MusicController.initDice();
         new AnimationController(this, boardController);
         AnimationController.getAnimation().start();
@@ -73,7 +75,9 @@ public class DiceController {
      */
     @FXML
     public void rollButtonClicked() {
-    	MusicController.playRollDice();
+        if (rolling) return;
+        rolling = true;
+        MusicController.playRollDice();
         text.setText("");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
@@ -86,6 +90,8 @@ public class DiceController {
      * Called when the 'stop' button is clicked
      */
 	public void stopButtonClicked() {
+	    if (!rolling) return;
+	    rolling = false;
     	MusicController.clear();
     	AnimationController.setSpinning(false);
     	rollButton.setDisable(true);
