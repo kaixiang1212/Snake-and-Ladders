@@ -11,26 +11,28 @@ import javafx.scene.control.ToggleGroup;
 
 import java.io.IOException;
 
+import Model.Board.BoardType;
+
 public class BoardSelectionController {
 	
     @FXML
     private Label title;
     @FXML
-    private ToggleGroup playerNumber;
+    private ToggleGroup boardType;
     @FXML
-    private Toggle player1;
+    private Toggle board1;
     @FXML
-    private Toggle player2;
+    private Toggle board2;
     @FXML
-    private Toggle player3;
+    private Toggle board3;
     @FXML
-    private Toggle player4;
+    private Toggle board4;
     @FXML
     private Button backButton;
     @FXML
     private Button nextButton;
 
-    private Toggle playerSelected;
+    private Toggle boardSelected;
 
 
     public BoardSelectionController(){
@@ -40,30 +42,30 @@ public class BoardSelectionController {
     public void numberClicked(){
         MusicController.clear();
         nextButton.setDisable(false);
-        if (playerNumber.getSelectedToggle() == null){
+        if (boardType.getSelectedToggle() == null){
             nextButtonClicked();
             return;
         }
         MusicController.playSwitch();
-        playerSelected = playerNumber.getSelectedToggle();
+        boardSelected = boardType.getSelectedToggle();
     }
 
     @FXML
     private void nextButtonClicked(){
         MusicController.playNext();
-        int board = -1;
-        if (player1 == playerSelected){
-            board = 1;
-        } else if (player2 == playerSelected){
-            board = 2;
-        } else if (player3 == playerSelected){
-            board = 3;
-        } else if (player4 == playerSelected) {
-            board = 4;
+        BoardType type;
+        if (board1 == boardSelected){
+            type = BoardType.DEFAULT;
+        } else if (board2 == boardSelected){
+            type = BoardType.PLAIN;
+        } else if (board3 == boardSelected){
+            type = BoardType.SNAKELESS;
+        } else if (board4 == boardSelected) {
+            type = BoardType.LADDERLESS;
         } else {
             return;
         }
-        new PlayerNumSelectionScreen(board);
+        new PlayerNumSelectionScreen(type);
         PlayerNumSelectionScreen.start();
     }
 

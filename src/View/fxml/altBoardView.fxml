@@ -187,7 +187,7 @@
       <AnchorPane fx:id="menuPane" layoutX="150.0" layoutY="150.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="500.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
-            <Label fx:id="title" alignment="CENTER" layoutX="110.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">
+            <Label alignment="CENTER" layoutX="110.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">
                <font>
                   <Font name="Papyrus" size="50.0" />
                </font>

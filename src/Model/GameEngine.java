@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.MusicController;
+import Model.Board.BoardType;
 import Controller.AnimationController;
 
 import javafx.scene.image.ImageView;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 
 public class GameEngine {
+	
 	private static final int pickedUpItemExpiry = -1000;	// Special expiry counter number for picked up items to remove on pickup
     private static final int poisonChance = 90;				// Chance of being poisoned by a snake
 
@@ -18,7 +20,6 @@ public class GameEngine {
     private static Board gameboard;
     private static boolean finished;
     private static StringBuilder console;
-    private static int board;
     private static boolean reverse;
 	
     /**
@@ -28,7 +29,7 @@ public class GameEngine {
         players = new ArrayList<>();
         currentPlayer = null;
         currentPlayerNum = 0;
-        gameboard = new Board(10, 10);
+        gameboard = new Board(10, 10, BoardType.DEFAULT);
         finished = false;
         console = new StringBuilder();
         console.setLength(0);
@@ -36,16 +37,15 @@ public class GameEngine {
         reverse = false;
     }
 
-    public GameEngine(int boardNum){
+    public GameEngine(BoardType type){
     	players = new ArrayList<>();
         currentPlayer = null;
         currentPlayerNum = 0;
-        gameboard = new Board(10, 10);
+        gameboard = new Board(10, 10, type);
         finished = false;
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        board = boardNum;
         reverse = false;
     }
 
@@ -54,7 +54,8 @@ public class GameEngine {
      * @param gameboard: pre-made gameboard
      */
     public GameEngine(Board board){
-        players = new ArrayList<>();
+        if(players == null)
+        	players = new ArrayList<>();
         gameboard = board;
         finished = false;
         console = new StringBuilder();
@@ -62,7 +63,13 @@ public class GameEngine {
         MusicController.initGame();
         reverse = false;
     }
-
+    
+    public static void setPlayers(ArrayList<Player> players){
+    	GameEngine.players = players;
+        currentPlayerNum = 0;
+        currentPlayer = players.get(currentPlayerNum);
+    }
+    
     /**
      * Add a player into the game
      * @param player: A player object to be added into the game
@@ -72,10 +79,12 @@ public class GameEngine {
             currentPlayerNum = 0;
             currentPlayer = player;
         }
+        if(players == null)
+        	players = new ArrayList<Player>();
         players.add(player);
-        //updatePosition(player, gameboard.getMinPos());
-        updateState();
     }
+    
+
 
     /**
      * Get the number of players in the game
@@ -129,18 +138,10 @@ public class GameEngine {
 		return players;
 	}
 
-	public static void setBoard(Board board) {
-		gameboard = board;
-	}
-
 	public static Board getBoard() {
 		return gameboard;
 	}
-
-	public static int getBoardType() {
-		return board;
-	}
-
+	
 	/**
      * Set the next player in turn as current player, looping over the list of all players
      */

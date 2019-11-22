@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import Model.Board.BoardType;
 import View.*;
 
 import java.io.IOException;
@@ -161,7 +162,8 @@ public class BoardController {
 		MusicController.initBoard();
 		MusicController.playBGM();
 		
-
+		if(GameEngine.getBoard().getBoardType() == BoardType.SNAKELESS || GameEngine.getBoard().getBoardType() == BoardType.PLAIN)
+			return;
 		// Wriggle Green snake periodically
 		ImageView greenSnakeGif = getGif("gifSnake6");
 		ImageView greenSnakeImg = getImg("Snake6");
@@ -283,16 +285,19 @@ public class BoardController {
 	/**
 	 * Called when the exit button is clicked from the pause menu
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
     @FXML
-    private void handleExitButton() throws IOException {
+    private void handleExitButton() throws IOException, InterruptedException {
     	hideMenu();
     	MusicController.clear();
     	MusicController.stopBGM();
     	MusicController.playBack();
-    	timeTask.cancel();
-		timer.cancel();
-		timer.purge();
+    	if(timeTask != null && timer != null) {
+    		timeTask.cancel();
+    		timer.cancel();
+    		timer.purge();
+    	}
         StartGameScreen.start();
     }
     

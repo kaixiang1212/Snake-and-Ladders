@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 public class Entity {
 	
-	public enum Type {
+	public static enum Type {
 		  PLAYER,
 		  ITEM,
 		  LADDER,

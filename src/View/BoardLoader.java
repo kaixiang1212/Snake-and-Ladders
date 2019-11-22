@@ -1,6 +1,7 @@
 package View;
 
 import Model.*;
+import Model.Board.BoardType;
 import javafx.scene.image.ImageView;
 
 import java.io.FileNotFoundException;
@@ -40,12 +41,12 @@ public abstract class BoardLoader {
      * @return
      * @throws JSONException 
      */
-	public static void load() throws JSONException {
+	public static void load(BoardType type) throws JSONException {
 		int width = boardJson.getInt("width");
 		int height = boardJson.getInt("height");
-	        
-		Board gameboard = new Board(width, height);
-		GameEngine.setBoard(gameboard);
+	    
+		Board gameboard = new Board(width, height, type);
+		new GameEngine(gameboard);
 		
 		JSONArray jsonEntities = boardJson.getJSONArray("entities");
 		
