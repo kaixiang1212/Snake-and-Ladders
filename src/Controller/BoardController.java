@@ -313,22 +313,24 @@ public class BoardController {
     @FXML
     private void handleMusicButton() throws IOException {
     	MusicController.toggleMusic();
-    	MusicController.playSwitch();
     	if(MusicController.getMusicToggle()) {
     		musicButton.setText("Music: ON");
+    		MusicController.playSwitch();
     	} else {
     		musicButton.setText("Music: OFF");
+    		MusicController.playBack();
     	}
     }
     
     @FXML
     private void handleSoundFXButton() throws IOException {
     	MusicController.togglefx();
-    	MusicController.playSwitch();
     	if(MusicController.getFxToggle() == true) {
     		soundFXButton.setText("Sound FX: ON");
+    		MusicController.playSwitch();
     	} else {
     		soundFXButton.setText("Sound FX: OFF");
+    		MusicController.playBack();
     	}
     }
     

@@ -51,7 +51,8 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
-    private int spawnItemChance;		// Chance of an item spawning each turn in percentage
+    private static int spawnItemChance;		// Chance of an item spawning each turn in percentage
+    private static boolean powerupsEnabled = true;
     
     public DiceController() {
         this.diceFace = new Image[6];
@@ -258,7 +259,7 @@ public class DiceController {
         boardController.cleanExpiredItems();
         
         // Chance to randomly spawn an item
-    	if(Math.random() < (float)spawnItemChance/100f)
+    	if((Math.random() < (float)spawnItemChance/100f) && powerupsEnabled)
     		boardController.spawnItem();
         
     	GameEngine.updateState();
@@ -532,6 +533,14 @@ public class DiceController {
     	setInventory();
     	setActiveEffects();
     	draw(getDiceRolled(), GameEngine.getCurrentPlayer().getPoisonStatus());
+    }
+    
+    public static void setPowerupsEnabled(boolean powerups) {
+    	powerupsEnabled = powerups;
+    }
+    
+    public static boolean isPowerupsEnabled() {
+    	return powerupsEnabled;
     }
     
 }

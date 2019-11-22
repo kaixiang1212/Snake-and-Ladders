@@ -8,9 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 
 import java.io.IOException;
 
+import Model.GameEngine;
 import Model.Board.BoardType;
 
 public class PlayerNumSelectionController {
@@ -31,7 +33,11 @@ public class PlayerNumSelectionController {
     private Button backButton;
     @FXML
     private Button nextButton;
-
+    @FXML
+    private Button togglePowerups;
+    @FXML
+    private Button dynamicSnakes;
+    
     private Toggle playerSelected;
     private BoardType boardType;
     
@@ -52,6 +58,22 @@ public class PlayerNumSelectionController {
 
     public void config(BoardType type) {
     	boardType = type;
+    	if(DiceController.isPowerupsEnabled()) {
+    		togglePowerups.setText("Power-Ups: ON");
+    	} else {
+    		togglePowerups.setText("Power-Ups: OFF");
+    	}
+    	if(GameEngine.isDynamicSnakes()) {
+    		dynamicSnakes.setText("Dynamic Snakes: ON");
+    	} else {
+    		dynamicSnakes.setText("Dynamic Snakes: OFF");
+    	}
+    	Tooltip t = new Tooltip("Enable or disable power-ups appearing randomly in-game");
+    	t.setStyle("-fx-font-size: 16");
+    	Tooltip.install(togglePowerups, t);
+    	Tooltip t2 = new Tooltip("Enable or disable snake effects.\n(Poisonous snakes, shifting snakes, ...etc)");
+    	t2.setStyle("-fx-font-size: 16");
+    	Tooltip.install(dynamicSnakes, t2);
     }
 
     @FXML
@@ -79,6 +101,30 @@ public class PlayerNumSelectionController {
     private void backButtonClicked() throws IOException {
         MusicController.playBack();
         BoardSelectionScreen.start();
+    }
+    
+    @FXML
+    private void togglePowerupsClicked() {
+    	DiceController.setPowerupsEnabled(!DiceController.isPowerupsEnabled());
+    	if(DiceController.isPowerupsEnabled()) {
+    		togglePowerups.setText("Power-Ups: ON");
+    		MusicController.playSwitch();
+    	} else {
+    		togglePowerups.setText("Power-Ups: OFF");
+    		MusicController.playBack();
+    	}
+    }
+    
+    @FXML
+    private void dynamicSnakesClicked() {
+    	GameEngine.setDynamicSnakes(!GameEngine.isDynamicSnakes());
+    	if(GameEngine.isDynamicSnakes()) {
+    		dynamicSnakes.setText("Dynamic Snakes: ON");
+    		MusicController.playSwitch();
+    	} else {
+    		dynamicSnakes.setText("Dynamic Snakes: OFF");
+    		MusicController.playBack();
+    	}
     }
 
 }
