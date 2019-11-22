@@ -16,9 +16,10 @@ def game():
         elif "stop" in request.form:
             player.stop()
         elif "next" in request.form:
-            pass
+            player.next()
         elif "change" in request.form:
-            pass
+            new_name = request.form['new_name']
+            player.change(new_name)
     return render_template('index.html')
 
 
@@ -27,6 +28,8 @@ def login():
     if request.method == 'POST':
         user = add_player(request.form['player_name'])
         login_user(user)
+        player = current_user
+        player.change(request.form['player_name'])
         return redirect(url_for('game'))
     return render_template('login.html')
 
