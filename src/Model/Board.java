@@ -3,7 +3,15 @@ import java.util.*;
 
 import Model.Entity.Type;
 
+import javafx.util.Pair;
+
 public class Board {
+	public static enum BoardType {
+		DEFAULT,
+		PLAIN,
+		SNAKELESS,
+		LADDERLESS
+	}
 	
 	private final int WIDTH;
 	private final int HEIGHT;
@@ -13,6 +21,7 @@ public class Board {
 	private int[][] grid;		
 	private ArrayList<Entity> entities;
 	private ArrayList<Item> itemPool;	
+	private BoardType type;
 	
 	/**
 	 * Initialises a standard board with width*height dimensions
@@ -20,7 +29,7 @@ public class Board {
 	 * @param width
 	 * @param height
 	 */
-	public Board(int width, int height) {
+	public Board(int width, int height, BoardType type) {
 		HEIGHT = height;
 		WIDTH = width;
 		initBoard();
@@ -28,6 +37,7 @@ public class Board {
 		MAXPOS = _getMaxPos();
 		entities = new ArrayList<Entity>();
 		itemPool = new ArrayList<Item>();
+		this.type = type;
 	}
 	
 	/**
@@ -73,13 +83,13 @@ public class Board {
 	 * @param position on board
 	 * @return x-y coordinates
 	 */
-	public Coords getCoords(int pos) {
-		for (int i = 0 ; i < WIDTH; i++) {
-		    for(int j = 0 ; j < HEIGHT ; j++)
+	public Pair<Integer, Integer> getCoords(int pos) {
+		for (int x = 0 ; x < WIDTH; x++) {
+		    for(int y = 0 ; y < HEIGHT ; y++)
 		    {
-		         if ( grid[i][j] == pos)
+		         if ( grid[x][y] == pos)
 		         {
-		        	 return new Coords(i,j); 
+		        	 return new Pair<Integer, Integer>(x,y); 
 		         }
 		    }
 		}
@@ -242,6 +252,10 @@ public class Board {
 	
 	public void removeItems(ArrayList<Item> items) {
 		entities.removeAll(items);
+	}
+	
+	public BoardType getBoardType() {
+		return type;
 	}
 	
 }

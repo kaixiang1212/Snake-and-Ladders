@@ -1,6 +1,7 @@
 package View;
 
 import Model.*;
+import Model.Board.BoardType;
 import javafx.scene.image.ImageView;
 
 import java.io.FileNotFoundException;
@@ -23,12 +24,16 @@ import org.json.JSONTokener;
 
 public abstract class BoardLoader {
 	
-	private static JSONObject json;
+	private static JSONObject boardJson;
+	private static JSONObject itemsJson;
 
     public BoardLoader(String filename) throws FileNotFoundException, JSONException {
     	String path = getClass().getClassLoader().getResource("boards/" + filename).getPath().replaceAll("%20", " ");
     	assert(!path.isEmpty());
-        json = new JSONObject(new JSONTokener(new FileReader(path)));
+        boardJson = new JSONObject(new JSONTokener(new FileReader(path)));
+        path = getClass().getClassLoader().getResource("boards/items.json").getPath().replaceAll("%20", " ");
+        assert(!path.isEmpty());
+        itemsJson = new JSONObject(new JSONTokener(new FileReader(path)));
     }
 
     /**
@@ -36,14 +41,14 @@ public abstract class BoardLoader {
      * @return
      * @throws JSONException 
      */
-	public static void load() throws JSONException {
-		int width = json.getInt("width");
-		int height = json.getInt("height");
-	        
-		Board gameboard = new Board(width, height);
-		GameEngine.setBoard(gameboard);
+	public static void load(BoardType type) throws JSONException {
+		int width = boardJson.getInt("width");
+		int height = boardJson.getInt("height");
+	    
+		Board gameboard = new Board(width, height, type);
+		new GameEngine(gameboard);
 		
-		JSONArray jsonEntities = json.getJSONArray("entities");
+		JSONArray jsonEntities = boardJson.getJSONArray("entities");
 		
 		for (int i = 0; i < jsonEntities.length(); i++) {
 			loadEntity(jsonEntities.getJSONObject(i));
@@ -54,20 +59,20 @@ public abstract class BoardLoader {
 			onLoad(player);
 		}
 		
-		JSONArray itemPool = json.getJSONArray("items");
+		JSONArray itemPool = itemsJson.getJSONArray("items");
 		for(int i = 0; i < itemPool.length(); i++) {
 			LoadItem(itemPool.getJSONObject(i), gameboard);
 		}
 	}
 
-
     protected static void LoadItem(JSONObject jsonItem, Board gameboard) throws JSONException {
     	String type = jsonItem.getString("type");
     	String name = jsonItem.getString("name");
     	String description = jsonItem.getString("description");
+    	Item.setDescription(Item.ItemType.valueOf(type).ordinal(), description);
     	int frequency = jsonItem.getInt("frequency");
     	int expiry = jsonItem.getInt("expiry");
-    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, description, frequency, expiry);
+    	Item item = new Item(-1, -1, Item.ItemType.valueOf(type), name, frequency, expiry);
     	gameboard.includeItem(item);
     }
 
@@ -87,28 +92,12 @@ public abstract class BoardLoader {
             	GameEngine.addPlayer(player);
             }
             break;
-        // All Snake Entities:
         case "snake":
-            Snake snake = new Snake(x, y, x2, y2, type);
+            Snake snake = new Snake(x, y, x2, y2, id);
             onLoad(snake);
             if (snake != null) {
             	GameEngine.getBoard().addEntity(snake);
             }
-            break;
-        case "bluesnake":
-            Snake bsnake = new Snake(x, y, x2, y2, type);
-            onLoad(bsnake);
-            if (bsnake != null) {
-            	GameEngine.getBoard().addEntity(bsnake);
-            }
-            break;
-        case "pinksnake":
-            Snake psnake = new Snake(x, y, x2, y2, type);
-            onLoad(psnake);
-            if (psnake != null) {
-            	GameEngine.getBoard().addEntity(psnake);
-            }
-            break;
         case "ladder":
         	Ladder ladder = new Ladder(x, y, x2, y2, id);
         	onLoad(ladder);

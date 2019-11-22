@@ -11,6 +11,8 @@ import javafx.scene.control.ToggleGroup;
 
 import java.io.IOException;
 
+import Model.Board.BoardType;
+
 public class PlayerNumSelectionController {
 
     @FXML
@@ -31,7 +33,7 @@ public class PlayerNumSelectionController {
     private Button nextButton;
 
     private Toggle playerSelected;
-    private int boardNum;
+    private BoardType boardType;
     
     public PlayerNumSelectionController(){
     	MusicController.initUI();
@@ -48,8 +50,8 @@ public class PlayerNumSelectionController {
         playerSelected = playerNumber.getSelectedToggle();
     }
 
-    public void setBoard(int board) {
-    	this.boardNum = board;
+    public void config(BoardType type) {
+    	boardType = type;
     }
 
     @FXML
@@ -68,7 +70,7 @@ public class PlayerNumSelectionController {
             return;
         }
 
-        new PlayerCustomizationScreen(player, boardNum);
+        new PlayerCustomizationScreen(player, boardType);
         PlayerCustomizationScreen.start();
 
     }

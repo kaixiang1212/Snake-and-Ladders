@@ -34,15 +34,15 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="175.0" prefWidth="800.0">
                <children>
-                  <ToggleButton fx:id="player1" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Default">
+                  <ToggleButton fx:id="board1" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Default">
                      <font>
                         <Font name="Papyrus" size="30.0" />
                      </font>
                      <toggleGroup>
-                        <ToggleGroup fx:id="playerNumber" />
+                        <ToggleGroup fx:id="boardType" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="player2" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Simple" toggleGroup="$playerNumber">
+                  <ToggleButton fx:id="board2" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Simple" toggleGroup="$boardType">
                      <font>
                         <Font name="Papyrus" size="30.0" />
                      </font>
@@ -51,12 +51,12 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="175.0" prefWidth="800.0">
                <children>
-                  <ToggleButton fx:id="player3" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Ladders Only" toggleGroup="$playerNumber">
+                  <ToggleButton fx:id="board3" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Ladders Only" toggleGroup="$boardType">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="player4" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Snakes Only" toggleGroup="$playerNumber">
+                  <ToggleButton fx:id="board4" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="Snakes Only" toggleGroup="$boardType">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>

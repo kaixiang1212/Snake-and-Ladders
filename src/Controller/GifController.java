@@ -34,11 +34,16 @@ public class GifController {
 		boardcontroller.stopShakeLadder(ladderGif, ladderImg);
 	}
 	
+	
 	/**
 	 * This function will take in the snakeId of the snake Entity in the current coordinate, and activate the corresponding gif of the stated Snake.
 	 * @param snakeId
 	 */
-	public static void wriggleSnake(String snakeId) {
-		
+	public static void wriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardcontroller.wriggleSnake(snakeGif, snakeImg);
+	}
+	
+	public static void stopwriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardcontroller.stopwriggleSnake(snakeGif, snakeImg);
 	}
 }

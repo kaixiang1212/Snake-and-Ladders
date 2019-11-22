@@ -1,0 +1,92 @@
+{"players": [
+  {
+    "totalFinishTile": 0,
+    "itemsUsed": 0,
+    "playerName": "Abdullah",
+    "gamesPlayed": 0,
+    "itemsCollected": 0,
+    "totalDiceResults": 0,
+    "numDiceRolled": 0,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 132,
+    "itemsUsed": 5,
+    "playerName": "Mario",
+    "gamesPlayed": 2,
+    "itemsCollected": 7,
+    "totalDiceResults": 100,
+    "numDiceRolled": 33,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 200,
+    "itemsUsed": 4,
+    "playerName": "DK",
+    "gamesPlayed": 2,
+    "itemsCollected": 5,
+    "totalDiceResults": 103,
+    "numDiceRolled": 31,
+    "gamesWon": 2
+  },
+  {
+    "totalFinishTile": 161,
+    "itemsUsed": 6,
+    "playerName": "Goomba",
+    "gamesPlayed": 2,
+    "itemsCollected": 8,
+    "totalDiceResults": 100,
+    "numDiceRolled": 32,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 155,
+    "itemsUsed": 1,
+    "playerName": "Pikachu",
+    "gamesPlayed": 2,
+    "itemsCollected": 3,
+    "totalDiceResults": 119,
+    "numDiceRolled": 35,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 200,
+    "itemsUsed": 2,
+    "playerName": "Pac-Man",
+    "gamesPlayed": 2,
+    "itemsCollected": 4,
+    "totalDiceResults": 203,
+    "numDiceRolled": 58,
+    "gamesWon": 2
+  },
+  {
+    "totalFinishTile": 178,
+    "itemsUsed": 12,
+    "playerName": "Inky",
+    "gamesPlayed": 2,
+    "itemsCollected": 14,
+    "totalDiceResults": 166,
+    "numDiceRolled": 54,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 99,
+    "itemsUsed": 8,
+    "playerName": "Angry Bird",
+    "gamesPlayed": 2,
+    "itemsCollected": 10,
+    "totalDiceResults": 214,
+    "numDiceRolled": 60,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 81,
+    "itemsUsed": 5,
+    "playerName": "Bomberman",
+    "gamesPlayed": 2,
+    "itemsCollected": 6,
+    "totalDiceResults": 165,
+    "numDiceRolled": 52,
+    "gamesWon": 0
+  }
+]}
