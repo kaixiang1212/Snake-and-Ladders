@@ -169,6 +169,6 @@ public class Server extends Thread {
 	}
 
 	public void kill() throws IOException {
-		serverSocket.close();
+		if (serverSocket != null) serverSocket.close();
 	}
 }

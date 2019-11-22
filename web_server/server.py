@@ -14,14 +14,14 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 players = []
-id = 0
+_id = 0
 
 
 def add_player(name):
-    global id
-    player = client(id, name)
+    global _id
+    player = client(_id, name)
     players.append(player)
-    id += 1
+    _id += 1
     player.send("\n")
     return player
 

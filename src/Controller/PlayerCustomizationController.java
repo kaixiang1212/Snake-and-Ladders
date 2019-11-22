@@ -210,6 +210,7 @@ public class PlayerCustomizationController {
         musicController.clear();
         VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
         ImageView img = (ImageView) vbox.getChildren().get(0);
+        musicController.playSwitch();
         int nextToken = nextToken();
         img.setImage(getImage(nextToken));
         setPlayerToken(player - 1, nextToken);
