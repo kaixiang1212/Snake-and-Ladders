@@ -1,5 +1,7 @@
 package Controller.Networking;
 
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -9,6 +11,7 @@ public class Client extends Thread {
     private final Server server;
     private OutputStream outputStream;
     private int player;
+    private boolean ready;
 
     Client(Server server, int player, Socket clientSocket) throws IOException {
         this.player = player+1;
@@ -51,7 +54,9 @@ public class Client extends Thread {
                 handleNextToken();
             } else if ("change".equalsIgnoreCase(cmd)) {
                 handleNameChange(token);
-            }else if ("".equals(cmd)) {
+            } else if ("ready".equalsIgnoreCase(cmd)){
+                handleReady();
+            } else if ("".equals(cmd)) {
             } else {
                 msg = "Unknown command: " + cmd + "\n";
                 send(msg);
@@ -79,9 +84,15 @@ public class Client extends Thread {
         if (!server.playerCustomiseScreen) return;
         StringBuilder sb = new StringBuilder();
         for (int i=1;i < token.length;i++){
+            if (i != 1) sb.append(" ");
             sb.append(token[i]);
         }
         server.setPlayerName(player, sb.toString());
+    }
+
+    private void handleReady(){
+        this.ready = true;
+        Platform.runLater(server::updateState);
     }
 
     void send(String msg) throws IOException {
@@ -94,5 +105,9 @@ public class Client extends Thread {
     }
 
     int getPlayerNo(){ return player; }
+
+    boolean ready(){
+        return this.ready;
+    }
 
 }

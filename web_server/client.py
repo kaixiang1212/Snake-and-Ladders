@@ -35,6 +35,7 @@ class client:
         self.server.send(bytes(string, 'utf-8'))
 
     def ready(self):
+        self.send("ready\n")
         self._ready = True
 
     @property

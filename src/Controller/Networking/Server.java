@@ -2,6 +2,7 @@ package Controller.Networking;
 
 import Controller.DiceController;
 import Controller.PlayerCustomizationController;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -171,4 +172,14 @@ public class Server extends Thread {
 	public void kill() throws IOException {
 		if (serverSocket != null) serverSocket.close();
 	}
+
+    void updateState() {
+        for (Client client : clientList){
+            if (!client.ready()) return;
+        }
+        try {
+            playerCustomizationController.createGameButtonClicked();
+        } catch (Exception ignored){
+        }
+    }
 }
