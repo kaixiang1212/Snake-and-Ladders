@@ -116,6 +116,7 @@ public class DiceController {
         Tooltip t = new Tooltip("Click to stop");
         t.setStyle("-fx-font-size: 16");
         Tooltip.install(diceImage, t);
+        GameEngine.getCurrentPlayer().getStats().incrementNumDiceRolled(1);
     }
     
     /**
@@ -132,7 +133,8 @@ public class DiceController {
 
 
         Player currentPlayer = GameEngine.getCurrentPlayer();
-        diceResult = getDiceRolled(); 
+        diceResult = getDiceRolled();
+        currentPlayer.getStats().incrementTotalDiceResults(diceResult);
         if(currentPlayer.isDoubleRoll()) {
         	diceResult *= 2;
         }
@@ -196,6 +198,19 @@ public class DiceController {
     	if (GameEngine.isFinished()) {
             sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText((sb.toString()));
+            GameEngine.getCurrentPlayer().getStats().incrementGamesWon(1);
+            for(Player player : GameEngine.getPlayers()) {
+            	player.getStats().incrementGamesPlayed(1);
+            	int playerPos = GameEngine.getBoard().getPosition(player.getX(), player.getY());
+            	player.getStats().incrementTotalFinishTile(playerPos);
+            	try {
+					player.getStats().exportStats();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            	player.getStats().printStats();
+				System.out.println(",");
+            }
             return;
         }
     	

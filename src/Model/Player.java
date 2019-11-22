@@ -1,6 +1,9 @@
 package Model;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import org.json.JSONException;
 
 import Controller.MusicController;
 import javafx.scene.image.Image;
@@ -14,6 +17,7 @@ public class Player extends Entity {
     private int turnsShielded;
     private int turnsImmune;
     private ArrayList<Item> items;
+    private Stats stats;
 
     // Player effects
     private boolean isPoisoned;
@@ -40,6 +44,13 @@ public class Player extends Entity {
         rollBack = false;
         doubleRoll = false;
         snakeImmunity = false;
+        try {
+			stats = new Stats(playerName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -106,15 +117,18 @@ public class Player extends Entity {
 
     public void pickupItem(Item item) {
     	items.add(item);
+    	stats.incrementItemsCollected(1);
     }
 
     public void useItem(Item item) {
     	items.remove(item);
+    	stats.incrementItemsUsed(1);
         MusicController.playItemActivate();
     }
 
     public void useItem(int index) {
     	items.remove(index);
+    	stats.incrementItemsUsed(1);
         MusicController.playItemActivate();
     }
 
@@ -222,6 +236,10 @@ public class Player extends Entity {
 
 	public int getTurnsImmune() {
 		return turnsImmune;
+	}
+	
+	public Stats getStats() {
+		return stats;
 	}
 
 }
