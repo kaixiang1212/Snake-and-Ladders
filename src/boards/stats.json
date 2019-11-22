@@ -48,5 +48,45 @@
     "totalDiceResults": 119,
     "numDiceRolled": 35,
     "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 200,
+    "itemsUsed": 2,
+    "playerName": "Pac-Man",
+    "gamesPlayed": 2,
+    "itemsCollected": 4,
+    "totalDiceResults": 203,
+    "numDiceRolled": 58,
+    "gamesWon": 2
+  },
+  {
+    "totalFinishTile": 178,
+    "itemsUsed": 12,
+    "playerName": "Inky",
+    "gamesPlayed": 2,
+    "itemsCollected": 14,
+    "totalDiceResults": 166,
+    "numDiceRolled": 54,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 99,
+    "itemsUsed": 8,
+    "playerName": "Angry Bird",
+    "gamesPlayed": 2,
+    "itemsCollected": 10,
+    "totalDiceResults": 214,
+    "numDiceRolled": 60,
+    "gamesWon": 0
+  },
+  {
+    "totalFinishTile": 81,
+    "itemsUsed": 5,
+    "playerName": "Bomberman",
+    "gamesPlayed": 2,
+    "itemsCollected": 6,
+    "totalDiceResults": 165,
+    "numDiceRolled": 52,
+    "gamesWon": 0
   }
 ]}

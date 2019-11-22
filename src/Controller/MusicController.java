@@ -149,6 +149,7 @@ public class MusicController {
             itemDisappearPlayer.stop();
             itemPickupPlayer.stop();
             itemActivatePlayer.stop();
+            victoryPlayer.stop();
         }
     }
 
@@ -233,6 +234,7 @@ public class MusicController {
     public static void playItemActivate() {
     	if (!initGame) return;
         itemActivatePlayer.setVolume(0.7);
+        clear();
         if(soundFxOn)
         	itemActivatePlayer.play();
     }

@@ -220,7 +220,7 @@ public class GameEngine {
 	 */
 	public static boolean isFinished() {
 		updateState();
-		if (finished) MusicController.playVictory();
+		//if (finished) 
 		return finished;
 	}
 

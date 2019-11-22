@@ -185,7 +185,7 @@ public class DiceController {
     public void inventoryButtonClicked() {
     	MusicController.playSwitch();
     }
-    
+
     
     /**
      * Called in-between player turns to prepare for the next player roll
@@ -196,6 +196,7 @@ public class DiceController {
     	GameEngine.updateState();
     	StringBuilder sb = new StringBuilder();
     	if (GameEngine.isFinished()) {
+    		MusicController.playVictory();
             sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
             message.setText((sb.toString()));
             GameEngine.getCurrentPlayer().getStats().incrementGamesWon(1);
