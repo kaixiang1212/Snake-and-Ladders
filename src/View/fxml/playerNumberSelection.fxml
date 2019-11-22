@@ -13,8 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerNumSelectionController">
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerNumSelectionController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="804.0" stroke="BLACK" strokeType="INSIDE" width="805.0" />
       <ImageView fitHeight="1228.0" fitWidth="1167.0" layoutX="27.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" rotate="-29.1" x="-70.0" y="-140.0">
@@ -24,7 +23,7 @@
       </ImageView>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0">
          <children>
-            <Label fx:id="title" alignment="CENTER" prefHeight="80.0" prefWidth="280.0" text="Players" textFill="#8d6b23">
+            <Label fx:id="title" alignment="CENTER" prefHeight="80.0" prefWidth="280.0" text="Players" textFill="#8d6b23" translateY="-10.0">
                <font>
                   <Font name="Papyrus" size="50.0" />
                </font>
@@ -32,7 +31,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <HBox alignment="CENTER" prefHeight="329.0" prefWidth="800.0">
+            <HBox alignment="CENTER" prefHeight="239.0" prefWidth="800.0">
                <children>
                   <ToggleButton fx:id="player1" mnemonicParsing="false" onAction="#numberClicked" prefHeight="175.0" prefWidth="175.0" text="1">
                      <font>
@@ -59,14 +58,34 @@
                   </ToggleButton>
                </children>
             </HBox>
-            <Pane maxHeight="268.0" minHeight="0.0" prefHeight="167.0" prefWidth="800.0">
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0">
                <children>
-                  <Button fx:id="backButton" layoutX="160.0" layoutY="135.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
+                  <Button fx:id="dynamicSnakes" mnemonicParsing="false" onAction="#dynamicSnakesClicked" prefHeight="70.0" prefWidth="265.0" text="Dynamic Snakes: ON">
+                     <font>
+                        <Font name="Papyrus" size="22.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="togglePowerups" mnemonicParsing="false" onAction="#togglePowerupsClicked" prefHeight="70.0" prefWidth="265.0" text="Power-Ups: ON">
+                     <font>
+                        <Font name="Papyrus" size="22.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane maxHeight="268.0" minHeight="0.0" prefHeight="167.0" prefWidth="800.0" translateY="145.0">
+               <children>
+                  <Button fx:id="backButton" layoutX="160.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
                      <font>
                         <Font name="Papyrus" size="22.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nextButton" disable="true" layoutX="520.0" layoutY="135.0" mnemonicParsing="false" onAction="#nextButtonClicked" prefHeight="70.0" prefWidth="140.0" text="Next &gt;">
+                  <Button fx:id="nextButton" disable="true" layoutX="520.0" mnemonicParsing="false" onAction="#nextButtonClicked" prefHeight="70.0" prefWidth="140.0" text="Next &gt;">
                      <font>
                         <Font name="Papyrus" size="22.0" />
                      </font>

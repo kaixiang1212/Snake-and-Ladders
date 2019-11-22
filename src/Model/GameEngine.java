@@ -25,6 +25,7 @@ public class GameEngine {
     private static StringBuilder console;
     private static Server server;
     private static boolean reverse;
+    private static boolean dynamicSnakes = true;
 
     /**
      * Default constructor generates a 10x10 board with some snakes and ladders
@@ -270,7 +271,7 @@ public class GameEngine {
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
 
-				if(Math.random() < ((float) poisonChance/100f) )
+				if((Math.random() < ((float) poisonChance/100f)) && dynamicSnakes)
 					currPlayer.setPoison(3);
 
 				updateState();
@@ -418,5 +419,13 @@ public class GameEngine {
 		for(Item item : gameboard.getSpawnedItems()) {
 			item.decrementExpiry();
 		}
+	}
+
+	public static void setDynamicSnakes(boolean dynamicSnakes) {
+		GameEngine.dynamicSnakes = dynamicSnakes;
+	}
+
+	public static boolean isDynamicSnakes() {
+		return dynamicSnakes;
 	}
 }
