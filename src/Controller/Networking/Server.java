@@ -2,7 +2,6 @@ package Controller.Networking;
 
 import Controller.DiceController;
 import Controller.PlayerCustomizationController;
-import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -157,14 +156,6 @@ public class Server extends Thread {
 		return;
 	}
 
-	public void onGameStart() {
-		return;
-	}
-
-	public void onPlayerChange(int player) {
-		return;
-	}
-
 	void setPlayerName(int player, String name) {
 		playerCustomizationController.playerChangeName(player, name);
 	}
@@ -174,6 +165,7 @@ public class Server extends Thread {
 	}
 
     void updateState() {
+		if (clientList.size() != numPlayer) return;
         for (Client client : clientList){
             if (!client.ready()) return;
         }
