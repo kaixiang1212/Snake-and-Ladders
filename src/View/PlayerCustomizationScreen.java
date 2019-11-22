@@ -26,10 +26,11 @@ public class PlayerCustomizationScreen {
         	Parent root = fxmlLoader.load();
         	PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
             playerCustomizationController.setPlayers(numPlayer);
-            playerCustomizationController.setBoard(boardNum); 
+            playerCustomizationController.setBoard(boardNum);
             Stage stage = StartGameScreen.getStage();
             stage.setTitle(screenTitle);
             Scene sc = new Scene(root);
+            playerCustomizationController.setStage(stage);
             stage.setScene(sc);
             stage.show();
             sc.getRoot().requestFocus();

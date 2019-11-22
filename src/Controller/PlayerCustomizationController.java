@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import org.json.JSONException;
 
 import Model.GameEngine;
@@ -49,6 +50,7 @@ public class PlayerCustomizationController {
         server.setCustomisableController(this);
         server.start();
         server.onPlayerSelection();
+
     }
 
     /**
@@ -215,4 +217,13 @@ public class PlayerCustomizationController {
         nameField.setText(playerName);
     }
 
+    public void setStage(Stage stage) {
+        stage.setOnCloseRequest(windowEvent -> {
+            try {
+                server.kill();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
