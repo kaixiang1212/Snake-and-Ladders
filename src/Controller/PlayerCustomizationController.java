@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
+import View.StartGameScreen;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -217,8 +218,8 @@ public class PlayerCustomizationController {
         nameField.setText(playerName);
     }
 
-    public void setStage(Stage stage) {
-        stage.setOnCloseRequest(windowEvent -> {
+    public void setStage() {
+        StartGameScreen.getStage().setOnCloseRequest(windowEvent -> {
             try {
                 server.kill();
             } catch (IOException e) {
