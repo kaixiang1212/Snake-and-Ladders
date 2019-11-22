@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Snakes and Ladders</title>
+  <meta charset="UTF-8">
+  <title>Snakes and Ladders</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-Snakes and Ladders
-<form method="post" id="form1">
-  <button type="text" name="next">Next</button>
-</form>
-<form method="post" id="form2">
-    <input type="text" name="new_name">
-    <button type="input" name="change">Change Name</button>
-</form>
-<form method="post" id="form3">
-  <button type="text" name="ready">Ready</button>
-</form>
+  <div class="container text-center" style="min-width: 410px">
+    <h1>Snakes and Ladders</h1>
+    <div class="container form-group text-center" style="min-width: 150px; max-width: 180px">
+      <form method="post" id="form1">
+        <button name="next" class="btn btn-primary btn-block">Next Token</button>
+      </form><p></p>
+      <form method="post" id="form2">
+        <input type="text" name="new_name" placeholder="Player Name" style="max-width: 150px; min-height: 38px"><p></p>
+        <button name="change" class="btn btn-primary btn-block">Change Name</button>
+      </form><p></p>
+      <form method="post" id="form3">
+        <button name="ready" class="btn btn-success btn-block">Ready</button>
+      </form><p></p>
+    </div>
+  </div>
 </body>
 </html>
