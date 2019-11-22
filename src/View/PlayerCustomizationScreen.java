@@ -30,7 +30,6 @@ public class PlayerCustomizationScreen {
             Stage stage = StartGameScreen.getStage();
             stage.setTitle(screenTitle);
             Scene sc = new Scene(root);
-            playerCustomizationController.setStage(stage);
             stage.setScene(sc);
             stage.show();
             sc.getRoot().requestFocus();
