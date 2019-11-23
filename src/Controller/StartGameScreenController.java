@@ -42,7 +42,8 @@ public class StartGameScreenController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Platform.exit();
+		//Platform.exit();
+		System.exit(0);
 	}
 	
 	@FXML

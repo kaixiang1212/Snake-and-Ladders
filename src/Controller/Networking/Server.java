@@ -26,7 +26,8 @@ public class Server extends Thread {
 	private DiceController diceController;
 	boolean diceScreen;
 	private ServerSocket serverSocket;
-
+	private volatile boolean running;
+	
 	public Server() {
 		diceScreen = false;
 		playerCustomiseScreen = false;
@@ -73,11 +74,11 @@ public class Server extends Thread {
 
 	@Override
 	public void run() {
-
+		running = true;
 		int port = 8000;
 		try {
 			serverSocket = new ServerSocket(port);
-			while (true) {
+			while (running) {
                 Socket clientSocket = serverSocket.accept();
 
 			    PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -170,7 +171,14 @@ public class Server extends Thread {
 	}
 
 	public void kill() throws IOException {
+		ArrayList<Client> toRemove = new ArrayList<Client>();
+		toRemove.addAll(clientList);
+		for(Client client : toRemove) {
+			client.closeSocket();
+			client.end();
+		}
 		if (serverSocket != null) serverSocket.close();
+		running = false;
 	}
 
     void updateState() {

@@ -12,6 +12,7 @@ public class Client extends Thread {
     private OutputStream outputStream;
     private int player;
     private boolean ready;
+    private volatile boolean running;
 
     Client(Server server, int player, Socket clientSocket) throws IOException {
         this.player = player+1;
@@ -22,6 +23,7 @@ public class Client extends Thread {
 
     @Override
     public void run() {
+    	running = true;
         try {
             handleClientSocket();
         } catch (IOException e) {
@@ -42,7 +44,7 @@ public class Client extends Thread {
         send(msg);
 
         String line;
-        while ( (line = reader.readLine()) != null ) {
+        while ( (line = reader.readLine()) != null && running) {
             String[] token = line.split(" ");
             String cmd = token[0];
             if ("quit".equalsIgnoreCase(cmd) || "exit".equals(cmd)) break;
@@ -99,7 +101,7 @@ public class Client extends Thread {
         outputStream.write(msg.getBytes());
     }
 
-    private void closeSocket() throws IOException {
+    public void closeSocket() throws IOException {
         server.removePlayer(this);
         clientSocket.close();
     }
@@ -108,6 +110,10 @@ public class Client extends Thread {
 
     boolean ready(){
         return this.ready;
+    }
+    
+    public void end() {
+    	running = false;
     }
 
 }
