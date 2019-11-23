@@ -117,6 +117,8 @@ public class AnimationController {
     	isSpinning = value;
     }
 
+    public static boolean isSpinning(){ return isSpinning; }
+
     /**
      * Sets whether current player should be moving or not currently
      * @param value: true if current player should currently be moving
@@ -126,6 +128,8 @@ public class AnimationController {
     	frame = 0;
     	isPlayerMoving = value;
     }
+
+    public static boolean isPlayerMoving(){ return isPlayerMoving; }
     
 	public static ImageView getGifView (String id) {
 		// Call function from boardcontroller that returns the corresponding id String.

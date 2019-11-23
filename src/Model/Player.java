@@ -34,7 +34,7 @@ public class Player extends Entity {
         this.token = token;
         image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
 		image.setId("player" + token);
-        items = new ArrayList<Item>();
+        items = new ArrayList<>();
         this.turnsPoisoned = 0;
         this.isPoisoned = false;
         turnsShielded = 0;

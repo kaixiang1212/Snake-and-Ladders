@@ -14,6 +14,7 @@ import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -341,7 +342,7 @@ public class BoardController {
     	menuPane.setManaged(true);
         menuPane.setVisible(true);
         MusicController.pauseBGM();
-        if(MusicController.getFxToggle() == true) {
+        if(MusicController.getFxToggle()) {
     		soundFXButton.setText("Sound FX: ON");
     	} else {
     		soundFXButton.setText("Sound FX: OFF");
@@ -435,5 +436,39 @@ public class BoardController {
         GameEngine.getBoard().removeItems(pickedup);
         diceController.setInventory();
     }
+
+    public void handleKeyPressed(KeyCode code){
+    	switch (code) {
+			case SPACE:
+			case ENTER:
+				if (AnimationController.isSpinning()) diceController.stopButtonClicked();
+				else diceController.rollButtonClicked();
+				break;
+			case DIGIT1:
+			case NUMPAD1:
+				diceController.useItem(1);
+				break;
+			case DIGIT2:
+			case NUMPAD2:
+				diceController.useItem(2);
+				break;
+			case DIGIT3:
+			case NUMPAD3:
+				diceController.useItem(3);
+				break;
+			case DIGIT4:
+			case NUMPAD4:
+				diceController.useItem(4);
+				break;
+			case DIGIT5:
+			case NUMPAD5:
+				diceController.useItem(5);
+				break;
+			case DIGIT6:
+			case NUMPAD6:
+				diceController.useItem(6);
+				break;
+		}
+	}
 
 }

@@ -38,6 +38,12 @@ class client:
         self.send("ready\n")
         self._ready = True
 
+    def use_item(self, i: int):
+        self.send("item "+str(i)+"\n")
+
+    def get_name(self):
+        return self.name
+
     @property
     def username(self):
         return self.username

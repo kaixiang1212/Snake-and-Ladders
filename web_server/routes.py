@@ -12,15 +12,27 @@ def game():
         return redirect(url_for('player_selection'))
     if request.method == 'POST':
         player = current_user
-        try :
+        try:
             if "roll" in request.form:
                 player.roll()
             elif "stop" in request.form:
                 player.stop()
+            elif "item1" in request.form:
+                player.use_item(1)
+            elif "item2" in request.form:
+                player.use_item(2)
+            elif "item3" in request.form:
+                player.use_item(3)
+            elif "item4" in request.form:
+                player.use_item(4)
+            elif "item5" in request.form:
+                player.use_item(5)
+            elif "item6" in request.form:
+                player.use_item(6)
         except ConnectionError:
             return redirect(url_for('server_error'))
 
-    return render_template('index.html')
+    return render_template('index.html', playerName=current_user.get_name())
 
 
 @app.route('/player_selection', methods=['GET', 'POST'])

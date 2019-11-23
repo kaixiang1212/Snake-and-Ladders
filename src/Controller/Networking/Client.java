@@ -58,6 +58,8 @@ public class Client extends Thread {
                 handleNameChange(token);
             } else if ("ready".equalsIgnoreCase(cmd)){
                 handleReady();
+            } else if ("item".equalsIgnoreCase(cmd)){
+                handleItem(Integer.parseInt(token[1]));
             } else if ("".equals(cmd)) {
             } else {
                 msg = "Unknown command: " + cmd + "\n";
@@ -65,6 +67,12 @@ public class Client extends Thread {
             }
         }
         closeSocket();
+    }
+
+    private void handleItem(int i) {
+        if (!server.diceScreen || server.getCurrentPlayer() != player-1) return;
+        if (1 > i || i > 6) return;
+        server.useItem(i);
     }
 
     private void handleNextToken() {
