@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.json.JSONException;
 
+import Model.Board.BoardType;
 import Model.GameEngine;
 import Model.Player;
 import View.GameScreen;
@@ -24,14 +25,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 public class PlayerCustomizationController {
-	
+
 	private final int maxTokens = 8;
-	
+
     @FXML
     private FlowPane flowPane;
 
     private int playerCount = 1;
-    private int boardNum;
+    private BoardType boardType;
 
     private ArrayList<Integer> token;
     private ArrayList<Integer> availableToken;
@@ -54,20 +55,14 @@ public class PlayerCustomizationController {
 
     }
 
-    /**
-     * Render a customisation screen for
-     * given number of player
-     * @param numPlayer number of player
-     */
-    public void setPlayers(int numPlayer){
-        while (playerCount != numPlayer){
+    public void config(int numPlayer, BoardType type) {
+    	while (playerCount != numPlayer){
             addPlayer();
             playerCount++;
         }
         server.setPlayers(numPlayer);
+    	boardType = type;
     }
-    
-    public void setBoard(int b) { boardNum = b; }
 
     /**
      * Add player
@@ -91,7 +86,7 @@ public class PlayerCustomizationController {
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
         FlowPane.setMargin(vBox, new Insets(10,10,0,10));
-        setPlayerToken(playerCount, playerNum);   
+        setPlayerToken(playerCount, playerNum);
     }
 
     /**
@@ -180,25 +175,23 @@ public class PlayerCustomizationController {
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
 
-    	MusicController.playNext();  
-        new GameEngine(boardNum);
-
+    	MusicController.playNext();
         GameEngine.setServer(server);
-
+        ArrayList<Player> players = new ArrayList<Player>();
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof TextField) {
                         String playerName = ((TextField) node1).getText();
-                        GameEngine.addPlayer(new Player(playerName, token.get(tokenIndex), 0, 0));
+                        players.add(new Player(playerName, token.get(tokenIndex), 0, 0));
                         tokenIndex++;
                     }
                 }
             }
         }
-        
-        new GameScreen();
+        GameEngine.setPlayers(players);
+        new GameScreen(boardType);
         GameScreen.start();
     }
 

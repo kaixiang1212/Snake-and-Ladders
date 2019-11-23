@@ -1,6 +1,7 @@
 package View;
 
 import Model.*;
+import Model.Board.BoardType;
 import Controller.*;
 
 import java.util.List;
@@ -110,8 +111,8 @@ public class BoardEntityLoader extends BoardLoader{
  		*/
 	}
 	
-	public static void configBoardController(BoardController boardController) throws JSONException {
-		load();
+	public static void configBoardController(BoardController boardController, BoardType type) throws JSONException {
+		load(type);
 		boardController.config(entities);
 	}      
 

@@ -1,10 +1,12 @@
 package View;
 
 import Controller.*;
-import Model.GameEngine;
+import Model.Board.BoardType;
 
 import java.io.IOException;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.json.JSONException;
 
 import javafx.fxml.FXMLLoader;
@@ -16,12 +18,14 @@ import javafx.stage.Stage;
 public class GameScreen {
 	private static final int HEIGHT = 800;
 	private static final int WIDTH = 800;
-	private static final int diceWidth = 200;
+	private static final int diceWidth = 250;
 
 	private static String title;
-
-	public GameScreen() {
+	private static BoardType boardType;
+	
+	public GameScreen(BoardType type) {
 		title = "Sneks & Ladders";
+		boardType = type;
 	}
 
 	public static void start() throws IOException, JSONException {
@@ -32,17 +36,17 @@ public class GameScreen {
 		// Get the correct Json file for the current level.
 		loadJsonBoard();
 		String filename;
-		switch (GameEngine.getBoardType()) {
-		case 1:
+		switch (boardType) {
+		case DEFAULT:
 			filename = "fxml/altBoardView.fxml";
 			break;
-		case 2:
+		case PLAIN:
 			filename = "fxml/altBoardViewPlain.fxml";
 			break;
-		case 3:
+		case SNAKELESS:
 			filename = "fxml/altBoardViewSnakeless.fxml";
 			break;
-		case 4:
+		case LADDERLESS:
 			filename = "fxml/altBoardViewLadderless.fxml";
 			break;
 		default:
@@ -52,7 +56,7 @@ public class GameScreen {
 		FXMLLoader loader = new FXMLLoader(GameScreen.class.getResource(filename));
 		Parent root = loader.load();
 		BoardController boardController = loader.getController();
-		BoardEntityLoader.configBoardController(boardController);
+		BoardEntityLoader.configBoardController(boardController, boardType);
 		boardController.init();
 		
 		Scene scene = new Scene(root, WIDTH + diceWidth, HEIGHT);
@@ -60,24 +64,24 @@ public class GameScreen {
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
+		stage.addEventFilter(KeyEvent.KEY_PRESSED, k -> boardController.handleKeyPressed(k.getCode()));
 	}
 	
 	// NOTE: Probably the part where you choose the Board
 	public static void loadJsonBoard() throws IOException, JSONException {		
 		String filename;
-		int currentBoard = GameEngine.getBoardType();
 		
-		switch (currentBoard) {
-			case 1:
+		switch (boardType) {
+			case DEFAULT:
 				filename = "animatedBoard.json";
 				break;
-			case 2:
+			case PLAIN:
 				filename = "animatedBoardPlain.json";
 				break;
-			case 3:
+			case SNAKELESS:
 				filename = "animatedBoardSnakeless.json";
 				break;
-			case 4:
+			case LADDERLESS:
 				filename = "animatedBoardLadderless.json";
 				break;
 			default:

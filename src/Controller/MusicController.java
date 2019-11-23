@@ -28,10 +28,11 @@ public class MusicController {
     private static MediaPlayer itemAppearPlayer;
     private static MediaPlayer itemDisappearPlayer;
     private static MediaPlayer itemPickupPlayer;
+    private static MediaPlayer itemActivatePlayer;
 
     private static boolean initBoard = false;
     private static MediaPlayer bgMusicPlayer;
-    
+
     private static boolean soundFxOn = true;
     private static boolean musicOn = true;
 
@@ -41,7 +42,8 @@ public class MusicController {
      * Initialise UI component Sound (Next Button/Back Button)
      */
     public static void initUI(){
-        initUI = true;
+        if(initUI) return;
+    	initUI = true;
         Media backBtnSound = new Media(new File("src/asset/Sound/back.mp3").toURI().toString());
         Media switchBtnSound = new Media(new File("src/asset/Sound/switch.mp3").toURI().toString());
         Media nextBtnSound = new Media(new File("src/asset/Sound/next.mp3").toURI().toString());
@@ -55,12 +57,13 @@ public class MusicController {
      * Initialise Dice Sound
      */
     public static void initDice(){
+    	if(initDice) return;
         initDice = true;
         Media diceRoll = new Media(new File("src/asset/Sound/diceRoll.mp3").toURI().toString());
         Media diceThrow1 = new Media(new File("src/asset/Sound/diceThrow1.mp3").toURI().toString());
         Media diceThrow2 = new Media(new File("src/asset/Sound/diceThrow2.mp3").toURI().toString());
         Media dice6Sound = new Media(new File("src/asset/Sound/rolled6.mp3").toURI().toString());
-        
+
         diceRollPlayer = new MediaPlayer(diceRoll);
         diceThrowPlayer1 = new MediaPlayer(diceThrow1);
         diceThrowPlayer2 = new MediaPlayer(diceThrow2);
@@ -79,7 +82,8 @@ public class MusicController {
      * Initialise Game Sound (Movement/Snake/Ladders/Victory)
      */
     public static void initGame(){
-        initGame = true;
+        if(initGame) return;
+    	initGame = true;
         Media ascendSound = new Media(new File("src/asset/Sound/ascend.mp3").toURI().toString());
         Media descendSound = new Media(new File("src/asset/Sound/descend.mp3").toURI().toString());
         Media snakeSound1 = new Media(new File("src/asset/Sound/snake1.mp3").toURI().toString());
@@ -89,6 +93,7 @@ public class MusicController {
         Media itemAppearSound = new Media(new File("src/asset/Sound/itemappear.mp3").toURI().toString());
         Media itemDisappearSound = new Media(new File("src/asset/Sound/itemdisappear.mp3").toURI().toString());
         Media itemPickupSound = new Media(new File("src/asset/Sound/itempickup.mp3").toURI().toString());
+        Media itemActivateSound = new Media(new File("src/asset/Sound/itemactive.mp3").toURI().toString());
 
         ascendPlayer = new MediaPlayer(ascendSound);
         descendPlayer = new MediaPlayer(descendSound);
@@ -99,13 +104,15 @@ public class MusicController {
         itemAppearPlayer = new MediaPlayer(itemAppearSound);
         itemDisappearPlayer = new MediaPlayer(itemDisappearSound);
         itemPickupPlayer = new MediaPlayer(itemPickupSound);
+        itemActivatePlayer = new MediaPlayer(itemActivateSound);
     }
-    
+
     /**
      * Initialise background sounds
      */
     public static void initBoard(){
-        initBoard = true;
+        if(initBoard) return;
+    	initBoard = true;
         Media bgMusic = new Media(new File("src/asset/Sound/bgMusic.mp3").toURI().toString());
         bgMusicPlayer = new MediaPlayer(bgMusic);
         bgMusicPlayer.setOnEndOfMedia(new Runnable() {
@@ -115,11 +122,6 @@ public class MusicController {
                 bgMusicPlayer.play();
             }
         });
-        if(musicOn) {
-        	playBGM();
-        } else {
-        	stopBGM();
-        }
     }
 
     /**
@@ -146,9 +148,11 @@ public class MusicController {
             itemAppearPlayer.stop();
             itemDisappearPlayer.stop();
             itemPickupPlayer.stop();
+            itemActivatePlayer.stop();
+            victoryPlayer.stop();
         }
     }
-    
+
     public static void playNext(){
         if (!initUI) return;
         clear();
@@ -196,7 +200,7 @@ public class MusicController {
         if(soundFxOn)
         	dice6Player.play();
     }
-    
+
     public static void playMove(){
         if (!initGame) return;
         movePlayer.seek(Duration.ZERO);
@@ -204,27 +208,35 @@ public class MusicController {
         if(soundFxOn)
         	movePlayer.play();
     }
-    
+
     public static void playItemAppear() {
     	if (!initGame) return;
-        itemAppearPlayer.setVolume(1.0);
+        itemAppearPlayer.setVolume(0.4);
         if(soundFxOn)
         	itemAppearPlayer.play();
     }
-    
+
     public static void playItemDisappear() {
     	if (!initGame) return;
-        itemDisappearPlayer.setVolume(1.0);
+        itemDisappearPlayer.setVolume(0.3);
         if(soundFxOn)
         	itemDisappearPlayer.play();
     }
-    
+
     public static void playItemPickup() {
     	if (!initGame) return;
-        itemPickupPlayer.setVolume(1.0);
+        itemPickupPlayer.setVolume(0.7);
         clear();
         if(soundFxOn)
         	itemPickupPlayer.play();
+    }
+
+    public static void playItemActivate() {
+    	if (!initGame) return;
+        itemActivatePlayer.setVolume(0.7);
+        clear();
+        if(soundFxOn)
+        	itemActivatePlayer.play();
     }
 
     public static void playSnake(){
@@ -257,31 +269,32 @@ public class MusicController {
     public static void playBGM(){
         if (!initBoard) return;
         bgMusicPlayer.setVolume(0.1);
-        bgMusicPlayer.play();
+        if(musicOn)
+        	bgMusicPlayer.play();
     }
-    
+
     public static void stopBGM(){
         if (!initBoard) return;
         bgMusicPlayer.stop();
     }
-    
+
+    public static void pauseBGM(){
+        if (!initBoard) return;
+        bgMusicPlayer.pause();
+    }
+
     public static void togglefx() {
     	soundFxOn = !soundFxOn;
     }
-    
+
     public static void toggleMusic() {
     	musicOn = !musicOn;
-    	if(musicOn) {
-    		playBGM();
-    	} else {
-    		stopBGM();
-    	}
     }
-    
+
     public static boolean getFxToggle() {
     	return soundFxOn;
     }
-    
+
     public static boolean getMusicToggle() {
     	return musicOn;
     }

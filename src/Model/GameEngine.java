@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.MusicController;
+import Model.Board.BoardType;
 import Controller.AnimationController;
 import Controller.Networking.Server;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 
 public class GameEngine {
-	private static final int pickedUpItemExpiry = -1000;
+
+	private static final int pickedUpItemExpiry = -1000;	// Special expiry counter number for picked up items to remove on pickup
+    private static final int poisonChance = 90;				// Chance of being poisoned by a snake
 
     private static ArrayList<Player> players;
     private static Player currentPlayer;
@@ -20,31 +23,35 @@ public class GameEngine {
     private static Board gameboard;
     private static boolean finished;
     private static StringBuilder console;
-    private static int board;
     private static Server server;
+    private static boolean reverse;
+    private static boolean dynamicSnakes = true;
 
+    /**
+     * Default constructor generates a 10x10 board with some snakes and ladders
+     */
     public GameEngine(){
         players = new ArrayList<>();
         currentPlayer = null;
         currentPlayerNum = 0;
-        gameboard = new Board(10, 10);
+        gameboard = new Board(10, 10, BoardType.DEFAULT);
         finished = false;
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-
+        reverse = false;
     }
 
-    public GameEngine(int boardNum){
+    public GameEngine(BoardType type){
     	players = new ArrayList<>();
         currentPlayer = null;
         currentPlayerNum = 0;
-        gameboard = new Board(10, 10);
+        gameboard = new Board(10, 10, type);
         finished = false;
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
-        board = boardNum;
+        reverse = false;
     }
 
     /**
@@ -52,13 +59,20 @@ public class GameEngine {
      * @param board: pre-made gameboard
      */
     public GameEngine(Board board){
-        players = new ArrayList<>();
+        if(players == null)
+        	players = new ArrayList<>();
         gameboard = board;
         finished = false;
         console = new StringBuilder();
         console.setLength(0);
         MusicController.initGame();
+        reverse = false;
+    }
 
+    public static void setPlayers(ArrayList<Player> players){
+    	GameEngine.players = players;
+        currentPlayerNum = 0;
+        currentPlayer = players.get(currentPlayerNum);
     }
 
     /**
@@ -70,10 +84,12 @@ public class GameEngine {
             currentPlayerNum = 0;
             currentPlayer = player;
         }
+        if(players == null)
+        	players = new ArrayList<Player>();
         players.add(player);
-        //updatePosition(player, gameboard.getMinPos());
-        updateState();
     }
+
+
 
     /**
      * Get the number of players in the game
@@ -81,19 +97,6 @@ public class GameEngine {
      */
     public static int getPlayerNum(){
         return players.size();
-    }
-
-    /**
-     * Get the current position of player
-     * @param player: Specify player object to find their position
-     * @return player's position
-     */
-    public static int getPosition(Player player){
-    	int x,y;
-    	x = player.getX();
-    	y = player.getY();
-    	int position = gameboard.getPosition(x, y);
-        return position;
     }
 
     /**
@@ -106,8 +109,8 @@ public class GameEngine {
 		pos = Math.min(pos, gameboard.getMaxPos());
 		pos = Math.max(pos, gameboard.getMinPos());
 		int x,y;
-		x = gameboard.getCoords(pos).getX();
-		y = gameboard.getCoords(pos).getY();
+		x = gameboard.getCoords(pos).getKey();
+		y = gameboard.getCoords(pos).getValue();
 		player.setX(x);
 		player.setY(y);
 		MusicController.playMove();
@@ -140,25 +143,104 @@ public class GameEngine {
 		return players;
 	}
 
-	public static void setBoard(Board board) {
-		gameboard = board;
-	}
-
 	public static Board getBoard() {
 		return gameboard;
-	}
-
-	public static int getBoardType() {
-		return board;
 	}
 
 	/**
      * Set the next player in turn as current player, looping over the list of all players
      */
-    public static Player nextPlayer(){
-        currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    public static Player setNextPlayer(){
+    	if(!isReverse()) {
+    		currentPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		currentPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+
         currentPlayer = players.get(currentPlayerNum);
+        if(currentPlayer.isSkipped()) {
+        	currentPlayer.setSkipped(false);
+        	setNextPlayer();
+        }
         return currentPlayer;
+    }
+
+    public static Player getNextPlayer(){
+    	int nextPlayerNum;
+    	if(!isReverse()) {
+    		nextPlayerNum = (currentPlayerNum + 1) % getPlayerNum();
+    	} else {
+    		nextPlayerNum = (currentPlayerNum + getPlayerNum()-1) % getPlayerNum();
+    	}
+        Player nextPlayer = players.get(nextPlayerNum);
+        return nextPlayer;
+    }
+
+    public static ArrayList<Player> getPlayerSequence(){
+    	ArrayList<Player> sequence = new ArrayList<>();
+    	int i = 0;
+    	while (sequence.size() != getPlayerNum()){
+			if (!isReverse()) {
+				Player player = players.get((currentPlayerNum + i) % getPlayerNum());
+				if (player.isSkipped()){
+					i++;
+					continue;
+				} else if  (player.isExtraRoll()) sequence.add(player);
+				sequence.add(player);
+			} else {
+				Player player = players.get((currentPlayerNum + i) % getPlayerNum());
+				if (player.isSkipped()){
+					i++;
+					continue;
+				} else if (player.isExtraRoll()) sequence.add(player);
+				sequence.add(player);
+			}
+			i++;
+		}
+		return sequence;
+	}
+
+    public static ArrayList<Player> getNextNearestPlayers() {
+    	ArrayList<Player> targetPlayers = new ArrayList<Player>();
+    	int dist = gameboard.getMaxPos() - gameboard.getMinPos();
+    	for(Player player : players) {
+    		if(player == getCurrentPlayer())
+    			continue;
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 < dist)) {
+    			targetPlayers.clear();
+    			dist = pos2-pos1;
+    			targetPlayers.add(player);
+    		} else if ((pos2-pos1 >= 0) && (pos2-pos1 == dist)) {
+    			targetPlayers.add(player);
+    		}
+    	}
+    	return targetPlayers;
+    }
+
+    public static Player getLeadingPlayer() {
+    	Player targetPlayer = null;
+    	int dist = 0;
+    	for(Player player : players) {
+    		int pos1 = gameboard.getPosition(getCurrentPlayer().getX(), getCurrentPlayer().getY());
+    		int pos2 = gameboard.getPosition(player.getX(), player.getY());
+    		if((pos2-pos1 >= 0) && (pos2-pos1 >= dist)) {
+    			dist = pos2-pos1;
+    			targetPlayer = player;
+    		}
+    	}
+    	return targetPlayer;
+    }
+
+    public static void swapPlayers(Player player1, Player player2) {
+    	int x1, y1;
+    	x1 = player1.getX();
+    	y1 = player1.getY();
+    	player1.setX(player2.getX());
+    	player1.setY(player2.getY());
+    	player2.setX(x1);
+    	player2.setY(y1);
     }
 
 	/**
@@ -167,7 +249,7 @@ public class GameEngine {
 	 */
 	public static boolean isFinished() {
 		updateState();
-		if (finished) MusicController.playVictory();
+		//if (finished)
 		return finished;
 	}
 
@@ -188,17 +270,35 @@ public class GameEngine {
 			if(currPos == gameboard.getMaxPos()) {
 				finished = true;
 				return;
-			} else if (gameboard.isSnake(currX, currY) != null) {
+			} else if ((gameboard.isSnake(currX, currY) != null) && !currPlayer.isSnakeImmunity()) {
 				int newX, newY;
+				Snake currSnake = gameboard.isSnake(currX, currY);
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				currPlayer.getStats().incrementSnakes();
 				MusicController.playSnake();
+
+				// Get snake ImageViews and wriggle snake
+				ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
+				ImageView snakeImg = AnimationController.getImgView(currSnake.getId());
+
+				AnimationController.wriggleSnake(snakeGif, snakeImg);
+				// Stop wriggling snake after 2 secs
+				PauseTransition pause = new PauseTransition(Duration.seconds(1));
+				pause.setOnFinished(event ->
+					AnimationController.stopwriggleSnake(snakeGif, snakeImg)
+				);
+				pause.play();
+
 				console.append(currPlayer.getPlayerName())
 						.append(" gets eaten by a snake and moves back from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
-				currPlayer.setPoison(2);
+
+				if((Math.random() < ((float) poisonChance/100f)) && dynamicSnakes)
+					currPlayer.setPoison(3);
+
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
@@ -206,11 +306,12 @@ public class GameEngine {
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				currPlayer.getStats().incrementLadders();
 				MusicController.playLadder();
 
+				// Get ladder ImageViews and shake Ladder
 				ImageView ladderGif = AnimationController.getGifView(currLadder.getId());
 				ImageView ladderImg = AnimationController.getImgView(currLadder.getId());
-				// Shake the ladder
 				// Shake the ladder
 				AnimationController.shakeLadder(ladderGif, ladderImg);
 				// Stop laddershake after 1 second
@@ -295,8 +396,8 @@ public class GameEngine {
 			minPlayerPos = Math.min(minPlayerPos, gameboard.getPosition(player.getX(), player.getY()));
 		}
 		int itemPos = (int) (minPlayerPos + (Math.random() * (maxPlayerPos - minPlayerPos)));
-		int itemX = gameboard.getCoords(itemPos).getX();
-		int itemY = gameboard.getCoords(itemPos).getY();
+		int itemX = gameboard.getCoords(itemPos).getKey();
+		int itemY = gameboard.getCoords(itemPos).getValue();
 
 		// Check that position != any player position
 		for(Player player : players) {
@@ -317,7 +418,7 @@ public class GameEngine {
 		Item itemTemplate = pool.get(index);
 
 
-		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getDescription(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
+		Item item = new Item(itemX, itemY, itemTemplate.getItemType(), itemTemplate.getName(), itemTemplate.getFrequency(), itemTemplate.getExpiry());
 		gameboard.addEntity(item);
 		return item;
 	}
@@ -331,4 +432,26 @@ public class GameEngine {
 	public static Server getServer(){ return server; }
 
     public static void killServer() throws IOException { server.kill(); }
+
+	public static boolean isReverse() {
+		return reverse;
+	}
+
+	public static void setReverse(boolean reverse) {
+		GameEngine.reverse = reverse;
+	}
+
+	public static void decrementExpiry() {
+		for(Item item : gameboard.getSpawnedItems()) {
+			item.decrementExpiry();
+		}
+	}
+
+	public static void setDynamicSnakes(boolean dynamicSnakes) {
+		GameEngine.dynamicSnakes = dynamicSnakes;
+	}
+
+	public static boolean isDynamicSnakes() {
+		return dynamicSnakes;
+	}
 }

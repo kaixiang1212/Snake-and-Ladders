@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PlayerCustomizationController;
+import Model.Board.BoardType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,12 +13,12 @@ public class PlayerCustomizationScreen {
 
 	private static String screenTitle;
 	private static int numPlayer;
-    private static int boardNum;
+    private static BoardType boardType;
 
-    public PlayerCustomizationScreen(int nPlayer, int board){
+    public PlayerCustomizationScreen(int nPlayer, BoardType type){
         screenTitle = "Player Customisation";
         numPlayer = nPlayer;
-        boardNum = board;
+        boardType = type;
     }
 
     public static void start(){	
@@ -27,6 +28,7 @@ public class PlayerCustomizationScreen {
         	PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
             playerCustomizationController.setPlayers(numPlayer);
             playerCustomizationController.setBoard(boardNum);
+        	playerCustomizationController.config(numPlayer, boardType);
             Stage stage = StartGameScreen.getStage();
             stage.setTitle(screenTitle);
             Scene sc = new Scene(root);

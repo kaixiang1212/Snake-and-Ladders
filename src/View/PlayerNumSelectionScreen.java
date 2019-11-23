@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PlayerNumSelectionController;
+import Model.Board.BoardType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,11 +12,11 @@ import java.io.IOException;
 public class PlayerNumSelectionScreen {
 
     private static String screenTitle;
-    private static int boardNum;
+    private static BoardType boardType;
 
-    public PlayerNumSelectionScreen(int board) {
+    public PlayerNumSelectionScreen(BoardType type) {
         screenTitle = "Player Selection";
-        boardNum = board;
+        boardType = type;
     }
 
     public static void start() {
@@ -23,7 +24,7 @@ public class PlayerNumSelectionScreen {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(PlayerNumSelectionScreen.class.getResource("fxml/playerNumberSelection.fxml"));
             Parent root = fxmlLoader.load();
-            ((PlayerNumSelectionController)fxmlLoader.getController()).setBoard(boardNum);
+            ((PlayerNumSelectionController)fxmlLoader.getController()).config(boardType);
             Stage stage = StartGameScreen.getStage();
             stage.setTitle(screenTitle);
             Scene sc = new Scene(root);

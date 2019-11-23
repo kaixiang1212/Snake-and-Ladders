@@ -1,12 +1,14 @@
 package Controller;
 
 import Model.GameEngine;
+import Model.Player;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 
 public class AnimationController {
 	private static final int maxFrames = 300;
-	private static final int animationFrames = 10;
+	private static final int playerAnimationFrames = 10;
+	private static final int diceAnimationFrames = 3;
 	private static final long frametime = 8333333;
 
     private static int frame;
@@ -15,7 +17,9 @@ public class AnimationController {
     private static boolean poisoned;
     private static long lastTime;
     private static int diceFrame = 1;
-
+    private static Player targetPlayer;
+    private static int currentPos;
+    private static int destination;
     private static DiceController diceController;
     private static BoardController boardController;
 
@@ -27,6 +31,9 @@ public class AnimationController {
     	frame = 0;
     	diceController = dc;
     	boardController = bc;
+    	targetPlayer = null;
+    	currentPos = -1;
+    	destination = -1;
     }
 
 
@@ -42,11 +49,11 @@ public class AnimationController {
         	if((time - lastTime) < frametime) {
         		return;
         	}
-        	int currentPos = diceController.getCurrentPos();
-        	int destination = diceController.getDestination();
-
+        	
+        	poisoned = GameEngine.getCurrentPlayer().getPoisonStatus();
+        	
         	if (isSpinning) {
-        		if (frame % 6 == 0) {
+        		if (frame % diceAnimationFrames == 0) {
         			int num;
         			int maxNum = 6;
         			if(poisoned)
@@ -57,18 +64,33 @@ public class AnimationController {
         				num = (int) (Math.random() * maxNum) + 1;
         			}
         			diceFrame = num;
-        			diceController.draw(diceFrame);
+        			diceController.draw(diceFrame, poisoned);
         		}
 
             	if(frame == maxFrames) {
             		diceController.stopButtonClicked();
             	}
         	} else if (isPlayerMoving) {
-        		if (frame%animationFrames == 0 && currentPos == destination) {
+        		if(currentPos < 0)
+            		currentPos = diceController.getCurrentPos();
+            	if(destination < 0)
+            		destination = diceController.getDestination();
+            	
+        		if (frame%playerAnimationFrames == 0 && currentPos == destination) {
+        			targetPlayer = null;
+        			currentPos = -1;
+        			destination = -1;
         			diceController.prepareNextTurn();
-        			GameEngine.getCurrentPlayer().updatePoison();
-        		} else if (frame%animationFrames == 0 && currentPos <= destination) {
-        			GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        		} else if (frame%playerAnimationFrames == 0 && currentPos != destination) {
+        			if(GameEngine.getCurrentPlayer().isRollBack()) {
+        				if(targetPlayer == null)
+        					targetPlayer = GameEngine.getLeadingPlayer();
+        				GameEngine.updatePosition(targetPlayer, currentPos - 1);
+        				currentPos--;
+        			} else {
+        				GameEngine.updatePosition(GameEngine.getCurrentPlayer(), currentPos + 1);
+        				currentPos++;
+        			}
         			boardController.cleanPickedUpItems();
         		}
         	}
@@ -95,6 +117,8 @@ public class AnimationController {
     	isSpinning = value;
     }
 
+    public static boolean isSpinning(){ return isSpinning; }
+
     /**
      * Sets whether current player should be moving or not currently
      * @param value: true if current player should currently be moving
@@ -104,15 +128,11 @@ public class AnimationController {
     	frame = 0;
     	isPlayerMoving = value;
     }
-
-    public static void setPoison(boolean status) {
-    	poisoned = status;
-    }
     
 	public static ImageView getGifView (String id) {
 		// Call function from boardcontroller that returns the corresponding id String.
-		String ladderId = "gif" + id;
-		return boardController.getGif(ladderId);
+		String gifId = "gif" + id;
+		return boardController.getGif(gifId);
 	}
 	
 	public static ImageView getImgView (String id) {
@@ -136,8 +156,12 @@ public class AnimationController {
 	 * This function will take in the snakeId of the snake Entity in the current coordinate, and activate the corresponding gif of the stated Snake.
 	 * @param snakeId
 	 */
-	public static void wriggleSnake(String snakeId) {
-		
+	public static void wriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardController.wriggleSnake(snakeGif, snakeImg);
+	}
+	
+	public static void stopwriggleSnake(ImageView snakeGif, ImageView snakeImg) {
+		boardController.stopwriggleSnake(snakeGif, snakeImg);
 	}
 
 }

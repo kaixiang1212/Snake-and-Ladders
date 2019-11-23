@@ -46,7 +46,7 @@
         "x": 3,
         "y": 5,
         "x2": 4,
-        "y2": 9,
+        "y2": 8,
         "type": "ladder",
         "id": "Ladder1"
     },
@@ -64,7 +64,7 @@
       "x2": 3,
       "y2": 0,
       "type": "snake",
-      "id": "Snake1"
+      "id": "Snake3"
     },
     {
       "x": 8,
@@ -72,15 +72,15 @@
       "x2": 7,
       "y2": 0,
       "type": "snake",
-      "id": "Snake2"
+      "id": "Snake4"
     },
     {
       "x": 1,
       "y": 4,
-      "x2": 3,
-      "y2": 2,
+      "x2": 1,
+      "y2": 1,
       "type": "snake",
-      "id": "Snake3"
+      "id": "Snake2"
     },
     {
       "x": 6,
@@ -88,24 +88,23 @@
       "x2": 4,
       "y2": 4,
       "type": "snake",
-      "id": "Snake4"
+      "id": "Snake5"
     },
     {
       "x": 7,
       "y": 8,
-      "x2": 8,
+      "x2": 7,
       "y2": 6,
       "type": "snake",
-      "id": "Snake5"
-
+      "id": "Snake6"
     },
     {
-      "x": 7,
+      "x": 6,
       "y": 9,
-      "x2": 6,
+      "x2": 5,
       "y2": 7,
       "type": "snake",
-      "id": "Snake6"
+      "id": "Snake7"
     },
     {
       "x": 1,
@@ -113,81 +112,7 @@
       "x2": 3,
       "y2": 6,
       "type": "snake",
-      "id": "Snake7"
-    }
-  ],
-  "items": [
-    {
-		"id": 0,
-		"type": "SKIPTURN",
-		"name": "Skip Turn",
-        "description": "Skip the next player turn",
-		"frequency": 2,
-		"expiry": 7
-    },
-    {
-        "id": 1,
-		"type": "EXTRAROLL",
-		"name": "Extra Roll",
-        "description": "Roll an extra dice (preserved if you roll a 6)",
-		"frequency": 2,
-		"expiry": 7
-    },
-	{
-        "id": 2,
-		"type": "SLOWDOWN",
-		"name": "Slow Down",
-        "description": "Slow down the next closest piece on the board for a few turns by halving their rolls",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 3,
-		"type": "SHIELD",
-		"name": "Shield",
-        "description": "Get temporary protection against power-ups",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 4,
-		"type": "ROLLBACK",
-		"name": "Roll Back",
-        "description": "Roll a dice to move the first player on the board backwards",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 5,
-		"type": "DOUBLE",
-		"name": "Double Up",
-        "description": "Double the result of your next roll",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 6,
-		"type": "SWAP",
-		"name": "Swap",
-        "description": "Swap positions with the first player on the board",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 7,
-		"type": "ANTIDOTE",
-		"name": "Antidote",
-        "description": "Heals snake poison and gives temporary snake immunity",
-		"frequency": 1,
-		"expiry": 7
-    },
-	{
-        "id": 8,
-		"type": "REVERSE",
-		"name": "Reverse",
-        "description": "Reverses the order of play",
-		"frequency": 2,
-		"expiry": 7
+      "id": "Snake1"
     }
   ]
 }
