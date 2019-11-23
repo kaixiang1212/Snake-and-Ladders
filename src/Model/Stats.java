@@ -24,6 +24,9 @@ public class Stats {
 	private float avgNumRolls;			// calculated
 	private int totalDiceResults;
 	private float avgDiceRoll;			// calculated
+	private int ladders;
+	private int snakes;
+	private int timesPoisoned;
 	
 	private static JSONObject statsFile;
 	
@@ -43,6 +46,9 @@ public class Stats {
 			avgNumRolls = 0;
 			totalDiceResults = 0;
 			avgDiceRoll = 0;
+			ladders = 0;
+			snakes = 0;
+			timesPoisoned = 0;
 		}
 	}
 	
@@ -63,12 +69,15 @@ public class Stats {
 				setItemsCollected(playerStats.getInt("itemsCollected"));
 				setNumDiceRolled(playerStats.getInt("numDiceRolled"));
 				setTotalDiceResults(playerStats.getInt("totalDiceResults"));
+				setSnakes(playerStats.getInt("snakes"));
+				setLadders(playerStats.getInt("ladders"));
+				setTimesPoisoned(playerStats.getInt("timesPoisoned"));
 				printStats();
 				System.out.println(",");
 				return true;
 			}
 		}
-		printStats();
+		
 		return false;
 	}
 	
@@ -89,6 +98,9 @@ public class Stats {
 		playerStats.put("itemsCollected", itemsCollected);
 		playerStats.put("numDiceRolled", numDiceRolled);
 		playerStats.put("totalDiceResults", totalDiceResults);
+		playerStats.put("snakes", snakes);
+		playerStats.put("ladders", ladders);
+		playerStats.put("timesPoisoned", timesPoisoned);
 		if(i < statsFile.getJSONArray("players").length()) {
 			statsFile.getJSONArray("players").put(i, playerStats);
 		} else {
@@ -135,7 +147,7 @@ public class Stats {
 		return this.totalFinishTile;
 	}
 	
-	public float getAvgFinishPosition () {
+	public float getAvgFinishTile () {
 		return avgFinishTile;
 	}
 	
@@ -232,6 +244,42 @@ public class Stats {
 				"\n  \"numDiceRolled\": " + numDiceRolled +
 				"\n  \"totalDiceResults\": " + totalDiceResults + 
 				"\n}");
+	}
+	
+	public void setSnakes(int n) {
+		snakes = n;
+	}
+	
+	public int getSnakes() {
+		return snakes;
+	}
+	
+	public void incrementSnakes() {
+		snakes++;
+	}
+	
+	public void setLadders(int n) {
+		ladders = n;
+	}
+	
+	public int getLadders() {
+		return ladders;
+	}
+	
+	public void incrementLadders() {
+		ladders++;
+	}
+	
+	public void setTimesPoisoned(int n) {
+		timesPoisoned = n;
+	}
+	
+	public int getTimesPoisoned() {
+		return timesPoisoned;
+	}
+	
+	public void incrementTimesPoisoned() {
+		timesPoisoned++;
 	}
 	
 }

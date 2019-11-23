@@ -88,6 +88,7 @@ public class Player extends Entity {
     public void setPoison(int turns) {
     	if(turns > 0) {
     		this.isPoisoned = true;
+    		stats.incrementTimesPoisoned();
     	} else {
     		isPoisoned = false;
     		turns = 0;
