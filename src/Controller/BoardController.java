@@ -468,6 +468,20 @@ public class BoardController {
 			case NUMPAD6:
 				diceController.useItem(6);
 				break;
+			case DIGIT7:
+			case NUMPAD7:
+				diceController.useItem(7);
+				break;
+			case DIGIT8:
+			case NUMPAD8:
+				diceController.useItem(8);
+				break;
+			case DIGIT9:
+			case NUMPAD9:
+				diceController.useItem(9);
+				break;
+			default:
+				break;
 		}
 	}
 
