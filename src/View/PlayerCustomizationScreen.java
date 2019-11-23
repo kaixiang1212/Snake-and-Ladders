@@ -26,6 +26,8 @@ public class PlayerCustomizationScreen {
         	FXMLLoader fxmlLoader = new FXMLLoader(PlayerCustomizationScreen.class.getResource("fxml/PlayerCustomization.fxml"));
         	Parent root = fxmlLoader.load();
         	PlayerCustomizationController playerCustomizationController = fxmlLoader.getController();
+            playerCustomizationController.setPlayers(numPlayer);
+            playerCustomizationController.setBoard(boardNum);
         	playerCustomizationController.config(numPlayer, boardType);
             Stage stage = StartGameScreen.getStage();
             stage.setTitle(screenTitle);

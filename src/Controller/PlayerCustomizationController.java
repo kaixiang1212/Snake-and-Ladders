@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
+import View.StartGameScreen;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import org.json.JSONException;
 
 import Model.Board.BoardType;
@@ -50,6 +52,7 @@ public class PlayerCustomizationController {
         server.setCustomisableController(this);
         server.start();
         server.onPlayerSelection();
+
     }
 
     public void config(int numPlayer, BoardType type) {
@@ -208,4 +211,13 @@ public class PlayerCustomizationController {
         nameField.setText(playerName);
     }
 
+    public void setStage() {
+        StartGameScreen.getStage().setOnCloseRequest(windowEvent -> {
+            try {
+                server.kill();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

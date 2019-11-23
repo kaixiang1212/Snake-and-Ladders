@@ -91,6 +91,7 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
+    private boolean rolling;
     private static int spawnItemChance;		// Chance of an item spawning each turn in percentage
     private static boolean powerupsEnabled = true;
     private ArrayList<ImageView> inventory;
@@ -107,6 +108,8 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
+        rolling = false;
+        
         this.diceFaceAlt = new Image[6];
         diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
         diceFaceAlt[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2alt.png")));
@@ -170,14 +173,16 @@ public class DiceController {
      */
     @FXML
     public void rollButtonClicked() {
-    	if (isPaused) return;
-		diceImage.setFitWidth(100);
-		diceImage.setFitHeight(100);
-    	MusicController.playRollDice();
+    	  if (isPaused) return;
+        if (rolling) return;
+        rolling = true;
+		    diceImage.setFitWidth(100);
+		    diceImage.setFitHeight(100);
+    	  MusicController.playRollDice();
         text.setText("\n");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
-		setDisableInventory(true);
+		    setDisableInventory(true);
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
         Tooltip t = new Tooltip("Click to stop");
         t.setStyle("-fx-font-size: 16");
@@ -189,7 +194,9 @@ public class DiceController {
      * Called when the 'stop' button is clicked
      */
 	public void stopButtonClicked() {
-		if (isPaused) return;
+		  if (isPaused) return;
+	    if (!rolling) return;
+	    rolling = false;
     	MusicController.clear();
 		diceImage.setFitWidth(130);
 		diceImage.setFitHeight(130);
