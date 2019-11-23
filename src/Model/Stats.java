@@ -53,9 +53,7 @@ public class Stats {
 	}
 	
 	public boolean importStats() throws FileNotFoundException, JSONException {
-		String path = getClass().getClassLoader().getResource("boards/" + "stats.json").getPath().replaceAll("%20", " ");
-    	assert(!path.isEmpty());
-    	statsFile = new JSONObject(new JSONTokener(new FileReader(path)));
+		importStatsFile();
         JSONArray statsArray  = statsFile.getJSONArray("players");
         int i = 0;
         JSONObject playerStats;
@@ -72,13 +70,21 @@ public class Stats {
 				setSnakes(playerStats.getInt("snakes"));
 				setLadders(playerStats.getInt("ladders"));
 				setTimesPoisoned(playerStats.getInt("timesPoisoned"));
-				printStats();
-				System.out.println(",");
 				return true;
 			}
 		}
 		
 		return false;
+	}
+	
+	public static void importStatsFile() throws FileNotFoundException, JSONException {
+		String path = Stats.class.getClassLoader().getResource("boards/" + "stats.json").getPath().replaceAll("%20", " ");
+    	assert(!path.isEmpty());
+    	statsFile = new JSONObject(new JSONTokener(new FileReader(path)));
+	}
+	
+	public static JSONObject getStatsFile() {
+		return statsFile;
 	}
 	
 	public void exportStats() throws JSONException, IOException {
@@ -280,6 +286,10 @@ public class Stats {
 	
 	public void incrementTimesPoisoned() {
 		timesPoisoned++;
+	}
+	
+	public String getPlayerName() {
+		return playerName;
 	}
 	
 }
