@@ -120,7 +120,7 @@ public class DiceController {
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
         rolling = false;
-        
+
         this.diceFaceAlt = new Image[6];
         diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
         diceFaceAlt[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2alt.png")));
@@ -184,18 +184,20 @@ public class DiceController {
      */
     @FXML
     public void rollButtonClicked() {
+    	if (GameEngine.isFinished()) return;
     	if (isPaused) return;
-        if (rolling) return;
+    	if (AnimationController.isPlayerMoving()) return;
+        if (AnimationController.isSpinning()) return;
         rolling = true;
-		diceImage.setFitWidth(140);
+        diceImage.setFitWidth(140);
 		diceImage.setFitHeight(140);
 		diceImage.setTranslateX(5);
 		diceImage.setTranslateY(5);
-    	MusicController.playRollDice();
+		MusicController.playRollDice();
         text.setText("\n");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
-		setDisableInventory(true);
+        setDisableInventory(true);
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
         Tooltip t = new Tooltip("Click to stop");
         t.setStyle("-fx-font-size: 16");
@@ -207,9 +209,9 @@ public class DiceController {
      * Called when the 'stop' button is clicked
      */
 	public void stopButtonClicked() {
-		  if (isPaused) return;
-	    if (!rolling) return;
-	    rolling = false;
+		if (GameEngine.isFinished()) return;
+		if (isPaused) return;
+	    if (!AnimationController.isSpinning()) return;
     	MusicController.clear();
 		diceImage.setFitWidth(150);
 		diceImage.setFitHeight(150);
@@ -568,6 +570,7 @@ public class DiceController {
 				text.setText(item.getName() + " activated!\n");
 				break;
 		}
+		MusicController.playSwitch();
 		updateToken();
     	setInventory();
     	setActiveEffects();
@@ -577,7 +580,7 @@ public class DiceController {
     public static void setPowerupsEnabled(boolean powerups) {
     	powerupsEnabled = powerups;
     }
-    
+
     public static boolean isPowerupsEnabled() {
     	return powerupsEnabled;
     }
