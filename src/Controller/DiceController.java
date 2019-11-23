@@ -173,6 +173,7 @@ public class DiceController {
      */
     @FXML
     public void rollButtonClicked() {
+    	if (GameEngine.isFinished()) return;
     	if (isPaused) return;
     	if (AnimationController.isPlayerMoving()) return;
         if (AnimationController.isSpinning()) return;
@@ -195,6 +196,7 @@ public class DiceController {
      * Called when the 'stop' button is clicked
      */
 	public void stopButtonClicked() {
+		if (GameEngine.isFinished()) return;
 		if (isPaused) return;
 	    if (!AnimationController.isSpinning()) return;
     	MusicController.clear();
