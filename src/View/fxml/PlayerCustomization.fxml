@@ -7,15 +7,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" width="800.0"/>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" width="800.0" />
       <ImageView fitHeight="1228.0" fitWidth="1167.0" layoutX="27.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" rotate="-29.1" x="-70.0" y="-140.0">
          <image>
             <Image url="@../../asset/coralsnake.png" />
@@ -31,7 +30,7 @@
 	                <Insets top="-54.0" />
 	             </VBox.margin>
 	          </Label>
-		      <FlowPane fx:id="flowPane" alignment="CENTER" prefHeight="315.0" prefWidth="600.0" >
+		      <FlowPane fx:id="flowPane" alignment="CENTER" prefHeight="315.0" prefWidth="600.0">
 		         <children>
 		            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
 		               <children>
@@ -40,7 +39,7 @@
 		                        <Image url="@../../asset/token0.png" />
 		                     </image>
 		                     <VBox.margin>
-		                        <Insets top="10.0"/>
+		                        <Insets top="10.0" />
 		                     </VBox.margin>
 		                  </ImageView>
 		                  <TextField alignment="CENTER" text="Player 1">
@@ -76,6 +75,11 @@
 		                  <Font name="Papyrus" size="22.0" />
 		               </font>
 		            </Button>
+                  <Label fx:id="title1" alignment="CENTER" layoutX="230.0" layoutY="-25.0" prefHeight="157.0" prefWidth="340.0" text="Connect at http://127.0.0.1:5000/login" textAlignment="CENTER" textFill="#8d6b23" wrapText="true">
+                     <font>
+                        <Font name="Papyrus" size="25.0" />
+                     </font>
+                  </Label>
 		         </children>
 		      </Pane>
 	       </children>
