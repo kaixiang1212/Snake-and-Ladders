@@ -11,6 +11,16 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DiceController">
    <children>
+      <HBox alignment="CENTER" prefHeight="300.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="diceImage" fitHeight="130.0" fitWidth="130.0" onMouseClicked="#rollButtonClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../asset/dice1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text=" " />
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
          <children>
             <ImageView fx:id="nextPlayer1" fitHeight="55.0" fitWidth="55.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
@@ -38,9 +48,6 @@
                </image>
             </ImageView>
          </children>
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -51,7 +58,7 @@
                </image>
             </ImageView>
             <Pane prefHeight="166.0" prefWidth="10.0" />
-            <VBox fx:id="effectBox" alignment="TOP_CENTER" prefHeight="166.0" prefWidth="33.25">
+            <VBox alignment="TOP_CENTER" prefHeight="166.0" prefWidth="33.25">
                <children>
                   <ImageView fx:id="activeEffect0" fitHeight="33.25" fitWidth="33.25" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -81,28 +88,14 @@
             <Pane prefHeight="166.0" prefWidth="10.0" />
          </children>
       </HBox>
-      <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Name" textAlignment="CENTER">
+      <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Name">
          <VBox.margin>
-            <Insets top="5.0" />
-         </VBox.margin>
-      </Text>
-      <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <ImageView fx:id="diceImage" fitHeight="130.0" fitWidth="130.0" onMouseClicked="#rollButtonClicked" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../asset/dice1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="message here">
-         <VBox.margin>
-            <Insets top="15.0" />
+            <Insets left="73.0" right="165.0" top="5.0" />
          </VBox.margin>
       </Text>
       <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="55.0" prefWidth="200.0">
          <VBox.margin>
-            <Insets top="10.0" />
+            <Insets top="25.0" />
          </VBox.margin>
          <children>
             <Pane prefHeight="55.0" prefWidth="55.0">
@@ -117,7 +110,6 @@
                         <Image url="@../../asset/items/item1.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="itemLabel1" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
                </children>
                <HBox.margin>
                   <Insets />
@@ -130,11 +122,7 @@
                         <Image url="@../../asset/gray_nothing.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="inventory2" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../asset/items/item2.png" />
-                     </image></ImageView>
-                  <Text fx:id="itemLabel2" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" />
+                  <ImageView fx:id="inventory2" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -147,11 +135,7 @@
                         <Image url="@../../asset/gray_nothing.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="inventory3" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../asset/items/item4.png" />
-                     </image></ImageView>
-                  <Text fx:id="itemLabel3" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
+                  <ImageView fx:id="inventory3" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -176,7 +160,6 @@
                         <Image url="@../../asset/items/item3.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="itemLabel4" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4" />
                </children>
             </Pane>
             <Pane prefHeight="55.0" prefWidth="55.0">
@@ -186,11 +169,7 @@
                         <Image url="@../../asset/gray_nothing.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="inventory5" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../asset/items/item5.png" />
-                     </image></ImageView>
-                  <Text fx:id="itemLabel5" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+                  <ImageView fx:id="inventory5" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -203,11 +182,7 @@
                         <Image url="@../../asset/gray_nothing.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="inventory6" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../asset/items/item7.png" />
-                     </image></ImageView>
-                  <Text fx:id="itemLabel6" layoutX="2.0" layoutY="12.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6" />
+                  <ImageView fx:id="inventory6" fitHeight="43.0" fitWidth="43.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" />

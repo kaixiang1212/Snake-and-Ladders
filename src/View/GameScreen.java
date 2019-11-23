@@ -5,6 +5,8 @@ import Model.Board.BoardType;
 
 import java.io.IOException;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.json.JSONException;
 
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,7 @@ import javafx.stage.Stage;
 public class GameScreen {
 	private static final int HEIGHT = 800;
 	private static final int WIDTH = 800;
-	private static final int diceWidth = 200;
+	private static final int diceWidth = 250;
 
 	private static String title;
 	private static BoardType boardType;
@@ -62,6 +64,11 @@ public class GameScreen {
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
+		stage.addEventFilter(KeyEvent.KEY_PRESSED, k -> {
+					if ( k.getCode() == KeyCode.SPACE || k.getCode() == KeyCode.ENTER){
+						boardController.handleKeyPressed();
+					}
+				});
 	}
 	
 	// NOTE: Probably the part where you choose the Board

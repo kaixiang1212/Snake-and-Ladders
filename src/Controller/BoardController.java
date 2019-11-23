@@ -341,7 +341,7 @@ public class BoardController {
     	menuPane.setManaged(true);
         menuPane.setVisible(true);
         MusicController.pauseBGM();
-        if(MusicController.getFxToggle() == true) {
+        if(MusicController.getFxToggle()) {
     		soundFXButton.setText("Sound FX: ON");
     	} else {
     		soundFXButton.setText("Sound FX: OFF");
@@ -435,5 +435,10 @@ public class BoardController {
         GameEngine.getBoard().removeItems(pickedup);
         diceController.setInventory();
     }
+
+    public void handleKeyPressed(){
+    	if (AnimationController.isSpinning()) diceController.stopButtonClicked();
+    	else diceController.rollButtonClicked();
+	}
 
 }

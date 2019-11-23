@@ -176,6 +176,30 @@ public class GameEngine {
         return nextPlayer;
     }
 
+    public static ArrayList<Player> getPlayerSequence(){
+    	ArrayList<Player> sequence = new ArrayList<>();
+    	int i = 0;
+    	while (sequence.size() != getPlayerNum()){
+			if (!isReverse()) {
+				Player player = players.get((currentPlayerNum + i) % getPlayerNum());
+				if (player.isSkipped()){
+					i++;
+					continue;
+				} else if  (player.isExtraRoll()) sequence.add(player);
+				sequence.add(player);
+			} else {
+				Player player = players.get((currentPlayerNum + i) % getPlayerNum());
+				if (player.isSkipped()){
+					i++;
+					continue;
+				} else if (player.isExtraRoll()) sequence.add(player);
+				sequence.add(player);
+			}
+			i++;
+		}
+		return sequence;
+	}
+
     public static ArrayList<Player> getNextNearestPlayers() {
     	ArrayList<Player> targetPlayers = new ArrayList<Player>();
     	int dist = gameboard.getMaxPos() - gameboard.getMinPos();

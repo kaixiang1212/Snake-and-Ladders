@@ -117,6 +117,8 @@ public class AnimationController {
     	isSpinning = value;
     }
 
+    public static boolean isSpinning(){ return isSpinning; }
+
     /**
      * Sets whether current player should be moving or not currently
      * @param value: true if current player should currently be moving
