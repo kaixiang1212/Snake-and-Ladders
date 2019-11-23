@@ -64,11 +64,7 @@ public class GameScreen {
 		stage.setTitle(title);
 		stage.setScene(scene);
 		stage.show();
-		stage.addEventFilter(KeyEvent.KEY_PRESSED, k -> {
-					if ( k.getCode() == KeyCode.SPACE || k.getCode() == KeyCode.ENTER){
-						boardController.handleKeyPressed();
-					}
-				});
+		stage.addEventFilter(KeyEvent.KEY_PRESSED, k -> boardController.handleKeyPressed(k.getCode()));
 	}
 	
 	// NOTE: Probably the part where you choose the Board

@@ -462,7 +462,7 @@ public class DiceController {
 					player.useItem(item);
 					text.setText(item.getName() + " activated!" + "\n" + targetPlayer.getPlayerName() + " skipped.");
 				} else {
-					text.setText("Could not use item! Target player is shielded or it's you.");
+					text.setText("Could not use item!\n Target player is shielded or it's you.");
 				}
 				break;
 			case EXTRAROLL:
@@ -486,7 +486,7 @@ public class DiceController {
 					}
 				}
 				if(i == 0)
-					text.setText("Could not use item! Target player is shielded or it's you.");
+					text.setText("Could not use item!\n Target player is shielded or it's you.");
 				break;
 			case SHIELD:
 				player.setShield(3);
@@ -503,7 +503,7 @@ public class DiceController {
 					text.setText("Could not use item!\n" + item.getName()+ " is already activated.");
 				}
 				else {
-					text.setText("Could not use item! Target player is shielded or it's you.");
+					text.setText("Could not use item!\n Target player is shielded or it's you.");
 				}
 				break;
 			case DOUBLE:
@@ -522,7 +522,7 @@ public class DiceController {
 					player.useItem(item);
 					text.setText(item.getName() + " activated!" + "\nSwapped positions with " + targetPlayer.getPlayerName());
 				} else {
-					text.setText("Could not use item! Target player is shielded or it's you.");
+					text.setText("Could not use item!\n Target player is shielded or it's you.");
 				}
 				break;
 			case ANTIDOTE:
@@ -640,5 +640,14 @@ public class DiceController {
 		}
     	clearActiveEffect();
     	setActiveEffects();
+	}
+
+	public void useItem(int number){
+    	if (isPaused) return;
+    	Player currPlayer = GameEngine.getCurrentPlayer();
+    	ArrayList<Item> items = currPlayer.getItems();
+    	if (items.size() < number) return;
+    	Item item = items.get(number-1);
+    	if (item != null) itemClicked(item);
 	}
 }
