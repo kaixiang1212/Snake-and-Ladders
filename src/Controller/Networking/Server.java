@@ -182,4 +182,8 @@ public class Server extends Thread {
         } catch (Exception ignored){
         }
     }
+
+	void useItem(int i) {
+		diceController.useItem(i);
+	}
 }

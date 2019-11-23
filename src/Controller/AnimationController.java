@@ -128,6 +128,8 @@ public class AnimationController {
     	frame = 0;
     	isPlayerMoving = value;
     }
+
+    public static boolean isPlayerMoving(){ return isPlayerMoving; }
     
 	public static ImageView getGifView (String id) {
 		// Call function from boardcontroller that returns the corresponding id String.

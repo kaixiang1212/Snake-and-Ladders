@@ -173,16 +173,17 @@ public class DiceController {
      */
     @FXML
     public void rollButtonClicked() {
-    	  if (isPaused) return;
-        if (rolling) return;
+    	if (isPaused) return;
+    	if (AnimationController.isPlayerMoving()) return;
+        if (AnimationController.isSpinning()) return;
         rolling = true;
-		    diceImage.setFitWidth(100);
-		    diceImage.setFitHeight(100);
-    	  MusicController.playRollDice();
+		diceImage.setFitWidth(100);
+		diceImage.setFitHeight(100);
+		MusicController.playRollDice();
         text.setText("\n");
         AnimationController.setSpinning(true);
         menuButton.setDisable(true);
-		    setDisableInventory(true);
+        setDisableInventory(true);
         diceImage.setOnMouseClicked(mouseEvent -> stopButtonClicked());
         Tooltip t = new Tooltip("Click to stop");
         t.setStyle("-fx-font-size: 16");
@@ -194,9 +195,8 @@ public class DiceController {
      * Called when the 'stop' button is clicked
      */
 	public void stopButtonClicked() {
-		  if (isPaused) return;
-	    if (!rolling) return;
-	    rolling = false;
+		if (isPaused) return;
+	    if (!AnimationController.isSpinning()) return;
     	MusicController.clear();
 		diceImage.setFitWidth(130);
 		diceImage.setFitHeight(130);
@@ -546,6 +546,7 @@ public class DiceController {
 				text.setText("\n"+ item.getName() + " activated!");
 				break;
 		}
+		MusicController.playSwitch();
 		updateToken();
     	setInventory();
     	setActiveEffects();
