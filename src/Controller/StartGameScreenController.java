@@ -2,6 +2,7 @@ package Controller;
 
 import View.BoardSelectionScreen;
 import View.HelpGameScreen;
+import View.StatsScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -15,9 +16,11 @@ public class StartGameScreenController {
 	@FXML
 	private Button StartGameButton;
 	@FXML
-	private Button ExitGameButton;
+	private Button statsButton;
 	@FXML
 	private Button HelpGameButton;
+	@FXML
+	private Button ExitGameButton;
 	
 	public StartGameScreenController() {
 		MusicController.initUI();
@@ -40,6 +43,13 @@ public class StartGameScreenController {
 			e.printStackTrace();
 		}
 		Platform.exit();
+	}
+	
+	@FXML
+	public void handleStatsButton (ActionEvent event) {
+		MusicController.playNext();
+		new StatsScreen();
+		StatsScreen.start();	
 	}
 	
 	@FXML

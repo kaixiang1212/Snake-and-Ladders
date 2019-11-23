@@ -1,15 +1,5 @@
 {"players": [
   {
-    "totalFinishTile": 0,
-    "itemsUsed": 0,
-    "playerName": "Abdullah",
-    "gamesPlayed": 0,
-    "itemsCollected": 0,
-    "totalDiceResults": 0,
-    "numDiceRolled": 0,
-    "gamesWon": 0
-  },
-  {
     "totalFinishTile": 132,
     "itemsUsed": 5,
     "playerName": "Mario",
@@ -17,7 +7,10 @@
     "itemsCollected": 7,
     "totalDiceResults": 100,
     "numDiceRolled": 33,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 200,
@@ -27,7 +20,10 @@
     "itemsCollected": 5,
     "totalDiceResults": 103,
     "numDiceRolled": 31,
-    "gamesWon": 2
+    "gamesWon": 2,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 161,
@@ -37,7 +33,10 @@
     "itemsCollected": 8,
     "totalDiceResults": 100,
     "numDiceRolled": 32,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 155,
@@ -47,7 +46,10 @@
     "itemsCollected": 3,
     "totalDiceResults": 119,
     "numDiceRolled": 35,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 200,
@@ -57,7 +59,10 @@
     "itemsCollected": 4,
     "totalDiceResults": 203,
     "numDiceRolled": 58,
-    "gamesWon": 2
+    "gamesWon": 2,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 178,
@@ -67,7 +72,10 @@
     "itemsCollected": 14,
     "totalDiceResults": 166,
     "numDiceRolled": 54,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 99,
@@ -77,7 +85,10 @@
     "itemsCollected": 10,
     "totalDiceResults": 214,
     "numDiceRolled": 60,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
     "totalFinishTile": 81,
@@ -87,46 +98,61 @@
     "itemsCollected": 6,
     "totalDiceResults": 165,
     "numDiceRolled": 52,
-    "gamesWon": 0
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
-    "totalFinishTile": 87,
+    "totalFinishTile": 184,
     "itemsUsed": 0,
     "playerName": "Player 1",
-    "gamesPlayed": 1,
+    "gamesPlayed": 2,
     "itemsCollected": 0,
-    "totalDiceResults": 33,
-    "numDiceRolled": 10,
-    "gamesWon": 0
+    "totalDiceResults": 121,
+    "numDiceRolled": 36,
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
-    "totalFinishTile": 43,
+    "totalFinishTile": 141,
     "itemsUsed": 0,
     "playerName": "Player 2",
-    "gamesPlayed": 1,
+    "gamesPlayed": 2,
     "itemsCollected": 0,
-    "totalDiceResults": 43,
-    "numDiceRolled": 11,
-    "gamesWon": 0
+    "totalDiceResults": 161,
+    "numDiceRolled": 43,
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
-    "totalFinishTile": 23,
+    "totalFinishTile": 105,
     "itemsUsed": 0,
     "playerName": "Player 3",
-    "gamesPlayed": 1,
+    "gamesPlayed": 2,
     "itemsCollected": 0,
-    "totalDiceResults": 45,
-    "numDiceRolled": 12,
-    "gamesWon": 0
+    "totalDiceResults": 150,
+    "numDiceRolled": 42,
+    "gamesWon": 0,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   },
   {
-    "totalFinishTile": 100,
+    "totalFinishTile": 200,
     "itemsUsed": 0,
     "playerName": "Player 4",
-    "gamesPlayed": 1,
+    "gamesPlayed": 2,
     "itemsCollected": 0,
-    "totalDiceResults": 37,
-    "numDiceRolled": 10,
-    "gamesWon": 1
+    "totalDiceResults": 129,
+    "numDiceRolled": 37,
+    "gamesWon": 2,
+    "snakes": 0,
+    "ladders": 0,
+    "timesPoisoned": 0
   }
 ]}

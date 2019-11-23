@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StatsController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="804.0" stroke="BLACK" strokeType="INSIDE" width="805.0" />
+		       <Label fx:id="title" alignment="CENTER" layoutY="19.0" prefHeight="101.0" prefWidth="800.0" text="Statistics" textFill="#8d6b23">
+	               <font>
+	                  <Font name="Papyrus" size="50.0" />
+	               </font>
+         </Label>
+			   <Pane layoutX="3.0" layoutY="589.0" maxHeight="268.0" minHeight="0.0" prefHeight="167.0" prefWidth="800.0">
+	              <children>
+	                 <Button fx:id="backButton" layoutX="129.0" layoutY="97.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="70.0" prefWidth="140.0" text="&lt; Back">
+	                    <font>
+	                       <Font name="Papyrus" size="22.0" />
+	                    </font>
+	                 </Button>
+            <Button fx:id="leaderboardsButton" layoutX="488.0" layoutY="97.0" mnemonicParsing="false" onAction="#leaderboardsButtonClicked" prefHeight="70.0" prefWidth="212.0" text="Leaderboards &gt;">
+               <font>
+                  <Font name="Papyrus" size="22.0" />
+               </font>
+            </Button>
+	              </children>
+	           </Pane>
+      <Pane fx:id="searchPane" layoutX="23.0" layoutY="302.0" prefHeight="55.0" prefWidth="757.0">
+         <children>
+            <TextField fx:id="nameTextbox" layoutX="52.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="478.0" promptText="Enter player name">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="searchButton" defaultButton="true" layoutX="586.0" layoutY="3.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="47.0" prefWidth="150.0" text="Search">
+               <font>
+                  <Font name="Papyrus" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="statsPane" layoutX="50.0" layoutY="150.0" prefHeight="500.0" prefWidth="700.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="229.0" layoutX="-12.0" layoutY="-9.0" opacity="0.25" stroke="#ffffff00" strokeType="INSIDE" strokeWidth="0.0" width="337.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="229.0" layoutX="372.0" layoutY="-9.0" opacity="0.25" stroke="#ffffff00" strokeType="INSIDE" strokeWidth="0.0" width="337.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="229.0" layoutX="-12.0" layoutY="250.0" opacity="0.25" stroke="#ffffff00" strokeType="INSIDE" strokeWidth="0.0" width="337.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="229.0" layoutX="370.0" layoutY="250.0" opacity="0.25" stroke="#ffffff00" strokeType="INSIDE" strokeWidth="0.0" width="337.0" />
+            <Text fill="#9e9e9e" layoutX="583.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Times Poisoned" textAlignment="CENTER" wrappingWidth="128.01953125">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="55.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Games Won" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="gamesWon" fill="WHITE" layoutX="3.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" textAlignment="CENTER" wrappingWidth="307.0">
+               <font>
+                  <Font name="System Bold" size="96.0" />
+               </font>
+            </Text>
+            <Text fx:id="gamesPlayed" fill="WHITE" layoutX="24.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="145" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="6.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Games Played" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="winRatio" fill="WHITE" layoutX="223.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.10" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="220.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Win Ratio" textAlignment="CENTER" wrappingWidth="89.01953125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="447.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Items Used" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="itemsUsed" fill="WHITE" layoutX="387.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="392" textAlignment="CENTER" wrappingWidth="307.0">
+               <font>
+                  <Font name="System Bold" size="96.0" />
+               </font>
+            </Text>
+            <Text fx:id="avgItemsUsed" fill="WHITE" layoutX="415.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.3" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="388.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Items Used" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="avgItemsCollected" fill="WHITE" layoutX="610.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4.3" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="587.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Items Collected" textAlignment="CENTER" wrappingWidth="128.01953125">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="46.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice Thrown" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="numDiceRolled" fill="WHITE" layoutX="-1.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3929" textAlignment="CENTER" wrappingWidth="307.0">
+               <font>
+                  <Font name="System Bold" size="96.0" />
+               </font>
+            </Text>
+            <Text fx:id="avgDiceRoll" fill="WHITE" layoutX="15.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.32" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="-3.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Dice Roll" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="avgFinishTile" fill="WHITE" layoutX="214.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="62" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="191.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Finishing Tile" textAlignment="CENTER" wrappingWidth="128.01953125">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="398.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ladders Climbed" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="ladders" fill="WHITE" layoutX="385.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="62" textAlignment="CENTER" wrappingWidth="307.0">
+               <font>
+                  <Font name="System Bold" size="96.0" />
+               </font>
+            </Text>
+            <Text fx:id="snakes" fill="WHITE" layoutX="413.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="239" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fill="#9e9e9e" layoutX="402.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snake Snack" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="timesPoisoned" fill="WHITE" layoutX="604.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="62" textAlignment="CENTER" wrappingWidth="82.828125">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <ImageView fitHeight="262.0" fitWidth="212.0" layoutX="507.0" layoutY="-57.0" pickOnBounds="true" preserveRatio="true" x="200.0" y="700.0">
+         <image>
+            <Image url="@../../asset/coralsnake.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="399.0" fitWidth="337.0" layoutX="-98.0" layoutY="-130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../asset/Ladders/ladder2.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="message" fill="RED" layoutX="68.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="664.0">
+         <font>
+            <Font name="Papyrus" size="24.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>

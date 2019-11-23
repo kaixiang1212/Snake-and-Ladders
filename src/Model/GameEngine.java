@@ -248,6 +248,7 @@ public class GameEngine {
 				newX = gameboard.isSnake(currX, currY).getTail().getKey();
 				newY = gameboard.isSnake(currX, currY).getTail().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				currPlayer.getStats().incrementSnakes();
 				MusicController.playSnake();
 				
 				// Get snake ImageViews and wriggle snake
@@ -277,6 +278,7 @@ public class GameEngine {
 				newX = gameboard.isLadder(currX, currY).getTop().getKey();
 				newY = gameboard.isLadder(currX, currY).getTop().getValue();
 				int newPos = updatePosition(currPlayer, gameboard.getPosition(newX, newY));
+				currPlayer.getStats().incrementLadders();
 				MusicController.playLadder();
 
 				// Get ladder ImageViews and shake Ladder

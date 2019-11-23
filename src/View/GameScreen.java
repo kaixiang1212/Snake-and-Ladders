@@ -2,7 +2,6 @@ package View;
 
 import Controller.*;
 import Model.Board.BoardType;
-import Model.GameEngine;
 
 import java.io.IOException;
 
