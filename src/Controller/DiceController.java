@@ -52,7 +52,6 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
-    private int spawnItemChance;		// Chance of an item spawning each turn in percentage
     private static int spawnItemChance;		// Chance of an item spawning each turn in percentage
     private static boolean powerupsEnabled = true;
     public DiceController() {
