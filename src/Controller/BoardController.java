@@ -411,7 +411,7 @@ public class BoardController {
         }
         GameEngine.getBoard().removeItems(expired);
     }
-    
+
     /**
      * Clears picked up items from the board as soon as they are picked up (expiryCounter == GameEngine.pickedUpItemExpiry == -1000)
      */
@@ -441,6 +441,7 @@ public class BoardController {
     	switch (code) {
 			case SPACE:
 			case ENTER:
+				if (AnimationController.isPlayerMoving()) return;
 				if (AnimationController.isSpinning()) diceController.stopButtonClicked();
 				else diceController.rollButtonClicked();
 				break;
