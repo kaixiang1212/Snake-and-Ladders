@@ -202,28 +202,70 @@ public class BoardController {
 		
 		if(GameEngine.getBoard().getBoardType() == BoardType.SNAKELESS || GameEngine.getBoard().getBoardType() == BoardType.PLAIN)
 			return;
+		
 		// Wriggle Green snake periodically
 		ImageView greenSnakeGif = getGif("gifSnake6");
 		ImageView greenSnakeImg = getImg("Snake6");
+		ImageView pgreenSnakeGif = getGif("poisgifSnake6");
+		ImageView pgreenSnakeImg = getImg("Snake6pois");
 		
-		timeTask = new TimerTask() {
-			 
-            @Override
-            public void run() {
-            	wriggleSnake(greenSnakeGif, greenSnakeImg);
-        		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-        		pause.setOnFinished(event ->
-        		AnimationController.stopwriggleSnake(greenSnakeGif, greenSnakeImg)
-        		);
-        		pause.play();
-            }
-             
-        };
+		
+		startPeridicMovement();
 
-        timer = new Timer();
-         
-        timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
+	}
+	
+	public void startPeridicMovement() {
+		// Wriggle Green snake periodically
+				ImageView greenSnakeGif = getGif("gifSnake6");
+				ImageView greenSnakeImg = getImg("Snake6");
+				
+				timeTask = new TimerTask() {
+					 
+		            @Override
+		            public void run() {
+		            	wriggleSnake(greenSnakeGif, greenSnakeImg);
+		        		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+		        		pause.setOnFinished(event ->
+		        		AnimationController.stopwriggleSnake(greenSnakeGif, greenSnakeImg)
+		        		);
+		        		pause.play();
+		            }
+		             
+		        };
 
+		        timer = new Timer();
+		         
+		        timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
+	}
+	
+	public void startPoisonMovement() {
+		// Wriggle Green snake periodically
+
+		ImageView pgreenSnakeGif = getGif("poisgifSnake6");
+		ImageView pgreenSnakeImg = getImg("Snake6pois");
+				
+				timeTask = new TimerTask() {
+					 
+		            @Override
+		            public void run() {
+		            	wriggleSnake(pgreenSnakeGif, pgreenSnakeImg);
+		        		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+		        		pause.setOnFinished(event ->
+		        			AnimationController.stopwriggleSnake(pgreenSnakeGif, pgreenSnakeImg)
+		        		);
+		        		pause.play();
+		            }
+		             
+		        };
+
+		        timer = new Timer();
+		         
+		        timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
+	}
+
+	
+	public void pausePeriodicMove() {
+		timer.cancel();
 	}
 	
 	// Ladder Business
@@ -317,6 +359,8 @@ public class BoardController {
 			img = Snake4pois;
 		} else if(id.equals("Snake5pois")) {
 			img = Snake5pois;
+		} else if(id.equals("Snake6pois")) {
+			img = Snake6pois;
 		} else if(id.equals("Snake7pois")) {
 			img = Snake7pois;
 		} return img;

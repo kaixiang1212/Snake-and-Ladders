@@ -178,4 +178,18 @@ public class AnimationController {
 		boardController.stopwriggleSnake(snakeGif, snakeImg);
 	}
 
+	
+	// Periodic movement controlling
+	public static void startperiodicMovement() {
+		boardController.startPeridicMovement();
+	}
+	
+	public static void pauseperiodicMovement() {
+		boardController.pausePeriodicMove();
+	}
+	
+	public static void startpoisonMovement() {
+		boardController.startPoisonMovement();
+	}
+	
 }

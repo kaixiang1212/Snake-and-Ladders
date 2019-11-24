@@ -279,6 +279,8 @@ public class GameEngine {
 				currPlayer.getStats().incrementSnakes();
 				MusicController.playSnake();
 
+					
+				
 				// Get snake ImageViews and wriggle snake
 				if (currSnake.isPoisonous() == false) {
 					ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
@@ -286,6 +288,10 @@ public class GameEngine {
 					
 					
 					if (Math.random() < ((float) poisonChance/100f) && dynamicSnakes) {
+						if (currSnake.getId().equals("Snake6")) {
+							// Disable periodic movement temporarily
+							AnimationController.pauseperiodicMovement();
+						}
 						currSnake.setPoisonous();
 						ImageView psnakeImg = AnimationController.getpoisonousImgView(currSnake.getId());
 						AnimationController.wriggleSnake(snakeGif, snakeImg);
@@ -295,6 +301,10 @@ public class GameEngine {
 							AnimationController.stopwriggleSnake(snakeGif, psnakeImg)
 						);
 						pause.play();
+						
+						if (currSnake.getId().equals("Snake6")) {
+							AnimationController.startpoisonMovement();
+						}
 					} else {
 						AnimationController.wriggleSnake(snakeGif, snakeImg);
 						// Stop wriggling snake after 2 secs
@@ -317,18 +327,6 @@ public class GameEngine {
 					);
 					pause.play();
 				}
-
-				ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
-				ImageView snakeImg = AnimationController.getImgView(currSnake.getId());
-
-				AnimationController.wriggleSnake(snakeGif, snakeImg);
-				// Stop wriggling snake after 2 secs
-				PauseTransition pause = new PauseTransition(Duration.seconds(1));
-				pause.setOnFinished(event ->
-					AnimationController.stopwriggleSnake(snakeGif, snakeImg)
-				);
-				pause.play();
-
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
 				int newX, newY;
@@ -356,10 +354,14 @@ public class GameEngine {
 						.append(" climbs a ladder moves up from ")
 						.append(currPos).append(" to ")
 						.append(newPos).append("\n");
+				
 				//updateState();
 			}
 		}
 		finished = false;
+		
+		// Start periodic movement temporarily
+		//AnimationController.startperiodicMovement();
 	}
 
 	public static String getConsole(){
