@@ -699,8 +699,6 @@ public class DiceController {
 	@FXML
 	void helpButtonClicked(){
     	clearInventory();
-    	System.out.println(activeEffect0.isDisable());
-    	System.out.println(doubleRoll);
     	activeEffect0.setImage(doubleRoll);
     	activeEffect1.setImage(poisonStatus);
     	activeEffect2.setImage(shield);
