@@ -98,6 +98,8 @@ public abstract class BoardLoader {
             if (snake != null) {
             	GameEngine.getBoard().addEntity(snake);
             }
+            break;
+            
         case "ladder":
         	Ladder ladder = new Ladder(x, y, x2, y2, id);
         	onLoad(ladder);
