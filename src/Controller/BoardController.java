@@ -105,6 +105,12 @@ public class BoardController {
 	private Button musicButton;
 	@FXML
 	private Button soundFXButton;
+	@FXML
+	private ImageView helpFilter;
+	@FXML
+	private Pane rootPane;
+	@FXML
+	private VBox itemHelp;
 	
 	private List<Pair<Entity, ImageView>> initialEntities;
 	private TimerTask timeTask;
@@ -121,6 +127,8 @@ public class BoardController {
 		this.initialEntities = new ArrayList<>(initialEntities);
 		diceController.config(this);
 		hideMenu();
+		helpFilter.setOpacity(0.9);
+		diceController.helpButtonClicked();
 	}
 	
 	/**
@@ -441,6 +449,10 @@ public class BoardController {
     	switch (code) {
 			case SPACE:
 			case ENTER:
+				if (rootPane.getChildren().contains(helpFilter)) {
+					helpFilterClicked();
+					return;
+				}
 				if (AnimationController.isPlayerMoving()) return;
 				if (AnimationController.isSpinning()) diceController.stopButtonClicked();
 				else diceController.rollButtonClicked();
@@ -484,6 +496,18 @@ public class BoardController {
 			default:
 				break;
 		}
+	}
+
+	@FXML
+	public void helpFilterClicked(){
+    	diceController.hideHelpFilter();
+    	rootPane.getChildren().remove(itemHelp);
+		rootPane.getChildren().remove(helpFilter);
+	}
+
+	void showHelpFilter(){
+    	if (!rootPane.getChildren().contains(helpFilter)) rootPane.getChildren().add(helpFilter);
+    	if (!rootPane.getChildren().contains(itemHelp)) rootPane.getChildren().add(itemHelp);
 	}
 
 }

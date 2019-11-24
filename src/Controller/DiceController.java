@@ -101,7 +101,7 @@ public class DiceController {
     private int currentPos;
     private int destination;
     private int diceResult;
-    private boolean isPaused;
+    boolean isPaused;
     private boolean rolling;
     private static int spawnItemChance;		// Chance of an item spawning each turn in percentage
     private static boolean powerupsEnabled = true;
@@ -109,6 +109,7 @@ public class DiceController {
     private ArrayList<ImageView> activeEffect;
     private ArrayList<ImageView> playerQueue;
     private ArrayList<Text> itemLabel;
+    private ArrayList<Image> items;
 
 
     public DiceController() {
@@ -128,13 +129,6 @@ public class DiceController {
         diceFaceAlt[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4alt.png")));
         diceFaceAlt[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5alt.png")));
         diceFaceAlt[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6alt.png")));
-
-		extraRoll = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect1.png")));
-		poisonStatus = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect2.png")));
-		shield = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect3.png")));
-		rollBack = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect4.png")));
-		doubleRoll = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect5.png")));
-		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
         MusicController.initDice();
         new AnimationController(this, boardController);
@@ -176,6 +170,8 @@ public class DiceController {
 		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
 		message.setText("\n");
+		menuButton.setFocusTraversable(false);
+		helpButton.setFocusTraversable(false);
 
 	}
 
@@ -587,6 +583,7 @@ public class DiceController {
 
     private void initInventory(){
 		inventory = new ArrayList<>();
+		items = new ArrayList<>();
 		inventory.add(inventory1);
 		inventory.add(inventory2);
 		inventory.add(inventory3);
@@ -599,6 +596,7 @@ public class DiceController {
 
 		for (ImageView imageView : inventory){
 			imageView.toFront();
+			items.add(imageView.getImage());
 		}
 
 		itemLabel = new ArrayList<>();
@@ -645,12 +643,14 @@ public class DiceController {
 		activeEffect.add(activeEffect4);
 		activeEffect.add(activeEffect5);
 		clearActiveEffect();
+		for (ImageView img : activeEffect){
+			img.setVisible(true);
+		}
 	}
 
 	private void clearActiveEffect(){
 		for (ImageView item : activeEffect){
 			item.setImage(null);
-			item.setVisible(false);
 		}
 	}
 
@@ -695,4 +695,32 @@ public class DiceController {
     	Item item = items.get(number-1);
     	if (item != null) itemClicked(item);
 	}
+
+	@FXML
+	void helpButtonClicked(){
+    	clearInventory();
+    	System.out.println(activeEffect0.isDisable());
+    	System.out.println(doubleRoll);
+    	activeEffect0.setImage(doubleRoll);
+    	activeEffect1.setImage(poisonStatus);
+    	activeEffect2.setImage(shield);
+    	activeEffect3.setImage(extraRoll);
+    	int i = 0;
+    	for (ImageView imageView : inventory){
+    		imageView.setImage(items.get(i));
+    		i++;
+		}
+		boardController.showHelpFilter();
+		isPaused = true;
+
+	}
+
+	@FXML
+	void hideHelpFilter(){
+    	isPaused = false;
+    	updateToken();
+    	setActiveEffects();
+    	setInventory();
+	}
+
 }

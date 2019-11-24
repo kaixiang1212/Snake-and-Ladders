@@ -275,7 +275,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="43.0" prefWidth="43.0" text="?">
+            <Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpButtonClicked" prefHeight="43.0" prefWidth="43.0" text="?">
                <HBox.margin>
                   <Insets left="60.0" />
                </HBox.margin>
