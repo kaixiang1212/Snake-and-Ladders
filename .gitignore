@@ -5,3 +5,4 @@ bin/*
 *.iws
 *.class
 /bin/
+*.pyc

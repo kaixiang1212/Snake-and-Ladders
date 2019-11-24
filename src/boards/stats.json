@@ -1,29 +1,29 @@
 {"players": [
   {
-    "totalFinishTile": 232,
+    "totalFinishTile": 305,
     "itemsUsed": 8,
     "playerName": "Mario",
-    "gamesPlayed": 3,
-    "ladders": 4,
+    "gamesPlayed": 4,
+    "ladders": 5,
     "timesPoisoned": 4,
-    "itemsCollected": 10,
-    "totalDiceResults": 186,
+    "itemsCollected": 11,
+    "totalDiceResults": 235,
     "snakes": 3,
-    "numDiceRolled": 61,
+    "numDiceRolled": 75,
     "gamesWon": 1
   },
   {
-    "totalFinishTile": 289,
+    "totalFinishTile": 389,
     "itemsUsed": 6,
     "playerName": "DK",
-    "gamesPlayed": 3,
-    "ladders": 3,
-    "timesPoisoned": 1,
+    "gamesPlayed": 4,
+    "ladders": 5,
+    "timesPoisoned": 2,
     "itemsCollected": 10,
-    "totalDiceResults": 216,
-    "snakes": 1,
-    "numDiceRolled": 63,
-    "gamesWon": 2
+    "totalDiceResults": 274,
+    "snakes": 2,
+    "numDiceRolled": 78,
+    "gamesWon": 3
   },
   {
     "totalFinishTile": 244,
