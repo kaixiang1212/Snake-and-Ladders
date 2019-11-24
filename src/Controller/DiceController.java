@@ -109,7 +109,6 @@ public class DiceController {
     private int destination;
     private int diceResult;
     private boolean isPaused;
-    private boolean rolling;
     private static int spawnItemChance;		// Chance of an item spawning each turn in percentage
     private static boolean powerupsEnabled = true;
     private ArrayList<ImageView> inventory;
@@ -126,7 +125,6 @@ public class DiceController {
         diceFace[3] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice4.png")));
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
-        rolling = false;
 
         this.diceFaceAlt = new Image[6];
         diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
@@ -197,7 +195,7 @@ public class DiceController {
     	if (isPaused) return;
     	if (AnimationController.isPlayerMoving()) return;
         if (AnimationController.isSpinning()) return;
-        rolling = true;
+
         diceImage.setFitWidth(140);
 		diceImage.setFitHeight(140);
 		diceImage.setTranslateX(5);
@@ -496,7 +494,7 @@ public class DiceController {
 			case SKIPTURN:
 				targetPlayer = GameEngine.getNextPlayer();
 				if (targetPlayer != null && targetPlayer.isSkipped()) {
-					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+					text.setText("Could not use item!\n" + item.getName() + " is already activate.");
 				} else if(targetPlayer != null && !targetPlayer.isShield()) {
 					targetPlayer.setSkipped(true);
 					player.useItem(item);
@@ -507,7 +505,7 @@ public class DiceController {
 				break;
 			case EXTRAROLL:
 				if(player.isExtraRoll()) {
-					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+					text.setText("Could not use item!\n" + item.getName() + " is already activate.");
 				} else {
 					player.setExtraRoll(true);
 					player.useItem(item);
@@ -540,7 +538,7 @@ public class DiceController {
 					player.useItem(item);
 					text.setText(item.getName() + " activated!" + "\nRolling " + targetPlayer.getPlayerName() + " back.");
 				} else if (targetPlayer != null && player.isRollBack()) {
-					text.setText("Could not use item!\n" + item.getName()+ " is already activated.");
+					text.setText("Could not use item!\n" + item.getName()+ " is already activate.");
 				}
 				else {
 					text.setText("Could not use item!\n Target player is shielded or it's you.");
@@ -548,7 +546,7 @@ public class DiceController {
 				break;
 			case DOUBLE:
 				if(player.isDoubleRoll()) {
-					text.setText("Could not use item!\n" + item.getName() + " is already activated.");
+					text.setText("Could not use item!\n" + item.getName() + " is already activate.");
 				} else {
 					player.setDoubleRoll(true);
 					player.useItem(item);
