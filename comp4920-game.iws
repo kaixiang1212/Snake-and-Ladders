@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef592113-7df6-4b68-961d-0d1222d775a9" name="Default Changelist" comment="" />
+    <list default="true" id="ef592113-7df6-4b68-961d-0d1222d775a9" name="Default Changelist" comment="Merge branch 'networking2'&#10;&#10;# Conflicts:&#10;#&#9;src/Controller/BoardController.java&#10;#&#9;src/Controller/DiceController.java&#10;#&#9;src/Controller/PlayerCustomizationController.java&#10;#&#9;src/Model/GameEngine.java">
+      <change beforePath="$PROJECT_DIR$/comp4920-game.iws" beforeDir="false" afterPath="$PROJECT_DIR$/comp4920-game.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Networking/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Networking/Server.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +16,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1SuC8Xzo7bPpaqoLXfDPzVwCbyI" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -60,6 +68,14 @@
       <updated>1572403934925</updated>
       <workItem from="1572403938656" duration="24000" />
     </task>
+    <task id="LOCAL-00001" summary="Close server when exiting program">
+      <created>1574410114952</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574410114952</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -70,10 +86,17 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'networking2'&#10;&#10;# Conflicts:&#10;#&#9;src/Controller/BoardController.java&#10;#&#9;src/Controller/DiceController.java&#10;#&#9;src/Controller/PlayerCustomizationController.java&#10;#&#9;src/Model/GameEngine.java" />
+    <MESSAGE value="Close server when exiting program" />
+    <option name="LAST_COMMIT_MESSAGE" value="Close server when exiting program" />
   </component>
 </project>

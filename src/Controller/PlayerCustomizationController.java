@@ -3,13 +3,16 @@ package Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
+import View.StartGameScreen;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import org.json.JSONException;
 
+import Model.Board.BoardType;
 import Model.GameEngine;
 import Model.Player;
 import View.GameScreen;
@@ -21,17 +24,20 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 public class PlayerCustomizationController {
-	
+
 	private final int maxTokens = 8;
-	
+
     @FXML
     private FlowPane flowPane;
 
     private int playerCount = 1;
-    private int boardNum;
+    private BoardType boardType;
 
     private ArrayList<Integer> token;
     private ArrayList<Integer> availableToken;
+
+    private Server server;
+
 
     public PlayerCustomizationController(){
         token = new ArrayList<>();
@@ -41,21 +47,21 @@ public class PlayerCustomizationController {
         token.add(3,-1);
         availableToken = new ArrayList<>();
         MusicController.initUI();
+        server = new Server();
+        server.setCustomisableController(this);
+        server.start();
+        server.onPlayerSelection();
+
     }
 
-    /**
-     * Render a customisation screen for
-     * given number of player
-     * @param numPlayer number of player
-     */
-    public void setPlayers(int numPlayer){
-        while (playerCount != numPlayer){
+    public void config(int numPlayer, BoardType type) {
+    	while (playerCount != numPlayer){
             addPlayer();
             playerCount++;
         }
+        server.setPlayers(numPlayer);
+    	boardType = type;
     }
-    
-    public void setBoard(int b) { boardNum = b; }
 
     /**
      * Add player
@@ -71,7 +77,6 @@ public class PlayerCustomizationController {
         textField.setText("Player " + (playerCount+1));
         vBox.getChildren().add(textField);
         this.flowPane.getChildren().add(vBox);
-
         textField.setAlignment(Pos.CENTER);
         textField.setFont(new Font(16));
         vBox.setAlignment(Pos.CENTER);
@@ -80,7 +85,7 @@ public class PlayerCustomizationController {
         vBox.setPrefSize(100, 10);
         VBox.setMargin(textField, new Insets(10,0,0,0));
         FlowPane.setMargin(vBox, new Insets(10,10,0,10));
-        setPlayerToken(playerCount, playerNum);   
+        setPlayerToken(playerCount, playerNum);
     }
 
     /**
@@ -160,30 +165,58 @@ public class PlayerCustomizationController {
     }
 
     @FXML
-    public void backButtonClicked(){ 	
+    public void backButtonClicked() throws IOException {
     	MusicController.playBack();
         PlayerNumSelectionScreen.start();
+        server.kill();
     }
 
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
-    	MusicController.playNext();  
-        new GameEngine(boardNum);
+
+    	MusicController.playNext();
+        GameEngine.setServer(server);
+        ArrayList<Player> players = new ArrayList<Player>();
         int tokenIndex = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
                 for (Node node1 : ((VBox) node).getChildren()){
                     if (node1 instanceof TextField) {
                         String playerName = ((TextField) node1).getText();
-                        GameEngine.addPlayer(new Player(playerName, token.get(tokenIndex), 0, 0));
+                        players.add(new Player(playerName, token.get(tokenIndex), 0, 0));
                         tokenIndex++;
                     }
                 }
             }
         }
-        
-        new GameScreen();
+        GameEngine.setPlayers(players);
+        new GameScreen(boardType);
         GameScreen.start();
     }
 
+    public void playerChangeToken(int player) {
+        MusicController.clear();
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        ImageView img = (ImageView) vbox.getChildren().get(0);
+        MusicController.playSwitch();
+        int nextToken = nextToken();
+        img.setImage(getImage(nextToken));
+        setPlayerToken(player - 1, nextToken);
+    }
+
+    public void playerChangeName(int player, String playerName){
+        VBox vbox = (VBox) flowPane.getChildren().get(player - 1);
+        TextField nameField = (TextField) vbox.getChildren().get(1);
+        nameField.setText(playerName);
+    }
+
+    public void setStage() {
+        StartGameScreen.getStage().setOnCloseRequest(windowEvent -> {
+            try {
+                server.kill();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

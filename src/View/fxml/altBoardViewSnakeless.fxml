@@ -97,11 +97,6 @@
             <Image url="@../../asset/gifs/gifLadder4.gif" />
          </image>
       </ImageView>
-      <ImageView fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
-         <image>
-            <Image url="@../../asset/Ladders/Ladder7.png" />
-         </image>
-      </ImageView>
       <ImageView fx:id="Ladder7" fitHeight="190.0" fitWidth="200.0" layoutX="-39.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" x="670.0" y="40.0">
          <image>
             <Image url="@../../asset/Ladders/Ladder7.png" />

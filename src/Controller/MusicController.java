@@ -28,10 +28,11 @@ public class MusicController {
     private static MediaPlayer itemAppearPlayer;
     private static MediaPlayer itemDisappearPlayer;
     private static MediaPlayer itemPickupPlayer;
+    private static MediaPlayer itemActivatePlayer;
 
     private static boolean initBoard = false;
     private static MediaPlayer bgMusicPlayer;
-    
+
     private static boolean soundFxOn = true;
     private static boolean musicOn = true;
 
@@ -62,7 +63,7 @@ public class MusicController {
         Media diceThrow1 = new Media(new File("src/asset/Sound/diceThrow1.mp3").toURI().toString());
         Media diceThrow2 = new Media(new File("src/asset/Sound/diceThrow2.mp3").toURI().toString());
         Media dice6Sound = new Media(new File("src/asset/Sound/rolled6.mp3").toURI().toString());
-        
+
         diceRollPlayer = new MediaPlayer(diceRoll);
         diceThrowPlayer1 = new MediaPlayer(diceThrow1);
         diceThrowPlayer2 = new MediaPlayer(diceThrow2);
@@ -92,6 +93,7 @@ public class MusicController {
         Media itemAppearSound = new Media(new File("src/asset/Sound/itemappear.mp3").toURI().toString());
         Media itemDisappearSound = new Media(new File("src/asset/Sound/itemdisappear.mp3").toURI().toString());
         Media itemPickupSound = new Media(new File("src/asset/Sound/itempickup.mp3").toURI().toString());
+        Media itemActivateSound = new Media(new File("src/asset/Sound/itemactive.mp3").toURI().toString());
 
         ascendPlayer = new MediaPlayer(ascendSound);
         descendPlayer = new MediaPlayer(descendSound);
@@ -102,8 +104,9 @@ public class MusicController {
         itemAppearPlayer = new MediaPlayer(itemAppearSound);
         itemDisappearPlayer = new MediaPlayer(itemDisappearSound);
         itemPickupPlayer = new MediaPlayer(itemPickupSound);
+        itemActivatePlayer = new MediaPlayer(itemActivateSound);
     }
-    
+
     /**
      * Initialise background sounds
      */
@@ -145,9 +148,11 @@ public class MusicController {
             itemAppearPlayer.stop();
             itemDisappearPlayer.stop();
             itemPickupPlayer.stop();
+            itemActivatePlayer.stop();
+            victoryPlayer.stop();
         }
     }
-    
+
     public static void playNext(){
         if (!initUI) return;
         clear();
@@ -195,7 +200,7 @@ public class MusicController {
         if(soundFxOn)
         	dice6Player.play();
     }
-    
+
     public static void playMove(){
         if (!initGame) return;
         movePlayer.seek(Duration.ZERO);
@@ -203,27 +208,35 @@ public class MusicController {
         if(soundFxOn)
         	movePlayer.play();
     }
-    
+
     public static void playItemAppear() {
     	if (!initGame) return;
         itemAppearPlayer.setVolume(0.4);
         if(soundFxOn)
         	itemAppearPlayer.play();
     }
-    
+
     public static void playItemDisappear() {
     	if (!initGame) return;
         itemDisappearPlayer.setVolume(0.3);
         if(soundFxOn)
         	itemDisappearPlayer.play();
     }
-    
+
     public static void playItemPickup() {
     	if (!initGame) return;
         itemPickupPlayer.setVolume(0.7);
         clear();
         if(soundFxOn)
         	itemPickupPlayer.play();
+    }
+
+    public static void playItemActivate() {
+    	if (!initGame) return;
+        itemActivatePlayer.setVolume(0.7);
+        clear();
+        if(soundFxOn)
+        	itemActivatePlayer.play();
     }
 
     public static void playSnake(){
@@ -259,29 +272,29 @@ public class MusicController {
         if(musicOn)
         	bgMusicPlayer.play();
     }
-    
+
     public static void stopBGM(){
         if (!initBoard) return;
         bgMusicPlayer.stop();
     }
-    
+
     public static void pauseBGM(){
         if (!initBoard) return;
         bgMusicPlayer.pause();
     }
-    
+
     public static void togglefx() {
     	soundFxOn = !soundFxOn;
     }
-    
+
     public static void toggleMusic() {
     	musicOn = !musicOn;
     }
-    
+
     public static boolean getFxToggle() {
     	return soundFxOn;
     }
-    
+
     public static boolean getMusicToggle() {
     	return musicOn;
     }

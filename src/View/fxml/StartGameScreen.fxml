@@ -8,36 +8,35 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartGameScreenController">
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StartGameScreenController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
-      <Text fill="#9a7a39" layoutX="336.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="neks">
-         <font>
-            <Font name="Papyrus" size="51.0" />
-         </font>
-      </Text>
       <ImageView fitHeight="750.0" layoutX="-179.0" layoutY="-154.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../asset/Ladders/Ladder2.png" />
          </image>
       </ImageView>
-      <Text fill="#9a7a39" layoutX="276.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
-         <font>
-            <Font name="Papyrus" size="96.0" />
-         </font>
-      </Text>
-      <Text fill="#9a7a39" layoutX="364.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="adders">
+      <Text fill="#9a7a39" layoutX="336.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="neks">
          <font>
             <Font name="Papyrus" size="51.0" />
          </font>
       </Text>
-      <Text fill="#9a7a39" layoutX="323.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L" wrappingWidth="89.265625">
+      <Text fill="#9a7a39" layoutX="276.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
          <font>
             <Font name="Papyrus" size="96.0" />
          </font>
       </Text>
-      <Text fill="#9a7a39" layoutX="368.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&amp;">
+      <Text fill="#9a7a39" layoutX="364.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="adders">
+         <font>
+            <Font name="Papyrus" size="51.0" />
+         </font>
+      </Text>
+      <Text fill="#9a7a39" layoutX="323.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L" wrappingWidth="89.265625">
+         <font>
+            <Font name="Papyrus" size="96.0" />
+         </font>
+      </Text>
+      <Text fill="#9a7a39" layoutX="368.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&amp;">
          <font>
             <Font name="Papyrus" size="55.0" />
          </font>
@@ -47,7 +46,7 @@
             <Image url="@../../asset/coralsnake.png" />
          </image>
       </ImageView>
-      <Button fx:id="StartGameButton" layoutX="314.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
+      <Button fx:id="StartGameButton" layoutX="314.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleStartGameButton" prefHeight="62.0" prefWidth="172.0" text="Start Game">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>
@@ -58,6 +57,11 @@
          </font>
       </Button>
       <Button fx:id="ExitGameButton" layoutX="314.0" layoutY="705.0" mnemonicParsing="false" onAction="#handleExitGameButton" prefHeight="51.0" prefWidth="172.0" text="Exit">
+         <font>
+            <Font name="Papyrus" size="22.0" />
+         </font>
+      </Button>
+      <Button fx:id="statsButton" layoutX="314.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleStatsButton" prefHeight="51.0" prefWidth="172.0" text="Statistics">
          <font>
             <Font name="Papyrus" size="22.0" />
          </font>

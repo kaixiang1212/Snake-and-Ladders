@@ -7,7 +7,8 @@ import javafx.scene.image.ImageView;
 
 public class AnimationController {
 	private static final int maxFrames = 300;
-	private static final int animationFrames = 5;
+	private static final int playerAnimationFrames = 10;
+	private static final int diceAnimationFrames = 3;
 	private static final long frametime = 8333333;
 
     private static int frame;
@@ -52,7 +53,7 @@ public class AnimationController {
         	poisoned = GameEngine.getCurrentPlayer().getPoisonStatus();
         	
         	if (isSpinning) {
-        		if (frame % animationFrames == 0) {
+        		if (frame % diceAnimationFrames == 0) {
         			int num;
         			int maxNum = 6;
         			if(poisoned)
@@ -75,12 +76,12 @@ public class AnimationController {
             	if(destination < 0)
             		destination = diceController.getDestination();
             	
-        		if (frame%(animationFrames*2) == 0 && currentPos == destination) {
+        		if (frame%playerAnimationFrames == 0 && currentPos == destination) {
         			targetPlayer = null;
         			currentPos = -1;
         			destination = -1;
         			diceController.prepareNextTurn();
-        		} else if (frame%(animationFrames*2) == 0 && currentPos != destination) {
+        		} else if (frame%playerAnimationFrames == 0 && currentPos != destination) {
         			if(GameEngine.getCurrentPlayer().isRollBack()) {
         				if(targetPlayer == null)
         					targetPlayer = GameEngine.getLeadingPlayer();
@@ -116,6 +117,8 @@ public class AnimationController {
     	isSpinning = value;
     }
 
+    public static boolean isSpinning(){ return isSpinning; }
+
     /**
      * Sets whether current player should be moving or not currently
      * @param value: true if current player should currently be moving
@@ -125,6 +128,8 @@ public class AnimationController {
     	frame = 0;
     	isPlayerMoving = value;
     }
+
+    public static boolean isPlayerMoving(){ return isPlayerMoving; }
     
 	public static ImageView getGifView (String id) {
 		// Call function from boardcontroller that returns the corresponding id String.

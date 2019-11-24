@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import Model.Board.BoardType;
 import View.*;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -135,14 +137,15 @@ public class BoardController {
 	private Button soundFXButton;
 	
 	private List<Pair<Entity, ImageView>> initialEntities;
-	
+	private TimerTask timeTask;
+    private Timer timer;
+    
 	public BoardController() {
 	}
 
     /**
      * Configuration for Board Controller and configure Dice Controller
-     * @param engine Game Engine
-     * @param initialEntities
+     * @param initialEntities .
      */
 	public void config(List<Pair<Entity, ImageView>> initialEntities) {
 		this.initialEntities = new ArrayList<>(initialEntities);
@@ -189,12 +192,13 @@ public class BoardController {
 		MusicController.initBoard();
 		MusicController.playBGM();
 		
-
+		if(GameEngine.getBoard().getBoardType() == BoardType.SNAKELESS || GameEngine.getBoard().getBoardType() == BoardType.PLAIN)
+			return;
 		// Wriggle Green snake periodically
 		ImageView greenSnakeGif = getGif("gifSnake6");
 		ImageView greenSnakeImg = getImg("Snake6");
 		
-		TimerTask timeTask = new TimerTask(){
+		timeTask = new TimerTask() {
 			 
             @Override
             public void run() {
@@ -207,14 +211,11 @@ public class BoardController {
             }
              
         };
-         
-        Timer timer = new Timer();
+
+        timer = new Timer();
          
         timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
-        
-        
-		
-		
+
 	}
 	
 	// Ladder Business
@@ -336,21 +337,25 @@ public class BoardController {
 		snakeGif.setVisible(false);
 		snakeImg.setVisible(true);
 	}
-	
-	
-	
-	
+
 	/**
 	 * Called when the exit button is clicked from the pause menu
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
     @FXML
-    private void handleExitButton() throws IOException {
+    private void handleExitButton() throws IOException, InterruptedException {
     	hideMenu();
     	MusicController.clear();
     	MusicController.stopBGM();
     	MusicController.playBack();
+    	if(timeTask != null && timer != null) {
+    		timeTask.cancel();
+    		timer.cancel();
+    		timer.purge();
+    	}
         StartGameScreen.start();
+		GameEngine.killServer();
     }
     
     /**
@@ -365,22 +370,24 @@ public class BoardController {
     @FXML
     private void handleMusicButton() throws IOException {
     	MusicController.toggleMusic();
-    	MusicController.playSwitch();
     	if(MusicController.getMusicToggle()) {
     		musicButton.setText("Music: ON");
+    		MusicController.playSwitch();
     	} else {
     		musicButton.setText("Music: OFF");
+    		MusicController.playBack();
     	}
     }
     
     @FXML
     private void handleSoundFXButton() throws IOException {
     	MusicController.togglefx();
-    	MusicController.playSwitch();
     	if(MusicController.getFxToggle() == true) {
     		soundFXButton.setText("Sound FX: ON");
+    		MusicController.playSwitch();
     	} else {
     		soundFXButton.setText("Sound FX: OFF");
+    		MusicController.playBack();
     	}
     }
     
@@ -391,7 +398,7 @@ public class BoardController {
     	menuPane.setManaged(true);
         menuPane.setVisible(true);
         MusicController.pauseBGM();
-        if(MusicController.getFxToggle() == true) {
+        if(MusicController.getFxToggle()) {
     		soundFXButton.setText("Sound FX: ON");
     	} else {
     		soundFXButton.setText("Sound FX: OFF");
@@ -485,5 +492,53 @@ public class BoardController {
         GameEngine.getBoard().removeItems(pickedup);
         diceController.setInventory();
     }
+
+    public void handleKeyPressed(KeyCode code){
+    	switch (code) {
+			case SPACE:
+			case ENTER:
+				if (AnimationController.isSpinning()) diceController.stopButtonClicked();
+				else diceController.rollButtonClicked();
+				break;
+			case DIGIT1:
+			case NUMPAD1:
+				diceController.useItem(1);
+				break;
+			case DIGIT2:
+			case NUMPAD2:
+				diceController.useItem(2);
+				break;
+			case DIGIT3:
+			case NUMPAD3:
+				diceController.useItem(3);
+				break;
+			case DIGIT4:
+			case NUMPAD4:
+				diceController.useItem(4);
+				break;
+			case DIGIT5:
+			case NUMPAD5:
+				diceController.useItem(5);
+				break;
+			case DIGIT6:
+			case NUMPAD6:
+				diceController.useItem(6);
+				break;
+			case DIGIT7:
+			case NUMPAD7:
+				diceController.useItem(7);
+				break;
+			case DIGIT8:
+			case NUMPAD8:
+				diceController.useItem(8);
+				break;
+			case DIGIT9:
+			case NUMPAD9:
+				diceController.useItem(9);
+				break;
+			default:
+				break;
+		}
+	}
 
 }

@@ -1,7 +1,11 @@
 package Model;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
+import Controller.MusicController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -13,7 +17,8 @@ public class Player extends Entity {
     private int turnsShielded;
     private int turnsImmune;
     private ArrayList<Item> items;
-    
+    private Stats stats;
+
     // Player effects
     private boolean isPoisoned;
     private boolean skipped;
@@ -22,14 +27,14 @@ public class Player extends Entity {
     private boolean rollBack;
     private boolean doubleRoll;
     private boolean snakeImmunity;
-    
+
     public Player(String playerName, int token, int x, int y) {
     	super(x, y, Type.PLAYER);
     	this.playerName = playerName;
         this.token = token;
         image = new ImageView(new Image(String.valueOf(getClass().getClassLoader().getResource("asset/token" + token + ".png"))));
 		image.setId("player" + token);
-        items = new ArrayList<Item>();
+        items = new ArrayList<>();
         this.turnsPoisoned = 0;
         this.isPoisoned = false;
         turnsShielded = 0;
@@ -39,6 +44,13 @@ public class Player extends Entity {
         rollBack = false;
         doubleRoll = false;
         snakeImmunity = false;
+        try {
+			stats = new Stats(playerName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -76,6 +88,7 @@ public class Player extends Entity {
     public void setPoison(int turns) {
     	if(turns > 0) {
     		this.isPoisoned = true;
+    		stats.incrementTimesPoisoned();
     	} else {
     		isPoisoned = false;
     		turns = 0;
@@ -98,31 +111,36 @@ public class Player extends Entity {
     public boolean getPoisonStatus() {
     	return this.isPoisoned;
     }
-    
+
     public ArrayList<Item> getItems() {
     	return items;
     }
-    
+
     public void pickupItem(Item item) {
     	items.add(item);
+    	stats.incrementItemsCollected(1);
     }
-    
+
     public void useItem(Item item) {
     	items.remove(item);
+    	stats.incrementItemsUsed(1);
+        MusicController.playItemActivate();
     }
 
     public void useItem(int index) {
     	items.remove(index);
+    	stats.incrementItemsUsed(1);
+        MusicController.playItemActivate();
     }
-    
+
     public boolean isSkipped() {
     	return skipped;
     }
-    
+
     public void setSkipped(boolean skipped) {
     	this.skipped = skipped;
     }
-    
+
     public boolean isExtraRoll() {
 		return extraRoll;
 	}
@@ -144,7 +162,7 @@ public class Player extends Entity {
     	}
     	turnsShielded = turns;
     }
-    
+
     public void updateShield() {
     	if (shield) {
     		if (turnsShielded > 0) {
@@ -156,7 +174,7 @@ public class Player extends Entity {
     		}
     	}
     }
-    
+
 	public boolean isRollBack() {
 		return rollBack;
 	}
@@ -186,7 +204,7 @@ public class Player extends Entity {
     	}
     	turnsImmune = turns;
     }
-	
+
 	public void updateSnakeImmunity() {
     	if (snakeImmunity) {
     		if (turnsImmune > 0) {
@@ -198,7 +216,7 @@ public class Player extends Entity {
     		}
     	}
     }
-	
+
 	public void clearEffects() {
 		isPoisoned = false;
 	    skipped = false;
@@ -208,7 +226,7 @@ public class Player extends Entity {
 	    doubleRoll = false;
 	    snakeImmunity = false;
 	}
-	
+
     public int getTurnsPoisoned() {
 		return turnsPoisoned;
 	}
@@ -221,4 +239,8 @@ public class Player extends Entity {
 		return turnsImmune;
 	}
 	
+	public Stats getStats() {
+		return stats;
+	}
+
 }
