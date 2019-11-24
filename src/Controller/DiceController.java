@@ -651,13 +651,14 @@ public class DiceController {
 		activeEffect.add(activeEffect5);
 		clearActiveEffect();
 		for (ImageView img : activeEffect){
-			img.setVisible(true);
+			img.setVisible(false);
 		}
 	}
 
 	private void clearActiveEffect(){
 		for (ImageView item : activeEffect){
 			item.setImage(null);
+			item.setVisible(false);
 		}
 	}
 
