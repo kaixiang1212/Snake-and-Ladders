@@ -92,6 +92,36 @@ public class BoardController {
 	@FXML
 	private ImageView gifSnake7;
 	
+	// All poisonous snake graphics
+	@FXML
+	private ImageView Snake1pois;
+	@FXML
+	private ImageView poisgifSnake1;
+	@FXML
+	private ImageView Snake2pois;
+	@FXML
+	private ImageView poisgifSnake2;
+	@FXML
+	private ImageView Snake3pois;
+	@FXML
+	private ImageView poisgifSnake3;
+	@FXML
+	private ImageView Snake4pois;
+	@FXML
+	private ImageView poisgifSnake4;
+	@FXML
+	private ImageView Snake5pois;
+	@FXML
+	private ImageView poisgifSnake5;
+	@FXML
+	private ImageView Snake6pois;
+	@FXML
+	private ImageView poisgifSnake6;
+	@FXML
+	private ImageView Snake7pois;
+	@FXML
+	private ImageView poisgifSnake7;
+
 	
 	@FXML
 	private AnchorPane menuPane;
@@ -181,6 +211,8 @@ public class BoardController {
         Timer timer = new Timer();
          
         timer.scheduleAtFixedRate(timeTask, 3000, 10000); 
+        
+        
 		
 		
 	}
@@ -217,6 +249,20 @@ public class BoardController {
 			view = gifSnake6;
 		} else if(id.equals("gifSnake7")) {
 			view = gifSnake7;
+		} else if(id.equals("poisgifSnake1")) {
+			view = poisgifSnake1;
+		} else if(id.equals("poisgifSnake2")) {
+			view = poisgifSnake2;
+		} else if(id.equals("poisgifSnake3")) {
+			view = poisgifSnake3;
+		} else if(id.equals("poisgifSnake4")) {
+			view = poisgifSnake4;
+		} else if(id.equals("poisgifSnake5")) {
+			view = poisgifSnake5;
+		} else if(id.equals("poisgifSnake6")) {
+			view = poisgifSnake6;
+		} else if(id.equals("poisgifSnake7")) {
+			view = poisgifSnake7;
 		}
 		return view;
 	}
@@ -252,8 +298,19 @@ public class BoardController {
 			img = Snake6;
 		} else if(id.equals("Snake7")) {
 			img = Snake7;
-		}
-		return img;
+		} else if(id.equals("Snake1pois")) {
+			img = Snake1pois;
+		} else if(id.equals("Snake2pois")) {
+			img = Snake2pois;
+		} else if(id.equals("Snake3pois")) {
+			img = Snake3pois;
+		} else if(id.equals("Snake4pois")) {
+			img = Snake4pois;
+		} else if(id.equals("Snake5pois")) {
+			img = Snake5pois;
+		} else if(id.equals("Snake7pois")) {
+			img = Snake7pois;
+		} return img;
 	}
 	
 	
@@ -279,12 +336,6 @@ public class BoardController {
 		snakeGif.setVisible(false);
 		snakeImg.setVisible(true);
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	

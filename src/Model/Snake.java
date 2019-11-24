@@ -14,6 +14,7 @@ public class Snake extends Entity {
 	private int x2, y2;
 	protected SnakeType snaketype;
 	private String id;
+	private boolean isPoisonous;
 	
 	
 	/**
@@ -28,9 +29,25 @@ public class Snake extends Entity {
         this.x2 = x2;
         this.y2 = y2;
         this.id = id;
+        this.isPoisonous = false;
     }
 	
 	
+
+	public boolean isPoisonous() {
+		return isPoisonous;
+	}
+
+
+
+	public void setPoisonous() {
+		this.isPoisonous = true;
+	}
+
+	public void offPoisonous() {
+		this.isPoisonous = false;
+	}
+
 
 	public String getId() {
 		return id;
