@@ -5,19 +5,12 @@ import java.util.ArrayList;
 import Model.GameEngine;
 import Model.Item;
 import Model.Player;
-import javafx.application.Platform;
 import Model.Item.ItemType;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 
@@ -32,6 +25,8 @@ public class DiceController {
 	@FXML
 	private ImageView nextPlayer3;
 	@FXML
+	private ImageView nextPlayer4;
+	@FXML
 	private ImageView currentPlayer;
 	@FXML
 	private ImageView activeEffect0;
@@ -41,6 +36,10 @@ public class DiceController {
 	private ImageView activeEffect2;
 	@FXML
 	private ImageView activeEffect3;
+	@FXML
+	private ImageView activeEffect4;
+	@FXML
+	private ImageView activeEffect5;
 	@FXML
 	private ImageView inventory1;
 	@FXML
@@ -53,6 +52,12 @@ public class DiceController {
 	private ImageView inventory5;
 	@FXML
 	private ImageView inventory6;
+	@FXML
+	private ImageView inventory7;
+	@FXML
+	private ImageView inventory8;
+	@FXML
+	private ImageView inventory9;
 	@FXML
 	private Button menuButton;
 	@FXML
@@ -73,6 +78,12 @@ public class DiceController {
 	private Text itemLabel5;
 	@FXML
 	private Text itemLabel6;
+	@FXML
+	private Text itemLabel7;
+	@FXML
+	private Text itemLabel8;
+	@FXML
+	private Text itemLabel9;
 	@FXML
     private VBox effectBox;
 
@@ -109,7 +120,7 @@ public class DiceController {
         diceFace[4] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice5.png")));
         diceFace[5] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice6.png")));
         rolling = false;
-        
+
         this.diceFaceAlt = new Image[6];
         diceFaceAlt[0] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice1alt.png")));
         diceFaceAlt[1] = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/dice2alt.png")));
@@ -123,7 +134,7 @@ public class DiceController {
 		shield = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect3.png")));
 		rollBack = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect4.png")));
 		doubleRoll = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect5.png")));
-		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item0.png")));
+		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
         MusicController.initDice();
         new AnimationController(this, boardController);
@@ -162,7 +173,7 @@ public class DiceController {
 		shield = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect3.png")));
 		rollBack = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect4.png")));
 		doubleRoll = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect5.png")));
-		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/item0.png")));
+		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
 		message.setText("\n");
 
@@ -178,8 +189,10 @@ public class DiceController {
     	if (AnimationController.isPlayerMoving()) return;
         if (AnimationController.isSpinning()) return;
         rolling = true;
-		diceImage.setFitWidth(100);
-		diceImage.setFitHeight(100);
+        diceImage.setFitWidth(140);
+		diceImage.setFitHeight(140);
+		diceImage.setTranslateX(5);
+		diceImage.setTranslateY(5);
 		MusicController.playRollDice();
         text.setText("\n");
         AnimationController.setSpinning(true);
@@ -200,8 +213,10 @@ public class DiceController {
 		if (isPaused) return;
 	    if (!AnimationController.isSpinning()) return;
     	MusicController.clear();
-		diceImage.setFitWidth(130);
-		diceImage.setFitHeight(130);
+		diceImage.setFitWidth(150);
+		diceImage.setFitHeight(150);
+		diceImage.setTranslateX(0);
+		diceImage.setTranslateY(0);
     	AnimationController.setSpinning(false);
 		setDisableInventory(true);
         diceImage.setDisable(true);
@@ -214,7 +229,7 @@ public class DiceController {
         if(currentPlayer.isDoubleRoll()) {
         	diceResult *= 2;
         }
-        text.setText("\n" + currentPlayer.getPlayerName() + " rolled " + diceResult);
+        text.setText(currentPlayer.getPlayerName() + " rolled " + diceResult + "\n");
         if(currentPlayer.isRollBack()) {
         	diceResult *= -1;
         }
@@ -271,7 +286,7 @@ public class DiceController {
     	StringBuilder sb = new StringBuilder();
     	if (GameEngine.isFinished()) {
     		MusicController.playVictory();
-            sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append(" has won the game! Congratulations!\n");
+            sb.append(GameEngine.getCurrentPlayer().getPlayerName()).append(" has won the game! \nCongratulations!");
             message.setText((sb.toString()));
             GameEngine.getCurrentPlayer().getStats().incrementGamesWon(1);
             for(Player player : GameEngine.getPlayers()) {
@@ -319,9 +334,9 @@ public class DiceController {
     	message.setText(sb.toString());
 
         diceImage.setOnMouseClicked(mouseEvent -> rollButtonClicked());
-//        Tooltip t = new Tooltip("Click to roll");
-//        t.setStyle("-fx-font-size: 16");
-//        Tooltip.install(diceImage, t);
+        Tooltip t = new Tooltip("Click to roll");
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(diceImage, t);
         GameEngine.clearConsole();
         updateToken();
         text.setText("\n");
@@ -396,6 +411,7 @@ public class DiceController {
 
     private void configEffectsTooltip() {
     	for (ImageView effectImageView : activeEffect) {
+    		if(!effectImageView.isVisible()) continue;
     		Image effectImage = effectImageView.getImage();
     		String text = "";
     		if (effectImage == extraRoll){
@@ -421,23 +437,29 @@ public class DiceController {
     	Player currPlayer = GameEngine.getCurrentPlayer();
     	clearActiveEffect();
     	int i = 0;
-    	if (currPlayer.isExtraRoll()) {
-			activeEffect.get(i).setImage(extraRoll);
-			i++;
-		} if (currPlayer.getPoisonStatus()){
-			activeEffect.get(i).setImage(poisonStatus);
-			i++;
+    	if (currPlayer.getPoisonStatus()){
+ 			activeEffect.get(i).setImage(poisonStatus);
+ 			activeEffect.get(i).setVisible(true);
+ 			i++;
     	} if (currPlayer.isShield()){
 			activeEffect.get(i).setImage(shield);
-			i++;
-    	} if (currPlayer.isRollBack()){
-			activeEffect.get(i).setImage(rollBack);
-			i++;
-    	} if (currPlayer.isDoubleRoll()){
-			activeEffect.get(i).setImage(doubleRoll);
+			activeEffect.get(i).setVisible(true);
 			i++;
     	} if (currPlayer.isSnakeImmunity()){
 			activeEffect.get(i).setImage(snakeImmunity);
+			activeEffect.get(i).setVisible(true);
+			i++;
+    	} if (currPlayer.isExtraRoll()) {
+			activeEffect.get(i).setImage(extraRoll);
+			activeEffect.get(i).setVisible(true);
+			i++;
+		} if (currPlayer.isRollBack()){
+			activeEffect.get(i).setImage(rollBack);
+			activeEffect.get(i).setVisible(true);
+			i++;
+    	} if (currPlayer.isDoubleRoll()){
+			activeEffect.get(i).setImage(doubleRoll);
+			activeEffect.get(i).setVisible(true);
     	}
     	configEffectsTooltip();
     }
@@ -451,9 +473,9 @@ public class DiceController {
 			itemImage.setImage(item.getImage().getImage());
 			itemImage.setOnMouseClicked(mouseEvent -> itemClicked(item));
 			String message = item.getName() + ":\n" + item.getDescription();
-//			Tooltip tooltip = new Tooltip(message);
-//			tooltip.setStyle("-fx-font-size: 16");
-//			Tooltip.install(itemImage, tooltip);
+			Tooltip tooltip = new Tooltip(message);
+			tooltip.setStyle("-fx-font-size: 16");
+			Tooltip.install(itemImage, tooltip);
 			i++;
 		}
     }
@@ -480,7 +502,7 @@ public class DiceController {
 				} else {
 					player.setExtraRoll(true);
 					player.useItem(item);
-					text.setText("\n"+ item.getName() + " activated!");
+					text.setText(item.getName() + " activated!\n");
 				}
 				break;
 			case POISON:
@@ -500,7 +522,7 @@ public class DiceController {
 			case SHIELD:
 				player.setShield(3);
 				player.useItem(item);
-				text.setText("\n"+ item.getName() + " activated!");
+				text.setText(item.getName() + " activated!\n");
 				break;
 			case ROLLBACK:
 				targetPlayer = GameEngine.getLeadingPlayer();
@@ -521,7 +543,7 @@ public class DiceController {
 				} else {
 					player.setDoubleRoll(true);
 					player.useItem(item);
-					text.setText("\n"+ item.getName() + " activated!");
+					text.setText(item.getName() + " activated!\n");
 				}
 				break;
 			case SWAP:
@@ -537,7 +559,7 @@ public class DiceController {
 			case ANTIDOTE:
 				player.setSnakeImmunity(2);
 				player.useItem(item);
-				text.setText("\n" + item.getName() + " activated!");
+				text.setText(item.getName() + " activated!\n");
 				if(player.getPoisonStatus())
 					text.setText(item.getName() + " activated!\nYou have been healed.");
 				player.setPoison(0);
@@ -545,7 +567,7 @@ public class DiceController {
 			case REVERSE:
 				GameEngine.setReverse(!GameEngine.isReverse());
 				player.useItem(item);
-				text.setText("\n"+ item.getName() + " activated!");
+				text.setText(item.getName() + " activated!\n");
 				break;
 		}
 		MusicController.playSwitch();
@@ -558,7 +580,7 @@ public class DiceController {
     public static void setPowerupsEnabled(boolean powerups) {
     	powerupsEnabled = powerups;
     }
-    
+
     public static boolean isPowerupsEnabled() {
     	return powerupsEnabled;
     }
@@ -571,6 +593,9 @@ public class DiceController {
 		inventory.add(inventory4);
 		inventory.add(inventory5);
 		inventory.add(inventory6);
+		inventory.add(inventory7);
+		inventory.add(inventory8);
+		inventory.add(inventory9);
 
 		for (ImageView imageView : inventory){
 			imageView.toFront();
@@ -583,6 +608,9 @@ public class DiceController {
 		itemLabel.add(itemLabel4);
 		itemLabel.add(itemLabel5);
 		itemLabel.add(itemLabel6);
+		itemLabel.add(itemLabel7);
+		itemLabel.add(itemLabel8);
+		itemLabel.add(itemLabel9);
 
 		for (Text text : itemLabel){
 			text.toFront();
@@ -614,12 +642,15 @@ public class DiceController {
 		activeEffect.add(activeEffect1);
 		activeEffect.add(activeEffect2);
 		activeEffect.add(activeEffect3);
+		activeEffect.add(activeEffect4);
+		activeEffect.add(activeEffect5);
 		clearActiveEffect();
 	}
 
 	private void clearActiveEffect(){
 		for (ImageView item : activeEffect){
 			item.setImage(null);
+			item.setVisible(false);
 		}
 	}
 
@@ -628,6 +659,7 @@ public class DiceController {
 		playerQueue.add(nextPlayer1);
 		playerQueue.add(nextPlayer2);
 		playerQueue.add(nextPlayer3);
+		playerQueue.add(nextPlayer4);
 		clearQueue();
 	}
 
@@ -639,13 +671,16 @@ public class DiceController {
 
 	private void updateToken(){
     	ArrayList<Player> sequence = GameEngine.getPlayerSequence();
+		currentPlayer.setImage(GameEngine.getCurrentPlayer().getImage().getImage());
+		Tooltip t = new Tooltip(GameEngine.getCurrentPlayer().getPlayerName());
+        t.setStyle("-fx-font-size: 16");
+        Tooltip.install(currentPlayer, t);
     	int i = 0;
-    	for (Player player: sequence) {
-    		if (i == 0){
-    			currentPlayer.setImage(player.getImage().getImage());
-			} else {
-    			playerQueue.get(i-1).setImage(player.getImage().getImage());
-			}
+    	for (Player player : sequence) {
+    		playerQueue.get(i).setImage(player.getImage().getImage());
+    		Tooltip tooltip = new Tooltip(player.getPlayerName());
+    		tooltip.setStyle("-fx-font-size: 14");
+    		Tooltip.install(playerQueue.get(i), tooltip);
 			i++;
 		}
     	clearActiveEffect();

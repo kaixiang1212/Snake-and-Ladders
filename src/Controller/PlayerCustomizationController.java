@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import org.json.JSONException;
 
 import Model.Board.BoardType;

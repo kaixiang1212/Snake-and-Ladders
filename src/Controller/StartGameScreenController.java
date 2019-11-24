@@ -6,8 +6,6 @@ import View.StatsScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.application.Platform;
-
 
 // StartScreen Controller communicates between View and Model.
 

@@ -119,7 +119,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="#9e9e9e" layoutX="46.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice Thrown" textAlignment="CENTER">
+            <Text fill="#9e9e9e" layoutX="50.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dice Thrown" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
