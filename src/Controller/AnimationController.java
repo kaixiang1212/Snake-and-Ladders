@@ -142,6 +142,18 @@ public class AnimationController {
 		return boardController.getImg(id);
 	}
 	
+	public static ImageView getpoisonousGifView (String id) {
+		// Call function from boardcontroller that returns the corresponding id String.
+		String gifId = "poisgif" + id;
+		return boardController.getGif(gifId);
+	}
+	
+	public static ImageView getpoisonousImgView (String id) {
+		// Call function from boardcontroller that returns the corresponding id String.
+		String imgId = id + "pois";
+		return boardController.getImg(imgId);
+	}
+	
 	/**
 	 * This function will take in the ladderId of the ladder Entity in the current coordinate, and activate the corresponding gif of the stated Ladder.
 	 * @param ladderId

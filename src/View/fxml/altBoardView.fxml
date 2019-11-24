@@ -53,9 +53,19 @@
             <Image url="@../../asset/coralsnake.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake1pois" fitHeight="313.0" fitWidth="323.0" layoutX="-52.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" visible="false" x="105.0" y="15.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/orangeandblacksnakep.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="gifSnake1" fitHeight="313.0" fitWidth="314.0" layoutX="-52.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="105.0" y="15.0">
          <image>
             <Image url="@../../asset/gifs/gifSnake1.GIF" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake1" fitHeight="313.0" fitWidth="314.0" layoutX="-52.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="105.0" y="15.0">
+         <image>
+            <Image url="@../../asset/gifs/poisgifSnake1.gif" />
          </image>
       </ImageView>
       <ImageView fx:id="Snake2" fitHeight="230.0" fitWidth="186.0" layoutX="32.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
@@ -63,9 +73,19 @@
             <Image url="@../../asset/Snakes/Cobra.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake2pois" fitHeight="230.0" fitWidth="186.0" layoutX="79.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/Cobrap.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="gifSnake2" fitHeight="230.0" fitWidth="186.0" layoutX="32.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../../asset/gifs/Cobra%20gif.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake2" fitHeight="230.0" fitWidth="186.0" layoutX="32.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../asset/gifs/poisgifSnake2.gif" />
          </image>
       </ImageView>
       <ImageView fx:id="Snake4" fitHeight="300.0" fitWidth="350.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true" x="530.0" y="490.0">
@@ -73,9 +93,19 @@
             <Image url="@../../asset/Snakes/blue%20snake.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake4pois" fitHeight="300.0" fitWidth="350.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="530.0" y="490.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/bluesnakep.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="gifSnake4" fitHeight="300.0" fitWidth="350.0" layoutX="4.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false" x="530.0" y="490.0">
          <image>
             <Image url="@../../asset/gifs/BlueSnake%20gif.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake4" fitHeight="300.0" fitWidth="350.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="530.0" y="490.0">
+         <image>
+            <Image url="@../../asset/gifs/posigifSnake4.gif" />
          </image>
       </ImageView>
       <ImageView fx:id="Snake5" fitHeight="247.0" fitWidth="182.0" layoutY="-47.0" pickOnBounds="true" preserveRatio="true" x="360.0" y="270.0">
@@ -83,9 +113,19 @@
             <Image url="@../../asset/Snakes/yellowsnake.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake5pois" fitHeight="213.0" fitWidth="173.0" layoutX="-2.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" visible="false" x="360.0" y="270.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/yellowsnakep.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="gifSnake5" fitHeight="247.0" fitWidth="182.0" layoutY="-47.0" pickOnBounds="true" preserveRatio="true" visible="false" x="360.0" y="270.0">
          <image>
             <Image url="@../../asset/gifs/Yellow%20snake%20gif.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake5" fitHeight="247.0" fitWidth="182.0" layoutY="-47.0" pickOnBounds="true" preserveRatio="true" visible="false" x="360.0" y="270.0">
+         <image>
+            <Image url="@../../asset/gifs/poisgifySnake.gif" />
          </image>
       </ImageView>
       <ImageView fx:id="Snake6" fitHeight="247.0" fitWidth="194.0" layoutX="-43.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" x="600.0" y="100.0">
@@ -93,9 +133,29 @@
             <Image url="@../../asset/Snakes/green_snake.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake6pois" fitHeight="247.0" fitWidth="200.0" layoutX="-43.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" visible="false" x="600.0" y="100.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/greensnakep.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Snake6bob" fitHeight="270.0" fitWidth="206.0" layoutX="-43.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" visible="false" x="600.0" y="100.0">
+         <image>
+            <Image url="@../../asset/Snakes/Snake6head.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Snake6bobp" fitHeight="270.0" fitWidth="206.0" layoutX="-43.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" visible="false" x="600.0" y="100.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/greensnakeBobp.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="gifSnake6" fitHeight="247.0" fitWidth="194.0" layoutX="-43.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" visible="false" x="600.0" y="100.0">
          <image>
             <Image url="@../../asset/gifs/Green%20snake%20gif.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake6" fitHeight="247.0" fitWidth="194.0" layoutX="-42.0" layoutY="-37.0" pickOnBounds="true" preserveRatio="true" visible="false" x="600.0" y="100.0">
+         <image>
+            <Image url="@../../asset/gifs/poisgifSnake6.gif" />
          </image>
       </ImageView>
       <ImageView fx:id="Snake3" fitHeight="230.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true" x="250.0" y="560.0">
@@ -103,12 +163,28 @@
             <Image url="@../../asset/coralsnake1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="gifSnake3" fitHeight="241.0" fitWidth="243.0" layoutX="-10.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0" visible="false" x="250.0" y="560.0">
+      <ImageView fx:id="gifSnake3" fitHeight="237.0" fitWidth="243.0" layoutX="-11.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" visible="false" x="250.0" y="560.0">
          <image>
             <Image url="@../../asset/gifs/gifSnake3.GIF" />
          </image>
          <rotationAxis>
-            <Point3D y="180.0" z="1.0" />
+            <Point3D y="1.0" />
+         </rotationAxis>
+      </ImageView>
+      <ImageView fx:id="Snake3pois" fitHeight="237.0" fitWidth="249.0" layoutX="-11.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" visible="false" x="250.0" y="560.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/orangeandblacksnakep.png" />
+         </image>
+         <rotationAxis>
+            <Point3D y="1.0" />
+         </rotationAxis>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake3" fitHeight="237.0" fitWidth="243.0" layoutX="-10.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" visible="false" x="250.0" y="560.0">
+         <image>
+            <Image url="@../../asset/gifs/poisgifSnake3.gif" />
+         </image>
+         <rotationAxis>
+            <Point3D y="1.0" />
          </rotationAxis>
       </ImageView>
       <ImageView fx:id="Snake7" fitHeight="176.0" fitWidth="155.0" layoutX="-65.0" pickOnBounds="true" preserveRatio="true" x="470.0" y="50.0">
@@ -116,12 +192,28 @@
             <Image url="@../../asset/coralsnake10.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="Snake7pois" fitHeight="187.0" fitWidth="183.0" layoutX="144.0" layoutY="-512.0" pickOnBounds="true" preserveRatio="true" rotate="-178.4" visible="false" x="250.0" y="560.0">
+         <image>
+            <Image url="@../../asset/Poisonous%20Snakes/orangeandblacksnakep.png" />
+         </image>
+         <rotationAxis>
+            <Point3D y="1.0" />
+         </rotationAxis>
+      </ImageView>
       <ImageView fx:id="gifSnake7" fitHeight="199.0" fitWidth="186.0" layoutX="-73.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0" visible="false" x="470.0" y="50.0">
          <image>
             <Image url="@../../asset/gifs/gifSnake7.GIF" />
          </image>
          <rotationAxis>
             <Point3D y="180.0" z="1.0" />
+         </rotationAxis>
+      </ImageView>
+      <ImageView fx:id="poisgifSnake7" fitHeight="183.0" fitWidth="182.0" layoutX="-74.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" visible="false" x="470.0" y="50.0">
+         <image>
+            <Image url="@../../asset/gifs/poisgifSnake7.gif" />
+         </image>
+         <rotationAxis>
+            <Point3D y="1.0" />
          </rotationAxis>
       </ImageView>
       <ImageView fx:id="Ladder3" fitHeight="140.0" fitWidth="200.0" layoutX="1.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" x="180.0" y="410.0">
