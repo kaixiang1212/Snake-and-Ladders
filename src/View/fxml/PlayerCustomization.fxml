@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
+<Pane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PlayerCustomizationController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="800.0" width="800.0" />
       <ImageView fitHeight="1228.0" fitWidth="1167.0" layoutX="27.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" rotate="-29.1" x="-70.0" y="-140.0">
@@ -75,7 +75,7 @@
 		                  <Font name="Papyrus" size="22.0" />
 		               </font>
 		            </Button>
-                  <Label fx:id="title1" alignment="CENTER" layoutX="230.0" layoutY="-25.0" prefHeight="157.0" prefWidth="340.0" text="Connect at http://127.0.0.1:5000/login" textAlignment="CENTER" textFill="#8d6b23" wrapText="true">
+                  <Label fx:id="title1" alignment="CENTER" layoutX="153.0" layoutY="-25.0" prefHeight="157.0" prefWidth="494.0" text="Connect at http://127.0.0.1:5000/login" textAlignment="CENTER" textFill="#8d6b23" wrapText="true">
                      <font>
                         <Font name="Papyrus" size="25.0" />
                      </font>

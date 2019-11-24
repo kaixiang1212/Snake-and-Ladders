@@ -1,15 +1,21 @@
 package Controller;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import Controller.Networking.Server;
 import View.PlayerNumSelectionScreen;
 import View.StartGameScreen;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.json.JSONException;
 
 import Model.Board.BoardType;
@@ -25,10 +31,12 @@ import javafx.scene.layout.VBox;
 
 public class PlayerCustomizationController {
 
-	private final int maxTokens = 8;
+    private final int maxTokens = 8;
 
     @FXML
     private FlowPane flowPane;
+    @FXML
+    private Label title1;
 
     private int playerCount = 1;
     private BoardType boardType;
@@ -55,12 +63,21 @@ public class PlayerCustomizationController {
     }
 
     public void config(int numPlayer, BoardType type) {
-    	while (playerCount != numPlayer){
+        while (playerCount != numPlayer){
             addPlayer();
             playerCount++;
         }
         server.setPlayers(numPlayer);
-    	boardType = type;
+        boardType = type;
+        String ip = "";
+        try (final DatagramSocket socket = new DatagramSocket()){
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            ip = socket.getLocalAddress().getHostAddress();
+            title1.setText("Connect at\n http://" + ip + ":5000/login");
+        } catch (UnknownHostException | SocketException ignored) {
+            title1.setText("");
+        }
+
     }
 
     /**
@@ -97,7 +114,7 @@ public class PlayerCustomizationController {
         if (!availableToken.isEmpty()) return availableToken.remove(0);
         for (int i=0; i < maxTokens; i++){
             if (!token.contains(i))
-            	availableToken.add(i);
+                availableToken.add(i);
         }
         return availableToken.remove(0);
     }
@@ -123,26 +140,26 @@ public class PlayerCustomizationController {
 
     @FXML
     public void imageClicked1(){
-    	MusicController.clear();
+        MusicController.clear();
         for(Node node : flowPane.getChildren()) {
-	        if (node instanceof VBox){
-	        	for (Node node1 : ((VBox) node).getChildren()){
-	        		if (node1 instanceof ImageView) {
-	        			setPlayerToken(0, -1);
-	        	        int next = nextToken();
-	        			((ImageView) node1).setImage(getImage(next));
-	                    setPlayerToken(0, next);
-	                    MusicController.playSwitch();
-	                    return;
-	        		}
-	        	}
-	        }
+            if (node instanceof VBox){
+                for (Node node1 : ((VBox) node).getChildren()){
+                    if (node1 instanceof ImageView) {
+                        setPlayerToken(0, -1);
+                        int next = nextToken();
+                        ((ImageView) node1).setImage(getImage(next));
+                        setPlayerToken(0, next);
+                        MusicController.playSwitch();
+                        return;
+                    }
+                }
+            }
         }
     }
 
     @FXML
     private void imageClicked(ImageView imageView){
-    	MusicController.clear();
+        MusicController.clear();
         int index = 0;
         for (Node node : flowPane.getChildren()){
             if (node instanceof VBox){
@@ -150,7 +167,7 @@ public class PlayerCustomizationController {
                     if (node1 instanceof ImageView) {
                         ImageView image = (ImageView) node1;
                         if (image == imageView) {
-                        	setPlayerToken(index, -1);
+                            setPlayerToken(index, -1);
                             int next = nextToken();
                             ((ImageView) node1).setImage(getImage(next));
                             setPlayerToken(index, next);
@@ -166,7 +183,7 @@ public class PlayerCustomizationController {
 
     @FXML
     public void backButtonClicked() throws IOException {
-    	MusicController.playBack();
+        MusicController.playBack();
         PlayerNumSelectionScreen.start();
         server.kill();
     }
@@ -174,7 +191,7 @@ public class PlayerCustomizationController {
     @FXML
     public void createGameButtonClicked() throws IOException, JSONException{
 
-    	MusicController.playNext();
+        MusicController.playNext();
         GameEngine.setServer(server);
         ArrayList<Player> players = new ArrayList<Player>();
         int tokenIndex = 0;
