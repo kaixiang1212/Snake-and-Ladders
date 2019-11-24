@@ -53,7 +53,7 @@
 		"type": "SWAP",
 		"name": "Swap",
         "description": "Swap positions with the first player on the board",
-		"frequency": 3,
+		"frequency": 2,
 		"expiry": 7
     },
 	{
@@ -61,7 +61,7 @@
 		"type": "ANTIDOTE",
 		"name": "Antidote",
         "description": "Heals poison and gives temporary snake immunity\n(still vulnerable to player poison)",
-		"frequency": 2,
+		"frequency": 3,
 		"expiry": 7
     },
 	{

@@ -280,6 +280,44 @@ public class GameEngine {
 				MusicController.playSnake();
 
 				// Get snake ImageViews and wriggle snake
+				if (currSnake.isPoisonous() == false) {
+					ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
+					ImageView snakeImg = AnimationController.getImgView(currSnake.getId());
+					
+					
+					if (Math.random() < ((float) poisonChance/100f) && dynamicSnakes) {
+						currSnake.setPoisonous();
+						ImageView psnakeImg = AnimationController.getpoisonousImgView(currSnake.getId());
+						AnimationController.wriggleSnake(snakeGif, snakeImg);
+						// Stop wriggling snake after 2 secs
+						PauseTransition pause = new PauseTransition(Duration.seconds(1));
+						pause.setOnFinished(event ->
+							AnimationController.stopwriggleSnake(snakeGif, psnakeImg)
+						);
+						pause.play();
+					} else {
+						AnimationController.wriggleSnake(snakeGif, snakeImg);
+						// Stop wriggling snake after 2 secs
+						PauseTransition pause = new PauseTransition(Duration.seconds(1));
+						pause.setOnFinished(event ->
+							AnimationController.stopwriggleSnake(snakeGif, snakeImg)
+						);
+						pause.play();
+					}
+				} else {
+					currPlayer.setPoison(3);
+					ImageView psnakeGif = AnimationController.getpoisonousGifView(currSnake.getId());
+					ImageView psnakeImg = AnimationController.getpoisonousImgView(currSnake.getId());
+					System.out.println(psnakeGif);
+					AnimationController.wriggleSnake(psnakeGif, psnakeImg);
+					// Stop wriggling snake after 2 secs
+					PauseTransition pause = new PauseTransition(Duration.seconds(1));
+					pause.setOnFinished(event ->
+						AnimationController.stopwriggleSnake(psnakeGif, psnakeImg)
+					);
+					pause.play();
+				}
+
 				ImageView snakeGif = AnimationController.getGifView(currSnake.getId());
 				ImageView snakeImg = AnimationController.getImgView(currSnake.getId());
 
@@ -290,14 +328,6 @@ public class GameEngine {
 					AnimationController.stopwriggleSnake(snakeGif, snakeImg)
 				);
 				pause.play();
-
-				console.append(currPlayer.getPlayerName())
-						.append(" gets eaten by a snake and moves back from ")
-						.append(currPos).append(" to ")
-						.append(newPos).append("\n");
-
-				if((Math.random() < ((float) poisonChance/100f)) && dynamicSnakes)
-					currPlayer.setPoison(3);
 
 				updateState();
 			} else if (gameboard.isLadder(currX, currY) != null) {
