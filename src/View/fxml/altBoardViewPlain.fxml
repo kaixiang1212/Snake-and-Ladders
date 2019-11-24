@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -40,10 +41,10 @@
             <Image url="@../../../../../../Desktop/Screen%20Shot%202019-11-05%20at%2012.06.58%20am.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="menuPane" layoutX="150.0" layoutY="150.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;">
+      <AnchorPane fx:id="menuPane" layoutX="150.0" layoutY="150.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#082c4d" height="500.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
-            <Label fx:id="title" alignment="CENTER" layoutX="110.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">
+            <Label alignment="CENTER" layoutX="110.0" prefHeight="80.0" prefWidth="280.0" text="Menu" textFill="#8d6b23">
                <font>
                   <Font name="Papyrus" size="50.0" />
                </font>
@@ -70,13 +71,30 @@
 	        </Button>
          </children>
       </AnchorPane>
-      <ImageView fx:id="helpFilter" fitHeight="800.0" fitWidth="1050.0" onMouseClicked="#helpFilterClicked" opacity="0.78" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="helpFilter" fitHeight="800.0" fitWidth="1050.0" onMouseClicked="#helpFilterClicked" opacity="0.69" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../asset/help.png" />
          </image>
       </ImageView>
-      <VBox fx:id="itemHelp" layoutX="50.0" layoutY="72.0" onMouseClicked="#helpFilterClicked" prefHeight="200.0" prefWidth="100.0">
+      <VBox fx:id="itemHelp" layoutX="60.0" layoutY="82.0" onMouseClicked="#helpFilterClicked" prefHeight="200.0" prefWidth="100.0">
          <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../asset/items/item0.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Skip the next player's turn">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -133,7 +151,7 @@
                         <Image url="@../../asset/items/item3.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temporarily protects against negative effects">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temporarily protects against other power-ups">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -153,7 +171,7 @@
                         <Image url="@../../asset/items/item4.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Roll an extra dice (preserved if you roll a 6)">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Roll a dice to move the first player on the board backwards" wrappingWidth="333.25">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -193,7 +211,7 @@
                         <Image url="@../../asset/items/item6.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Swap positions with the first player on the board">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Swap positions with the first player on the board" wrappingWidth="340.265625">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -242,7 +260,7 @@
                         <Image url="@../../asset/items/item8.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Roll a dice to move the first player on the board backwards">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reverses the order of play">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>

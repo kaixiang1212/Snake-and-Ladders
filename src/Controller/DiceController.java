@@ -1,14 +1,11 @@
 package Controller;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import Model.GameEngine;
 import Model.Item;
 import Model.Player;
 import Model.Item.ItemType;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -16,10 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
-import javafx.util.Duration;
-import java.util.Timer;
-import java.util.TimerTask;
-import javafx.animation.PauseTransition;
 
 public class DiceController {
 
@@ -175,7 +168,6 @@ public class DiceController {
 		doubleRoll = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect5.png")));
 		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
-		message.setText("\n");
 		menuButton.setFocusTraversable(false);
 		helpButton.setFocusTraversable(false);
 
@@ -650,9 +642,6 @@ public class DiceController {
 		activeEffect.add(activeEffect4);
 		activeEffect.add(activeEffect5);
 		clearActiveEffect();
-		for (ImageView img : activeEffect){
-			img.setVisible(false);
-		}
 	}
 
 	private void clearActiveEffect(){
@@ -707,10 +696,15 @@ public class DiceController {
 	@FXML
 	void helpButtonClicked(){
     	clearInventory();
-    	activeEffect0.setImage(doubleRoll);
-    	activeEffect1.setImage(poisonStatus);
+    	activeEffect0.setImage(poisonStatus);
+    	activeEffect1.setImage(extraRoll);
     	activeEffect2.setImage(shield);
-    	activeEffect3.setImage(extraRoll);
+    	activeEffect3.setImage(rollBack);
+    	activeEffect4.setImage(doubleRoll);
+    	activeEffect5.setImage(snakeImmunity);
+    	for(ImageView view : activeEffect) {
+    		view.setVisible(true);
+    	}
     	int i = 0;
     	for (ImageView imageView : inventory){
     		imageView.setImage(items.get(i));
@@ -718,7 +712,6 @@ public class DiceController {
 		}
 		boardController.showHelpFilter();
 		isPaused = true;
-
 	}
 
 	@FXML

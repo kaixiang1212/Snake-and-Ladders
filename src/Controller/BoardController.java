@@ -18,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import java.util.Timer;
@@ -406,6 +407,8 @@ public class BoardController {
     		timer.cancel();
     		timer.purge();
     	}
+    	StartGameScreen.getStage().close();
+    	new StartGameScreen(new Stage());
         StartGameScreen.start();
 		GameEngine.killServer();
     }

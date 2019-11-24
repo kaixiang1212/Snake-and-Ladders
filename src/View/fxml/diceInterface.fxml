@@ -86,28 +86,40 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                      <image>
-                        <Image url="@../../asset/items/item5.png" />
+                        <Image url="@../../asset/items/effect1.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="activeEffect2" fitHeight="30.5" fitWidth="30.5" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <image>
+                        <Image url="@../../asset/items/effect3.png" />
+                     </image>
                   </ImageView>
                   <ImageView fx:id="activeEffect3" fitHeight="30.5" fitWidth="30.5" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <image>
+                        <Image url="@../../asset/items/effect4.png" />
+                     </image>
                   </ImageView>
                   <ImageView fx:id="activeEffect4" fitHeight="30.5" fitWidth="30.5" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <image>
+                        <Image url="@../../asset/items/effect5.png" />
+                     </image>
                   </ImageView>
                   <ImageView fx:id="activeEffect5" fitHeight="30.5" fitWidth="30.5" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <image>
+                        <Image url="@../../asset/items/effect7.png" />
+                     </image>
                   </ImageView>
                </children>
             </VBox>
