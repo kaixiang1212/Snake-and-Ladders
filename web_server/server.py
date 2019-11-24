@@ -17,6 +17,11 @@ players = []
 _id = 0
 
 
+def reset_players():
+    global players
+    players = []
+
+
 def add_player(name):
     global _id
     player = client(_id, name)

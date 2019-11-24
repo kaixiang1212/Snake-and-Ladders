@@ -88,11 +88,21 @@ def index():
     return redirect(url_for('player_selection'))
 
 
-@app.route('/error')
+@app.route('/hard_reset')
+def reset():
+    reset_players()
+    return "System reset"
+
+
+@app.route('/error', methods=['GET', 'POST'])
 def server_error():
+    if request.method == 'POST':
+        return redirect(url_for('login'))
     return render_template("server_error.html")
 
 
-@app.route('/maximum_player')
+@app.route('/maximum_player', methods=['GET', 'POST'])
 def maximum_player():
+    if request.method == 'POST':
+        return redirect(url_for('login'))
     return render_template("maximum_player.html")
