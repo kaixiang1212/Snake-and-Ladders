@@ -1,11 +1,14 @@
 package Controller;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Model.GameEngine;
 import Model.Item;
 import Model.Player;
 import Model.Item.ItemType;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -13,6 +16,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
+import javafx.util.Duration;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.animation.PauseTransition;
 
 public class DiceController {
 
@@ -176,9 +183,11 @@ public class DiceController {
 		snakeImmunity = new Image(String.valueOf(getClass().getClassLoader().getResource("asset/items/effect7.png")));
 
 		message.setText("\n");
+		
 
-	}
-
+    }
+    
+    
     /**
      * Called when the 'roll' button is clicked
      */
