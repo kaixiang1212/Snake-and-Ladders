@@ -1,7 +1,7 @@
 # SNEKS n LADDERS
 ***The classic Snakes and Ladders board game, reimagined!***
 
-## Planned features:
+## Features:
 - **Classic play:** play a classic game of Snakes and Ladders just like you remember it without the fluff!
 - **Custom rules:** Change the rules of the game to match your dice rolling skill level! Whether you want more snakes, more ladders, no ladders at all, or even hidden snakes or morphing levels! You can even change the goal of the game entirely!
 - **Multiple boards:** Choose to play on a variety of different boards with wildly differing layouts and branching paths that may require you to make more strategic decisions!
@@ -11,6 +11,13 @@
 
 ## Getting Started:
 1. For best compatibility, download and use JDK Version 8 in your IDE (it comes with JFX built-in).
-1. Import `src` folder into Eclipse or your IDE of choice.
-2. Add `lib/java-json.jar` to the project build path.
-3. Compile and run as normal.
+2. Import `src` folder into a Java Project in Eclipse or your IDE of choice.
+3. Add `lib/java-json.jar` to the project build path.
+4. Compile and run as normal.
+5. To run the server:
+i. Make sure you have Python installed.
+ii. Do `python -m pip install flask`
+ii. Do `python -m pip install flask_login`
+iii. Run `python run.py`
+6. From your browser, connect to `<host ip address>:5000` to login and play
+ ** Connect one player per device
